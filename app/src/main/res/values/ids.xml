@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fm_container" type="id"/>
+    <item name="button" type="id"/>
+    <item name="text" type="id"/>
+    <item name="image" type="id"/>
+    <item name="edit" type="id"/>
+    <item name="scroll_view" type="id"/>
+    <item name="list" type="id"/>
+</resources>

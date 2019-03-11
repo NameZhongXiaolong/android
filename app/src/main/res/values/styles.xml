@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowAnimationStyle">@style/windowAnimation</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+
+    <style name="windowAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/slide_out_right</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:wallpaperIntraOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:wallpaperIntraOpenExitAnimation">@anim/slide_out_right</item>
+        <item name="android:wallpaperIntraCloseEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:wallpaperIntraCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+</resources>
