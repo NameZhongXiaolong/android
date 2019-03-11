@@ -29,4 +29,19 @@
         <item name="android:wallpaperIntraCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
+    <style name="RedTheme" parent="AppTheme">
+        <item name="colorPrimary">#FF0000</item>
+        <item name="colorPrimaryDark">#FF0000</item>
+    </style>
+
+    <style name="BuleTheme" parent="AppTheme">
+        <item name="colorPrimary">#00ffFF</item>
+        <item name="colorPrimaryDark">#00ffFF</item>
+    </style>
+
+    <style name="GrayTheme" parent="AppTheme">
+        <item name="colorPrimary">#AAAAAA</item>
+        <item name="colorPrimaryDark">#AAAAAA</item>
+    </style>
+
 </resources>

@@ -97,6 +97,15 @@ public class BaseSuperActivity extends AppCompatActivity {
     }
 
     /**
+     * 设置状态栏描述是否为黑色
+     * @param dark
+     */
+    public void setStatusBar(boolean dark) {
+        LightStatusBarUtils.setLightStatusBar(this, dark);
+        LightStatusBarUtils.setAndroidNativeLightStatusBar(this, dark);
+    }
+
+    /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     public int dp2px(float dpValue) {
@@ -171,4 +180,5 @@ public class BaseSuperActivity extends AppCompatActivity {
     public void finish(View view) {
         finish();
     }
+
 }

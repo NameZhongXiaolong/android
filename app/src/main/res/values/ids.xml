@@ -7,4 +7,5 @@
     <item name="edit" type="id"/>
     <item name="scroll_view" type="id"/>
     <item name="list" type="id"/>
+    <item name="tool_bar" type="id"/>
 </resources>
