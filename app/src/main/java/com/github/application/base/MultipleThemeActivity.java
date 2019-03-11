@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
 /**
  * Created by ZhongXiaolong on 2019/3/11 17:14.
@@ -24,7 +23,6 @@ public class MultipleThemeActivity extends BaseSuperActivity {
     @Override
     public void setTheme(int resid) {
         super.setTheme(resid);
-        getSharedPrefs().edit().putInt(KEY_THEME, resid).apply();
     }
 
     @Override
@@ -42,7 +40,7 @@ public class MultipleThemeActivity extends BaseSuperActivity {
                 int theme = intent.getIntExtra(KEY_THEME, 0);
                 if (theme != 0) {
                     setTheme(theme);
-                    Toast.makeText(context, "shezhi", Toast.LENGTH_SHORT).show();
+                    getSharedPrefs().edit().putInt(KEY_THEME, theme).apply();
                 }
             }
         };

@@ -41,7 +41,7 @@ public class MainActivity extends MultipleThemeActivity implements BaseHolder.On
     public void onClick(View item, int position) {
         int theme = mAdapter.get(position).getThemeRes();
         sendThemeChangeBroadcast(theme);
-
+        setContentView(R.layout.activity_main);
     }
 
     public class MenuAdapter extends BaseAdapter<Theme> {
