@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RadiusCoverView">
+        <attr name="radius" format="dimension"/>
+        <attr name="leftTopRadius" format="dimension"/>
+        <attr name="leftBottomRadius" format="dimension"/>
+        <attr name="rightTopRadius" format="dimension"/>
+        <attr name="rightBottomRadius" format="dimension"/>
+        <attr name="coverColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="SuperButton">
+        <attr name="buttonRadius" format="dimension"/>
+        <attr name="buttonLeftTopRadius" format="dimension"/>
+        <attr name="buttonLeftBottomRadius" format="dimension"/>
+        <attr name="buttonRightTopRadius" format="dimension"/>
+        <attr name="buttonRightBottomRadius" format="dimension"/>
+
+        <attr name="buttonClickBackgroundColor" format="color"/>
+        <attr name="buttonBackgroundColor" format="color"/>
+        <attr name="buttonUnenabledBackgroundColor" format="color"/>
+        <attr name="buttonTextClickColor" format="color"/>
+        <attr name="buttonTextUnenabledColor" format="color"/>
+    </declare-styleable>
+
+</resources>

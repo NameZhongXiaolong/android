@@ -1,0 +1,17 @@
+Material Design
+
+一.TextInputLayout和TextInputEditText: 1.显示提示信息;2.可以通过调用setError()在EditText下面显示一条错误信息;3.一般包裹TextInputEditText使用
+
+二.FloatingActionButton: 悬浮操作按钮
+
+三.TabLayout: 可以实现固定的选项卡，也实现可滚动的选项卡
+
+四.Navigation View(在drawlayout实现侧滑效果时，代替ListView要适配器的繁琐): 1.app:headerLayout: 给NavigationView添加头部布局;2.app：menu：给NavigationView添加menu菜单布局
+
+五.CoordinatorLayout 1.作为一个布局的根布局;2.作为一个为子视图之间相互协调手势效果的一个协调布局;3.在material-design包下的控件基本都要使用CoordinatorLayout做父布局
+
+六.AppBarLayout: AppBarLayout 是继承LinerLayout实现的一个ViewGroup容器组件，是为了Material Design设计的App Bar，支持手势滑动操作。
+
+七.CollapsingToolbarLayout: 可伸缩折叠的Toolbar
+
+八.Snackbar: 相当于底部吐司，但比toast有更强大的快速反馈机制.Snackbar使用的时候需要一个控件容器用来容纳Snackbar.官方推荐使用CoordinatorLayout这个另一个Android Support Design Library库支持的控件容纳。因为使用这个控件，可以保证Snackbar可以让用户通过向右滑动退出

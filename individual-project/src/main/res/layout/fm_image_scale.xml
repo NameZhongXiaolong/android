@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--默认-->
+        <LinearLayout
+            android:background="#FFCCFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="默认"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--center-->
+        <LinearLayout
+            android:background="#CCFFFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="center"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:scaleType="center"
+                android:layout_height="150dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--centerCrop-->
+        <LinearLayout
+            android:background="#FFCCFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="centerCrop"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--centerInside-->
+        <LinearLayout
+            android:background="#CCFFFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="centerInside"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--fitCenter-->
+        <LinearLayout
+            android:background="#FFCCFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="fitCenter"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--fitEnd-->
+        <LinearLayout
+            android:background="#CCFFFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="fitEnd"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="fitEnd"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--fitStart-->
+        <LinearLayout
+            android:background="#FFCCFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="fitStart"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="fitStart"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--fitXY-->
+        <LinearLayout
+            android:background="#CCFFFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="fitXY"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--matrix-->
+        <LinearLayout
+            android:background="#FFCCFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="matrix"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="matrix"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+
+        <!--fitXY-->
+        <LinearLayout
+            android:background="#CCFFFF"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="fitXY高度自适应"
+                android:textColor="#555"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/ic_ver"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

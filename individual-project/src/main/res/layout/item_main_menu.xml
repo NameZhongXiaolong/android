@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SlidingPaneLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#0F0"
+    android:id="@+id/sliding_pane_layout"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="start"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#111">
+
+        <TextView
+            android:id="@+id/tv_Top"
+            android:text="置顶"
+            android:textSize="16sp"
+            android:background="#FF4081"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_width="65dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_set_home"
+            android:text="设为主页"
+            android:background="#ab71eb"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    <FrameLayout
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:foreground="@drawable/select_def_click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_circular"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+        <TextView
+            android:id="@+id/tv_main_menu"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="35dp"
+            android:textColor="#666666"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+</android.support.v4.widget.SlidingPaneLayout>

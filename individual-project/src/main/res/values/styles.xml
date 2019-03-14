@@ -1,0 +1,98 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:buttonStyle">@style/ButtonTheme</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap" tools:ignore="NewApi">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap" tools:ignore="NewApi">true</item>-->
+    </style>
+
+    <!--透明主题-->
+    <style name="TransparentAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/CommActivityAnim</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="colorAccent">#DE7D2C</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="ToolBarStyle">
+        <!-- 设置弹出菜单文字字号/大小/颜色 -->
+        <item name="android:textColor">#666666</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+
+        <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <!--<item name="android:paddingRight">5dp</item>-->
+        <!-- 弹出层背景颜色 -->
+        <!--<item name="android:background">@color/colorPrimary</item>-->
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+    </style>
+
+    <style name="SubtitleText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#999999</item>
+    </style>
+
+    <style name="PopAnimation">
+        <item name="android:windowEnterAnimation">@animator/pop_bottom_show</item>
+        <item name="android:windowExitAnimation">@animator/pop_bottom_dismiss</item>
+    </style>
+
+    <!--水平动画-->
+    <style name="LevelAnimation">
+        <item name="android:windowEnterAnimation">@anim/fm_enter</item>
+        <item name="android:windowExitAnimation">@anim/fm_exit</item>
+    </style>
+
+    <!--Activity进场出场动画-->
+    <style name="CommActivityAnim">
+        <!--设置打开新的Activity并进入新的Activity展示的动画-->
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <!--设置打开新的Activity并销毁之前的Activity展示的动画-->
+        <item name="android:activityOpenExitAnimation">@android:anim/fade_out</item>
+        <!--设置关闭当前Activity进入上一个Activity展示的动画-->
+        <item name="android:activityCloseEnterAnimation">@android:anim/slide_in_left</item>
+        <!--设置关闭当前Activity时展示的动画-->
+        <item name="android:activityCloseExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <!--透明Activity窗口进场出场动画-->
+    <style name="TransparentActivityWinAnim">
+        <!--设置打开新的Activity并进入新的Activity展示的动画-->
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <!--设置打开新的Activity并销毁之前的Activity展示的动画-->
+        <item name="android:activityOpenExitAnimation">@android:anim/fade_in</item>
+        <!--设置关闭当前Activity进入上一个Activity展示的动画-->
+        <item name="android:activityCloseEnterAnimation">@android:anim/fade_out</item>
+        <!--设置关闭当前Activity时展示的动画-->
+        <item name="android:activityCloseExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="ButtonTheme">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">88dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+</resources>

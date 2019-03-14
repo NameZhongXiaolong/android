@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_input_num"
+            android:textColor="#666"
+            android:maxLength="4"
+            android:inputType="number"
+            android:gravity="left|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:hint="输入px"
+            android:lines="1"
+            android:textColorHint="#CCC"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_input_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dp"
+            android:textColor="#333"
+            android:textSize="20dp"
+            android:textStyle="italic|bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="==>"
+            android:textColor="#333"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_out_res"
+            android:textColor="#333"
+            android:maxLength="4"
+            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:hint="0000"
+            android:textColorHint="@color/transparent"
+            android:lines="1"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_out_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="px"
+            android:textColor="#333"
+            android:textSize="20dp"
+            android:textStyle="italic|bold"/>
+    </LinearLayout>
+
+</LinearLayout>

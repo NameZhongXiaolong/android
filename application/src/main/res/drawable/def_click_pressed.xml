@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--默认点击前景色-->
+    <item android:drawable="@color/translucentBlack" android:state_pressed="true"/>
+    <item android:drawable="@color/transparent" />
+
+</selector>

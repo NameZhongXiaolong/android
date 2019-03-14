@@ -1,0 +1,17 @@
+NestedScrollView嵌套RecyclerView时滑动会卡顿
+
+RecyclerView view = findViewById(R.id.recycler_view);
+//加入以下代码可以解决
+LinearLayoutManager lytmgr = new LinearLayoutManager(this);
+lytmgr.setSmoothScrollbarEnabled(true);
+lytmgr.setAutoMeasureEnabled(true);
+view.setLayoutManager(layoutManager);
+view.setHasFixedSize(true);
+view.setNestedScrollingEnabled(false);
+view.setAdapter(new RecyclerViewAdapter()));
+
+第二种方法: 在RecyclerView外层嵌套ViewGroup并且限定RecyclerView的高度(如下图),但是不推荐 会影响其他View滚动,只限特定情况下使用
+image007.png
+
+
+
