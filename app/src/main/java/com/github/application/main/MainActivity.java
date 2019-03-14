@@ -21,7 +21,7 @@ public class MainActivity extends MultipleThemeActivity implements BaseHolder.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setSupportActionBar(R.id.tool_bar);
     }
 
     @Override
