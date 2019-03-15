@@ -3,11 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowAnimationStyle">@style/windowAnimation</item>
+        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimaryDark">#303F9F</item>
+        <item name="colorAccent">#FF4081</item>
+        <item name="android:windowBackground">@color/paleGrey</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
@@ -29,19 +28,108 @@
         <item name="android:wallpaperIntraCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
-    <style name="RedTheme" parent="AppTheme">
-        <item name="colorPrimary">#FF0000</item>
-        <item name="colorPrimaryDark">#FF0000</item>
+    <!--主题 颜色参考https://flatuicolors.com/-->
+
+    <style name="AppTheme.LightGreenishBlue" parent="AppTheme">
+        <item name="colorPrimary">#55efc4</item>
+        <item name="colorPrimaryDark">#55efc4</item>
+        <item name="colorAccent">#55efc4</item>
     </style>
 
-    <style name="BuleTheme" parent="AppTheme">
-        <item name="colorPrimary">#00ffFF</item>
-        <item name="colorPrimaryDark">#00ffFF</item>
+    <style name="AppTheme.MintLeaf" parent="AppTheme">
+        <item name="colorPrimary">#00b894</item>
+        <item name="colorPrimaryDark">#00b894</item>
+        <item name="colorAccent">#00b894</item>
     </style>
 
-    <style name="GrayTheme" parent="AppTheme">
-        <item name="colorPrimary">#AAAAAA</item>
-        <item name="colorPrimaryDark">#AAAAAA</item>
+    <style name="AppTheme.SourLemon" parent="AppTheme">
+        <item name="colorPrimary">#ffeaa7</item>
+        <item name="colorPrimaryDark">#ffeaa7</item>
+        <item name="colorAccent">#ffeaa7</item>
+    </style>
+
+    <style name="AppTheme.BrightYarrow" parent="AppTheme">
+        <item name="colorPrimary">#fdcb6e</item>
+        <item name="colorPrimaryDark">#fdcb6e</item>
+        <item name="colorAccent">#fdcb6e</item>
+    </style>
+
+    <style name="AppTheme.RobinisEGGBlue" parent="AppTheme">
+        <item name="colorPrimary">#00cec9</item>
+        <item name="colorPrimaryDark">#00cec9</item>
+        <item name="colorAccent">#00cec9</item>
+    </style>
+
+    <style name="AppTheme.FirstDate" parent="AppTheme">
+        <item name="colorPrimary">#fab1a0</item>
+        <item name="colorPrimaryDark">#fab1a0</item>
+        <item name="colorAccent">#fab1a0</item>
+    </style>
+
+    <style name="AppTheme.ORangeVille" parent="AppTheme">
+        <item name="colorPrimary">#e17055</item>
+        <item name="colorPrimaryDark">#e17055</item>
+        <item name="colorAccent">#e17055</item>
+    </style>
+
+    <style name="AppTheme.ElectroBlue" parent="AppTheme">
+        <item name="colorPrimary">#0984e3</item>
+        <item name="colorPrimaryDark">#0984e3</item>
+        <item name="colorAccent">#0984e3</item>
+    </style>
+
+    <style name="AppTheme.ShyMoment" parent="AppTheme">
+        <item name="colorPrimary">#a29bfe</item>
+        <item name="colorPrimaryDark">#a29bfe</item>
+        <item name="colorAccent">#a29bfe</item>
+    </style>
+
+    <style name="AppTheme.ExodusFruit" parent="AppTheme">
+        <item name="colorPrimary">#6c5ce7</item>
+        <item name="colorPrimaryDark">#6c5ce7</item>
+        <item name="colorAccent">#6c5ce7</item>
+    </style>
+
+    <style name="AppTheme.PicoPink" parent="AppTheme">
+        <item name="colorPrimary">#fd79a8</item>
+        <item name="colorPrimaryDark">#fd79a8</item>
+        <item name="colorAccent">#fd79a8</item>
+    </style>
+
+    <style name="AppTheme.PrunusAvium" parent="AppTheme">
+        <item name="colorPrimary">#e84393</item>
+        <item name="colorPrimaryDark">#e84393</item>
+        <item name="colorAccent">#e84393</item>
+    </style>
+
+    <style name="AppTheme.LavenderTea" parent="AppTheme">
+        <item name="colorPrimary">#D980FA</item>
+        <item name="colorPrimaryDark">#D980FA</item>
+        <item name="colorAccent">#D980FA</item>
+    </style>
+
+    <style name="AppTheme.PixelatedGrass" parent="AppTheme">
+        <item name="colorPrimary">#009432</item>
+        <item name="colorPrimaryDark">#009432</item>
+        <item name="colorAccent">#009432</item>
+    </style>
+
+    <style name="AppTheme.MagentaPurple" parent="AppTheme">
+        <item name="colorPrimary">#6F1E51</item>
+        <item name="colorPrimaryDark">#6F1E51</item>
+        <item name="colorAccent">#6F1E51</item>
+    </style>
+
+    <style name="AppTheme.BlueMartina" parent="AppTheme">
+        <item name="colorPrimary">#12CBC4</item>
+        <item name="colorPrimaryDark">#12CBC4</item>
+        <item name="colorAccent">#12CBC4</item>
+    </style>
+
+    <style name="AppTheme.CircumorbitalRing" parent="AppTheme">
+        <item name="colorPrimary">#5758BB</item>
+        <item name="colorPrimaryDark">#5758BB</item>
+        <item name="colorAccent">#5758BB</item>
     </style>
 
 </resources>

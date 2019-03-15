@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.View;
 
 /**
  * Created by ZhongXiaolong on 2019/3/11 17:14.
@@ -26,6 +27,11 @@ public class MultipleThemeActivity extends BaseSuperActivity {
     }
 
     @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int theme = getSharedPrefs().getInt(KEY_THEME, 0);
@@ -41,6 +47,7 @@ public class MultipleThemeActivity extends BaseSuperActivity {
                 if (theme != 0) {
                     setTheme(theme);
                     getSharedPrefs().edit().putInt(KEY_THEME, theme).apply();
+                    recreate();
                 }
             }
         };
@@ -59,7 +66,7 @@ public class MultipleThemeActivity extends BaseSuperActivity {
      *
      * @param resid
      */
-    protected void sendThemeChangeBroadcast(int resid) {
+    public void sendThemeChangeBroadcast(int resid) {
         Intent intent = new Intent(THEME_CHANGE_ACTION);
         intent.putExtra(KEY_THEME, resid);
         mLocalBroadcastManager.sendBroadcast(intent);

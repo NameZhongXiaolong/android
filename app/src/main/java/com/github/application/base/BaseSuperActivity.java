@@ -100,7 +100,7 @@ public class BaseSuperActivity extends AppCompatActivity {
      * 设置状态栏描述是否为黑色
      * @param dark
      */
-    public void setStatusBar(boolean dark) {
+    public void setStatusBarDark(boolean dark) {
         LightStatusBarUtils.setLightStatusBar(this, dark);
         LightStatusBarUtils.setAndroidNativeLightStatusBar(this, dark);
     }

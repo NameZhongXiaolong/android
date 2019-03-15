@@ -8,4 +8,6 @@
     <item name="scroll_view" type="id"/>
     <item name="list" type="id"/>
     <item name="tool_bar" type="id"/>
+    <item name="pager" type="id"/>
+    <item name="radio_group" type="id"/>
 </resources>
