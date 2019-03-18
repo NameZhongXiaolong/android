@@ -5,8 +5,32 @@
          ?android:attr/buttonBarStyle is new as of API 11 so this is
          necessary to support previous API levels. -->
     <declare-styleable name="ButtonBarContainerTheme">
-        <attr name="metaButtonBarStyle" format="reference"/>
-        <attr name="metaButtonBarButtonStyle" format="reference"/>
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <attr name="titleText" format="string" />
+    <attr name="dividerHeight" format="dimension" />
+    <attr name="dividerColor" format="color" />
+    <attr name="titleTextColor" format="color" />
+    <attr name="titleTextSize" format="dimension" />
+    <attr name="navigationIcon" format="reference" />
+    <attr name="setStatusBarPadding" format="boolean" />
+    <attr name="titleGravity" format="integer" >
+        <flag name="right" value="1" />
+        <flag name="left" value="2" />
+        <flag name="center" value="3" />
+    </attr>
+
+    <!--头部导航栏自定义-->
+    <declare-styleable name="ActionBarView">
+        <attr name="titleText" />
+        <attr name="dividerHeight" />
+        <attr name="dividerColor" />
+        <attr name="titleTextColor" />
+        <attr name="titleTextSize" />
+        <attr name="navigationIcon" />
+        <attr name="setStatusBarPadding" />
+        <attr name="titleGravity" />
+    </declare-styleable>
 </resources>

@@ -2,8 +2,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.github.application.view.ActionBarView
+        app:titleText="设置主题"
+        android:id="@id/action_bar_view"
+        android:background="?attr/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <RadioGroup
         android:id="@id/radio_group"
@@ -16,6 +23,7 @@
 
     </RadioGroup>
     <android.support.v4.view.ViewPager
+        android:layout_below="@id/action_bar_view"
         android:id="@id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

@@ -3,6 +3,7 @@
 <android.support.v4.widget.SlidingPaneLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/sliding_pane_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -20,14 +21,12 @@
         android:orientation="vertical"
         tools:context=".main.MainActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@id/tool_bar"
-            android:layout_width="match_parent"
+        <com.github.application.view.ActionBarView
+            android:id="@id/action_bar_view"
+            app:titleText="@string/app_name"
             android:background="?attr/colorPrimary"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white"
-            android:paddingTop="@dimen/statusBarSize"
-            android:layout_height="@dimen/topBarSize"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <FrameLayout
             android:id="@id/fm_container"

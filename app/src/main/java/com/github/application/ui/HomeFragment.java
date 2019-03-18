@@ -20,6 +20,7 @@ public class HomeFragment extends ListFragment<Menu>  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setBackgroundResource(R.color.paleGrey);
         add(new Menu("设置", SettingActivity.class));
     }
 

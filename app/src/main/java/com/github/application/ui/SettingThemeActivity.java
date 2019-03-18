@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.BaseHolder;
@@ -101,6 +100,6 @@ public class SettingThemeActivity extends MultipleThemeActivity implements BaseH
     @Override
     public void onClick(View item, int position) {
         String theme = mPagerData.get(mViewPager.getCurrentItem()).get(position).getTheme();
-        Toast.makeText(this, theme, Toast.LENGTH_SHORT).show();
+        sendThemeChangeBroadcast(mPagerData.get(mViewPager.getCurrentItem()).get(position).getThemeRes());
     }
 }

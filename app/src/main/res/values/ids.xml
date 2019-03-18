@@ -10,4 +10,6 @@
     <item name="tool_bar" type="id"/>
     <item name="pager" type="id"/>
     <item name="radio_group" type="id"/>
+    <item name="action_bar_view" type="id"/>
+    <item name="sliding_pane_layout" type="id"/>
 </resources>
