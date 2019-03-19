@@ -14,7 +14,10 @@ import com.github.application.ui.HomeFragment;
 import com.github.application.ui.SettingActivity;
 import com.github.application.view.ActionBarView;
 
-public class MainActivity extends MultipleThemeActivity implements BaseHolder.OnClickListener, ActionBarView.MenuItemClickListener, ActionBarView.NavigationClickListener {
+public class MainActivity extends MultipleThemeActivity
+        implements BaseHolder.OnClickListener,
+        ActionBarView.MenuItemClickListener,
+        ActionBarView.NavigationClickListener {
 
     private HomeFragment mFragment;
     private SlidingPaneLayout mSlidingPaneLayout;

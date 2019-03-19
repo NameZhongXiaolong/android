@@ -1,26 +1,34 @@
 package com.github.application.ui;
 
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.view.ContextThemeWrapper;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.application.R;
-import com.github.application.base.BaseAdapter;
-import com.github.application.base.BaseHolder;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.data.Theme;
+import com.github.application.main.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ZhongXiaolong on 2019/3/12 11:29.
+ * <p>
+ * 设置主题
  */
 public class SettingThemeActivity extends MultipleThemeActivity {
+
+    private int mScrollSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,34 +53,74 @@ public class SettingThemeActivity extends MultipleThemeActivity {
         list.add(new Theme("MagentaPurple", R.style.AppTheme_MagentaPurple));
         list.add(new Theme("CircumorbitalRing", R.style.AppTheme_CircumorbitalRing));
         list.add(new Theme("BlueMartina", R.style.AppTheme_BlueMartina));
-        if (hasNavigationBar())  list.add(new Theme(" ", 0));
+        if (hasNavigationBar()) list.add(new Theme(" ", 0));
 
+        LinearLayout linearLayout = findViewById(R.id.linear_layout);
+        for (Theme theme : list) {
+            //设置主题
+            final int themeRes = theme.getThemeRes();
+            ContextThemeWrapper contextTheme = new ContextThemeWrapper(getContext(), themeRes);
 
-        RecyclerView recyclerView = findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BaseAdapter<Theme> adapter = new ThemeAdapter();
-        recyclerView.setAdapter(adapter);
-        adapter.addAll(list);
+            //创建item
+            TextView itemTheme = new TextView(contextTheme);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    Constants.MATCH_PARENT, (int) getResources().getDimension(R.dimen.actionBarSize));
+            int margin = dp2px(10);
+            lp.setMargins(margin, margin, margin, 0);
+            itemTheme.setGravity(Gravity.CENTER);
+            itemTheme.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+            //设置theme中的主题颜色
+            TypedArray typedArray = contextTheme.obtainStyledAttributes(new int[]{R.attr.colorPrimary});
+            int color = typedArray.getColor(0, Color.TRANSPARENT);
+            itemTheme.setBackgroundColor(color);
+
+            //设置标题
+            itemTheme.setText(theme.getTheme());
+            itemTheme.setTextColor(Color.parseColor(isDarkColor(color) ? "#EEFFFFFF" : "#EE333333"));
+
+            //添加
+            linearLayout.addView(itemTheme, lp);
+
+            itemTheme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendThemeChangeBroadcast(themeRes);
+                }
+            });
+        }
+
+        NestedScrollView nestedScrollView = findViewById(R.id.scroll_view);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                mScrollSize = mScrollSize + scrollY;
+            }
+        });
+
+        nestedScrollView.scrollTo(0, mScrollSize);
     }
 
+    /**
+     * 是否是深色
+     *
+     * @param color
+     *
+     * @return true深色
+     */
+    public boolean isDarkColor(@ColorInt int color) {
+        //透明度
+        final int alpha = Color.alpha(color);
 
-    private class ThemeAdapter extends BaseAdapter<Theme> implements BaseHolder.OnClickListener {
-        @NonNull
-        @Override
-        public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return BaseHolder.instance(parent, R.layout.item_menu_2);
-        }
+        boolean light = alpha <= 48;
 
-        @Override
-        public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
-            holder.text(R.id.text, get(position).getTheme());
-            holder.setOnClickListener(this);
+        //透明度>0.2就看rgb,透明度<=0.2就设置黑色
+        if (!light) {
+            final double darkness = 1 -
+                    (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+            light = darkness < 0.2;
         }
-
-        @Override
-        public void onClick(View item, int position) {
-            sendThemeChangeBroadcast(get(position).getThemeRes());
-        }
+        return !light;
     }
 
 }
