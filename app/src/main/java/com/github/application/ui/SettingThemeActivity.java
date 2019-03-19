@@ -1,17 +1,16 @@
 package com.github.application.ui;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.view.ViewGroup;
 
 import com.github.application.R;
+import com.github.application.base.BaseAdapter;
 import com.github.application.base.BaseHolder;
-import com.github.application.base.BasePagerAdapter;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.data.Theme;
 
@@ -21,19 +20,12 @@ import java.util.List;
 /**
  * Created by ZhongXiaolong on 2019/3/12 11:29.
  */
-public class SettingThemeActivity extends MultipleThemeActivity implements BaseHolder.OnClickListener {
-
-    private int mCurrentIndex;
-    private ViewPager mViewPager;
-    private List<List<Theme>> mPagerData;
+public class SettingThemeActivity extends MultipleThemeActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme);
-        mViewPager = findViewById(R.id.pager);
-        mPagerData = new ArrayList<>();
-
 
         List<Theme> list = new ArrayList<>();
         list.add(new Theme("BrightYarrow", R.style.AppTheme_BrightYarrow));
@@ -53,53 +45,34 @@ public class SettingThemeActivity extends MultipleThemeActivity implements BaseH
         list.add(new Theme("MagentaPurple", R.style.AppTheme_MagentaPurple));
         list.add(new Theme("CircumorbitalRing", R.style.AppTheme_CircumorbitalRing));
         list.add(new Theme("BlueMartina", R.style.AppTheme_BlueMartina));
+        if (hasNavigationBar())  list.add(new Theme(" ", 0));
 
-        final int heightPixels = getResources().getDisplayMetrics().heightPixels;
 
-        final int itemHeight = dp2px(48);
+        RecyclerView recyclerView = findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BaseAdapter<Theme> adapter = new ThemeAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.addAll(list);
+    }
 
-        int itemSize = (heightPixels - itemHeight) / itemHeight;
-        while (list.size() > 0) {
-            mPagerData.add(list.subList(0, itemSize));
-            list = list.subList(itemSize, list.size());
-            if (list.size() < itemSize) {
-                mPagerData.add(list);
-                break;
-            }
+
+    private class ThemeAdapter extends BaseAdapter<Theme> implements BaseHolder.OnClickListener {
+        @NonNull
+        @Override
+        public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return BaseHolder.instance(parent, R.layout.item_menu_2);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
+            holder.text(R.id.text, get(position).getTheme());
+            holder.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View item, int position) {
+            sendThemeChangeBroadcast(get(position).getThemeRes());
         }
     }
 
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        final RadioGroup radioGroup = findViewById(R.id.radio_group);
-        List<Fragment> fragments = new ArrayList<>();
-        for (List<Theme> pagerDatum : mPagerData) {
-            fragments.add(SettingThemeFm.newInstance(pagerDatum).setOnClickListener(this));
-            RadioButton rbtn = new RadioButton(this);
-            rbtn.setButtonDrawable(new ColorDrawable());
-            rbtn.setBackgroundResource(R.drawable.rbtn_line);
-            RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(dp2px(30), dp2px(6));
-            lp.setMargins(dp2px(3), 0, dp2px(3), 0);
-            radioGroup.addView(rbtn, lp);
-        }
-
-        mViewPager.setAdapter(new BasePagerAdapter(this, fragments));
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentIndex = position;
-                radioGroup.getChildAt(position).performClick();
-            }
-        });
-        mViewPager.setCurrentItem(mCurrentIndex);
-        radioGroup.getChildAt(mCurrentIndex).performClick();
-    }
-
-    @Override
-    public void onClick(View item, int position) {
-        String theme = mPagerData.get(mViewPager.getCurrentItem()).get(position).getTheme();
-        sendThemeChangeBroadcast(mPagerData.get(mViewPager.getCurrentItem()).get(position).getThemeRes());
-    }
 }

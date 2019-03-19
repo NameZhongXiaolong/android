@@ -12,7 +12,7 @@
     <attr name="titleText" format="string" />
     <attr name="dividerHeight" format="dimension" />
     <attr name="dividerColor" format="color" />
-    <attr name="titleTextColor" format="color" />
+    <attr name="contentColor" format="color" />
     <attr name="titleTextSize" format="dimension" />
     <attr name="navigationIcon" format="reference" />
     <attr name="setStatusBarPadding" format="boolean" />
@@ -24,13 +24,21 @@
 
     <!--头部导航栏自定义-->
     <declare-styleable name="ActionBarView">
+        <!--标题-->
         <attr name="titleText" />
+        <!--分割线高度-->
         <attr name="dividerHeight" />
+        <!--分割线颜色-->
         <attr name="dividerColor" />
-        <attr name="titleTextColor" />
+        <!--内容颜色,包括标题和图标-->
+        <attr name="contentColor" />
+        <!--标题字号-->
         <attr name="titleTextSize" />
+        <!--左边按钮-->
         <attr name="navigationIcon" />
-        <attr name="setStatusBarPadding" />
+        <!--标题的位置,左中右-->
         <attr name="titleGravity" />
+        <!--是否设置状态栏高度的topPadding,由于使用的是全屏的主题-->
+        <attr name="setStatusBarPadding" />
     </declare-styleable>
 </resources>

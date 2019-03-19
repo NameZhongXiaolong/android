@@ -10,17 +10,17 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.ActionMenuView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.application.R;
@@ -36,7 +36,9 @@ public class ActionBarView extends FrameLayout {
     private View mViewDivider;
     private TextView mTvTitle;
     private ImageButton mIbNavigation;
-    private ActionMenuView mActionMenuView;
+    private LinearLayout mActionMenuView;
+    @ColorInt private int mContentColor;
+    private MenuItemClickListener mMenuItemClickListener;
 
     public ActionBarView(@NonNull Context context) {
         this(context, null);
@@ -55,14 +57,15 @@ public class ActionBarView extends FrameLayout {
         init();
 
         //设置默认属性
-        int titleTextColor = Color.parseColor("#EEFFFFFF");
-        int navigationIcon = R.drawable.ic_back_white;
+        //默认ContentColor是白色
+        mContentColor = Color.parseColor("#EEFFFFFF");
+        int navigationIcon = R.drawable.ic_back;
 
         int dividerColor = Color.parseColor("#DEDEDE");
         int titleTextSize = 0;
         int dividerHeight = 1;
 
-        //白色背景颜色设置默认的返回键和字体颜色
+        //浅色背景(透明度低于<0.2f)设置黑色的返回键\字体颜色\状态栏
         Drawable background = getBackground();
         if (background instanceof ColorDrawable) {
             int color = ((ColorDrawable) background).getColor();
@@ -77,34 +80,39 @@ public class ActionBarView extends FrameLayout {
                         (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
                 dark = darkness < 0.2;
             }
+
+            //设置状态栏图标颜色
             if (getContext() instanceof BaseSuperActivity) {
                 ((BaseSuperActivity) getContext()).setStatusBarDark(dark);
             }
+
+            //设置深色颜色
             if (dark) {
-                titleTextColor = Color.parseColor("#EE333333");
-                navigationIcon = R.drawable.ic_back_black;
+                mContentColor = Color.parseColor("#EE333333");
             }
 
         }
 
         if (background == null) {
             //设置状态栏颜色
-            titleTextColor = Color.parseColor("#EE333333");
-            navigationIcon = R.drawable.ic_back_black;
+            mContentColor = Color.parseColor("#EE333333");
             if (getContext() instanceof BaseSuperActivity) {
                 ((BaseSuperActivity) getContext()).setStatusBarDark(true);
             }
         }
 
+        //读取xml属性
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.ActionBarView);
         String titleText = attributes.getString(R.styleable.ActionBarView_titleText);
-        titleTextColor = attributes.getColor(R.styleable.ActionBarView_titleTextColor, titleTextColor);
+        mContentColor = attributes.getColor(R.styleable.ActionBarView_contentColor, mContentColor);
         titleTextSize = attributes.getDimensionPixelSize(R.styleable.ActionBarView_titleTextSize, titleTextSize);
         dividerHeight = (int) attributes.getDimension(R.styleable.ActionBarView_dividerHeight, dividerHeight);
         dividerColor = attributes.getColor(R.styleable.ActionBarView_dividerColor, dividerColor);
         navigationIcon = attributes.getResourceId(R.styleable.ActionBarView_navigationIcon, navigationIcon);
         boolean statusPadding = attributes.getBoolean(R.styleable.ActionBarView_setStatusBarPadding, true);
+        attributes.recycle();
 
+        //读取xml属性结束,设置属性
         if (!TextUtils.isEmpty(titleText)) mTvTitle.setText(titleText);
         if (titleTextSize > 0) {
             mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize);
@@ -112,7 +120,7 @@ public class ActionBarView extends FrameLayout {
             mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         }
 
-        mTvTitle.setTextColor(titleTextColor);
+        mTvTitle.setTextColor(mContentColor);
         //设置title正正居中
         if (getPaddingLeft() > getPaddingRight()) {
             mTvTitle.setPadding(0, 0, getPaddingLeft() - getPaddingRight(), 0);
@@ -123,19 +131,21 @@ public class ActionBarView extends FrameLayout {
 
         //设置默认icon和paddingLeft
         mIbNavigation.setImageResource(navigationIcon);
-        if (navigationIcon == R.drawable.ic_back_black || navigationIcon == R.drawable.ic_back_white) {
+        if (navigationIcon == R.drawable.ic_back) {
             if (getPaddingLeft() == 0) {
                 int dp10 = UnitUtils.dp2px(context, 10);
                 mIbNavigation.setPadding(dp10, 0, dp10, 0);
             }
         }
+        mIbNavigation.setColorFilter(mContentColor);
 
+        //设置分割线,最高为8px
         ViewGroup.LayoutParams lp = mViewDivider.getLayoutParams();
-        lp.height = dividerHeight>8?8:dividerHeight;
+        lp.height = dividerHeight > 8 ? 8 : dividerHeight;
         mViewDivider.setLayoutParams(lp);
         mViewDivider.setBackgroundColor(dividerColor);
 
-        attributes.recycle();
+        //设置statusBarPadding,并且设置最小高度
         int minHeight = (int) getContext().getResources().getDimension(R.dimen.actionBarSize);
         if (statusPadding) {
             int paddingTop = (int) (getPaddingTop() + getContext().getResources().getDimension(R.dimen.statusBarSize));
@@ -143,16 +153,19 @@ public class ActionBarView extends FrameLayout {
             minHeight = minHeight + paddingTop;
         }
         setMinimumHeight(minHeight);
-
-        //修改图标颜色
-//        mIbNavigation.setColorFilter(Color.RED);
     }
 
     private void init() {
         mViewDivider = new View(getContext());
+
         mTvTitle = new TextView(getContext());
+
         mIbNavigation = new ImageButton(getContext());
-        mActionMenuView = new ActionMenuView(getContext());
+        mIbNavigation.setAdjustViewBounds(true);
+        mIbNavigation.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        mActionMenuView = new LinearLayout(getContext());
+        mActionMenuView.setOrientation(LinearLayout.HORIZONTAL);
 
         LayoutParams dividerLp = new LayoutParams(Constants.MATCH_PARENT, 1);
         dividerLp.gravity = Gravity.BOTTOM;
@@ -171,9 +184,9 @@ public class ActionBarView extends FrameLayout {
         menuLp.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
         addView(mActionMenuView, menuLp);
 
-        mNavigationClick = new OnClickListener() {
+        mNavigationClick = new NavigationClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onNavigationClick(ImageButton button) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -183,11 +196,12 @@ public class ActionBarView extends FrameLayout {
                 }).start();
             }
         };
+;
 
         mIbNavigation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mNavigationClick != null) mNavigationClick.onClick(v);
+                if (mNavigationClick != null) mNavigationClick.onNavigationClick((ImageButton) v);
             }
         });
     }
@@ -205,22 +219,42 @@ public class ActionBarView extends FrameLayout {
     }
 
     //navigationIcon
-    private View.OnClickListener mNavigationClick;
+    private NavigationClickListener mNavigationClick;
 
     public void setNavigationIcon(@DrawableRes int res) {
         mIbNavigation.setImageResource(res);
     }
 
-    public void setNavigationClickListener(View.OnClickListener listener) {
+    public void setNavigationClickListener(NavigationClickListener listener) {
         mNavigationClick = listener;
+    }
+
+    public void setNavigationDrawableRes(@DrawableRes int drawableRes) {
+        mIbNavigation.setImageResource(drawableRes);
     }
 
     public void setTitle(CharSequence title) {
         mTvTitle.setText(title);
     }
 
-    public void setTitleSize(float size) {
+    public void setTitleSizePx(float size) {
         mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+    }
+
+    public void setTitleSizeSp(float size) {
+        mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+    }
+
+    public void setContentColor(@ColorInt int color) {
+        mContentColor = color;
+        mIbNavigation.setColorFilter(mContentColor);
+        mTvTitle.setTextColor(mContentColor);
+        for (int i = 0; i < mActionMenuView.getChildCount(); i++) {
+            View childView = mActionMenuView.getChildAt(0);
+            if (childView instanceof ImageButton) {
+                ((ImageButton) childView).setColorFilter(mContentColor);
+            }
+        }
     }
 
     public void setTitleColor(@ColorInt int color) {
@@ -234,17 +268,45 @@ public class ActionBarView extends FrameLayout {
         mViewDivider.setBackgroundColor(color);
     }
 
-    public Menu getMenu() {
-        return mActionMenuView.getMenu();
+    public ActionBarView setMenuItemClickListener(MenuItemClickListener menuItemClickListener) {
+        mMenuItemClickListener = menuItemClickListener;
+        return this;
     }
 
-    public void addMenuItem(int id, String title, @DrawableRes int drawable, int actionEnum) {
-        getMenu().add(id, id, id, title).setIcon(drawable).setShowAsAction(actionEnum);
+    public void addMenuItem(final int id, @DrawableRes int drawable) {
+        addMenuItem(id, drawable, null);
     }
 
-    public void setOnMenuItemClickListener(ActionMenuView.OnMenuItemClickListener listener) {
-        mActionMenuView.setOnMenuItemClickListener(listener);
+    public void addMenuItem(final int id, @DrawableRes int drawable, final MenuItemClickListener l) {
+        ImageButton imageButton = new ImageButton(getContext());
+        imageButton.setAdjustViewBounds(true);
+        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageButton.setImageResource(drawable);
+        imageButton.setColorFilter(mContentColor);
+        imageButton.setBackgroundColor(Color.TRANSPARENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Constants.WRAP_CONTENT, Constants.WRAP_CONTENT);
+        lp.setMargins(0, 0, UnitUtils.dp2px(getContext(), 10), 0);
+        mActionMenuView.addView(imageButton, lp);
+        imageButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (l != null) {
+                    l.onMenuItemClick(id);
+                    return;
+                }
+                if (mMenuItemClickListener != null) {
+                    mMenuItemClickListener.onMenuItemClick(id);
+                }
+            }
+        });
     }
 
 
+    public interface MenuItemClickListener {
+        void onMenuItemClick(int id);
+    }
+
+    public interface NavigationClickListener{
+        void onNavigationClick(ImageButton button);
+    }
 }

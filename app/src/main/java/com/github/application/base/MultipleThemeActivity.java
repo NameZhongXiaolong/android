@@ -67,9 +67,11 @@ public class MultipleThemeActivity extends BaseSuperActivity {
      * @param resid
      */
     public void sendThemeChangeBroadcast(int resid) {
-        Intent intent = new Intent(THEME_CHANGE_ACTION);
-        intent.putExtra(KEY_THEME, resid);
-        mLocalBroadcastManager.sendBroadcast(intent);
+        if (resid != 0) {
+            Intent intent = new Intent(THEME_CHANGE_ACTION);
+            intent.putExtra(KEY_THEME, resid);
+            mLocalBroadcastManager.sendBroadcast(intent);
+        }
     }
 
 }
