@@ -2,8 +2,8 @@ package com.github.application.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;

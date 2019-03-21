@@ -13,6 +13,8 @@ import com.github.application.data.Menu;
 
 /**
  * Created by ZhongXiaolong on 2019/3/11 10:21.
+ *
+ * 首页
  */
 public class HomeFragment extends ListFragment<Menu>  {
 
@@ -21,7 +23,14 @@ public class HomeFragment extends ListFragment<Menu>  {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.setBackgroundResource(R.color.paleGrey);
-        add(new Menu("设置", SettingActivity.class));
+        add(new Menu("弹出框", SettingActivity.class));
+        add(new Menu("图片相关", SettingActivity.class));
+        add(new Menu("单位换算", SettingActivity.class));
+        add(new Menu("四大组件", SettingActivity.class));
+        add(new Menu("获取设备信息", SettingActivity.class));
+        add(new Menu("RecyclerView", SettingActivity.class));
+        add(new Menu("note", SettingActivity.class));
+        add(new Menu("自定义View--登录", SettingActivity.class));
     }
 
     @Override
@@ -33,7 +42,6 @@ public class HomeFragment extends ListFragment<Menu>  {
     public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
         holder.text(R.id.text, get(position).getName());
         holder.setOnClickListener(mOnClickListener);
-
     }
 
     public HomeFragment setOnClickListener(BaseHolder.OnClickListener onClickListener) {

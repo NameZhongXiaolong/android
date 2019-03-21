@@ -1,8 +1,6 @@
 package com.github.application.main;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.view.View;
 import android.widget.ImageButton;
@@ -33,11 +31,6 @@ public class MainActivity extends MultipleThemeActivity
         mFragment = new HomeFragment();
         mFragment.setOnClickListener(this);
         getFragmentTransaction().add(R.id.fm_container, mFragment).commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
     }
 
 
