@@ -55,7 +55,6 @@ public class ProgressDialog extends Dialog {
         container.setMinimumHeight(width / 2);
         container.setMinimumWidth(width);
 
-
         container.setPadding(padding, padding, padding, padding);
         container.setGravity(Gravity.CENTER);
 
@@ -72,6 +71,7 @@ public class ProgressDialog extends Dialog {
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         mTextView.setTextColor(Color.parseColor("#333333"));
         container.addView(mTextView, new LinearLayout.LayoutParams(Constants.WRAP_CONTENT, Constants.WRAP_CONTENT));
+        mTextView.setPadding(0, padding, 0, 0);
 
         setContentView(container);
     }
@@ -87,15 +87,18 @@ public class ProgressDialog extends Dialog {
     public ProgressDialog setTipsMsg(CharSequence msg, boolean showEllipsis) {
         if (mTextView == null) {
             create();
-            mTextView.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
-            if (!TextUtils.isEmpty(msg)) mTextView.setText(msg);
-            if (showEllipsis) {
-                int i = UnitUtils.dp2px(getContext(), 18);
-                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_ellipsis);
-                drawable.setBounds(0, 0, i, i);
-                mTextView.setCompoundDrawables(null, null, drawable, null);
-                mTextView.setPadding(i, 0, 0, 0);
-            }
+        }
+        mTextView.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
+        if (!TextUtils.isEmpty(msg)) mTextView.setText(msg);
+        if (showEllipsis) {
+            int i = UnitUtils.dp2px(getContext(), 18);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_ellipsis);
+            drawable.setBounds(0, 0, i, i);
+            mTextView.setCompoundDrawables(null, null, drawable, null);
+            mTextView.setPadding(i, 0, 0, 0);
+        }else{
+            mTextView.setCompoundDrawables(null, null, null, null);
+            mTextView.setPadding(0, 0, 0, 0);
         }
         return this;
     }

@@ -44,7 +44,7 @@ public abstract class ListFragment<T> extends BaseSuperFragment {
             @Override
             public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 if (viewType == mNavigationBar) {
-                    return BaseHolder.instance(parent, android.R.layout.simple_list_item_activated_1);
+                    return BaseHolder.instance(parent, R.layout.navigation);
                 }
                 return ListFragment.this.onCreateViewHolder(parent, viewType);
             }

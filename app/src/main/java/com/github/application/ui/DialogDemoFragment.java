@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.Snackbar;
@@ -14,19 +15,29 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.application.R;
+import com.github.application.utils.UnitUtils;
 
 /**
  * Created by ZhongXiaolong on 2019/3/22 20:40.
  * <p>
- * 弹出框
+ * 弹出框: Dialog,DialogFragment,PopupWindow
+ * Dialog:包括AlertDialog,BottomSheetDialog,ProgressDialog,自定义Dialog,适合交互少,用于用户提示(自定义Dialog就继承Dialog)
+ * DialogFragment:就是Fragment的子类,有完整的生命周期,适用于交互(类似登录),在onCreateDialog()方法中返回一个Dialog样式
+ * PopupWindow:其他部分阴影设置比较麻烦,而且在Activity创建成功之后才能show(),否则会报错
+ *
+ * Dialog和DialogFragment要设置圆角背景就要设置Theme主题,setContentView中的根布局设置需要的圆角
+ * 另外也可以用透明的Activity做弹窗,但是比较消耗性能,类似三方授权可以这样用
  */
 public class DialogDemoFragment extends SimpleListFragment {
 
@@ -40,6 +51,8 @@ public class DialogDemoFragment extends SimpleListFragment {
     private DialogFragmentDemo mDialogFragmentDemo;
     private BottomSheetDialog mBottomSheetDialog;
     private BottomSheetDialogFragment mBottomSheetDialogFragment;
+    private PopupWindow mPopupWindow;
+    private InputDialogF mInputDialogFragment;
 
 
     /**
@@ -62,17 +75,20 @@ public class DialogDemoFragment extends SimpleListFragment {
         add("BottomSheetDialog");
         add("BottomSheetDialogFragment");
         add("PopupWindow");
+        add("DialogFragment交互");
 
         mAlertDialog = createAlertDialog();
         mCustomDialog = createCustomDialog(false);
         mCustomDialogRadius = createCustomDialog(true);
         mProgressDialog = new ProgressDialog(getContext());
-        mProgressMsgDialog = new ProgressDialog(getContext()).setTipsMsg("请等待", true);
+        mProgressMsgDialog = new ProgressDialog(getContext()).setTipsMsg("正在检测 , 请等待", true);
         mProgressDialogRadius = new ProgressDialog(getContext(), Color.WHITE, 10);
         mProgressMsgDialogRadius = new ProgressDialog(getContext(), Color.WHITE, 10).setTipsMsg("请等待", true);
         mDialogFragmentDemo = new DialogFragmentDemo();
         mBottomSheetDialog = createBottomSheetDialog();
         mBottomSheetDialogFragment = new BottomSheetDialogDemo();
+        mPopupWindow = createPopupWindow();
+        mInputDialogFragment = new InputDialogF();
     }
 
     @Override
@@ -108,7 +124,11 @@ public class DialogDemoFragment extends SimpleListFragment {
             mBottomSheetDialogFragment.show(getChildFragmentManager(), "");
         }
         if (get(position).equals("PopupWindow")) {
-
+//            mPopupWindow.showAsDropDown(getView());
+            mPopupWindow.showAtLocation(getView(),Gravity.CENTER,0,0);
+        }
+        if (get(position).equals("DialogFragment交互")) {
+            mInputDialogFragment.show(getChildFragmentManager(), "");
         }
     }
 
@@ -174,6 +194,7 @@ public class DialogDemoFragment extends SimpleListFragment {
     private Dialog createCustomDialog(boolean radius) {
         //要设置圆角得设置主题
         final Dialog dialog = radius ? new Dialog(getContext(), R.style.DialogTheme) : new Dialog(getContext());
+        //ContentView根布局大小要固定,不能设置MATCH_PARENT(设置该属性其实相当于WRAP_CONTENT)
         dialog.setContentView(R.layout.dialog_custom);
         LinearLayout layout = dialog.findViewById(R.id.linear_layout);
         for (int i = 0; i < layout.getChildCount(); i++) {
@@ -189,6 +210,31 @@ public class DialogDemoFragment extends SimpleListFragment {
         return dialog;
     }
 
+    private PopupWindow createPopupWindow(){
+        final PopupWindow pop = new PopupWindow(getContext());
+        View content = getLayoutInflater().inflate(R.layout.dialog_custom, (ViewGroup) pop.getContentView(), false);
+        int width = UnitUtils.displayWidth(getContext()) - UnitUtils.dp2px(getContext(), 80);
+        content.setMinimumWidth(width);
+        content.setMinimumHeight(width/2);
+        pop.setContentView(content);
+        pop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00123456")));
+        //设置返回键可以点击
+        pop.setFocusable(true);
+        //设置外部可以点击
+        pop.setOutsideTouchable(true);
+        LinearLayout layout = pop.getContentView().findViewById(R.id.linear_layout);
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            final int index = i;
+            layout.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (index == 1) pop.dismiss();
+                }
+            });
+        }
+        return pop;
+    }
+
     public static class DialogFragmentDemo extends DialogFragment implements View.OnClickListener {
 
         @NonNull
@@ -196,7 +242,7 @@ public class DialogDemoFragment extends SimpleListFragment {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             //返回一个Dialog样式,也可以是自定义的
             Dialog dialog = super.onCreateDialog(savedInstanceState);
-//            dialog = new Dialog(getContext(), R.style.DialogTheme);
+            dialog = new Dialog(getContext(), R.style.DialogTheme);
             return dialog;
         }
 
@@ -242,20 +288,12 @@ public class DialogDemoFragment extends SimpleListFragment {
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inf, @Nullable ViewGroup root, @Nullable Bundle state) {
-            //设置大背景颜色
-            View container = getDialog().findViewById(R.id.design_bottom_sheet);
-            if (container != null) {
-                //避免找不到
-                container.setBackgroundColor(Color.TRANSPARENT);
-            }
             return inf.inflate(R.layout.dialog_bottom_demo, root, false);
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            //设置弹出框颜色
-            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             LinearLayout layout = view.findViewById(R.id.linear_layout);
             for (int i = 0; i < layout.getChildCount(); i++) {
                 layout.getChildAt(i).setOnClickListener(this);
@@ -270,6 +308,18 @@ public class DialogDemoFragment extends SimpleListFragment {
                     dismiss();
                     Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
+            FrameLayout bottomSheet = dialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                bottomSheet.setBackgroundColor(Color.TRANSPARENT);//设置弹出框颜色
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet); // 初始为展开状态       
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         }
     }
