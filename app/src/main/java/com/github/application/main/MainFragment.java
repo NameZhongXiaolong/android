@@ -1,8 +1,9 @@
-package com.github.application.ui;
+package com.github.application.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,20 +11,23 @@ import com.github.application.R;
 import com.github.application.base.BaseHolder;
 import com.github.application.base.ListFragment;
 import com.github.application.data.Menu;
+import com.github.application.ui.ContainerActivity;
+import com.github.application.ui.DialogDemoFragment;
+import com.github.application.ui.SettingActivity;
 
 /**
  * Created by ZhongXiaolong on 2019/3/11 10:21.
  *
  * 首页
  */
-public class HomeFragment extends ListFragment<Menu>  {
+public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnClickListener {
 
     private BaseHolder.OnClickListener mOnClickListener;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.setBackgroundResource(R.color.paleGrey);
-        add(new Menu("弹出框", SettingActivity.class));
+
+        add(new Menu("弹出框", new DialogDemoFragment()));
         add(new Menu("图片相关", SettingActivity.class));
         add(new Menu("单位换算", SettingActivity.class));
         add(new Menu("四大组件", SettingActivity.class));
@@ -41,11 +45,20 @@ public class HomeFragment extends ListFragment<Menu>  {
     @Override
     public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
         holder.text(R.id.text, get(position).getName());
-        holder.setOnClickListener(mOnClickListener);
+        holder.setOnClickListener(this);
     }
 
-    public HomeFragment setOnClickListener(BaseHolder.OnClickListener onClickListener) {
-        mOnClickListener = onClickListener;
-        return this;
+    @Override
+    public void onClick(View item, int position) {
+        Menu menu = get(position);
+        Fragment fragment = menu.getFragment();
+        if (fragment != null) {
+            ContainerActivity.start(getContext(),fragment.getClass(), menu.getName());
+            return;
+        }
+
+        if (menu.getActivityClass() != null) {
+            startActivity(menu.getActivityClass());
+        }
     }
 }

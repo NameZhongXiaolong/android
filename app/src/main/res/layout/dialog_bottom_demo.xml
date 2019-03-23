@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@id/linear_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:fitsSystemWindows="false"
+              android:orientation="vertical">
+
+    <Button
+        android:text="拍照"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <Button
+        android:text="相册"
+        android:textSize="16sp"
+        android:layout_marginTop="1dp"
+        android:textColor="#333333"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <Button
+        android:text="取消"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+</LinearLayout>

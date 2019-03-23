@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="300dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:background="@drawable/corners_grey_bg"
+              android:fitsSystemWindows="false"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:paddingTop="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dialog"
+        android:textColor="#333333"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:text="这是自定义Dialog"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="是否要关闭 ?"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@id/linear_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <Button
+            android:text="否"
+            android:paddingRight="10dp"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:text="是"
+            android:paddingLeft="10dp"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:background="@color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

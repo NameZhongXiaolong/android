@@ -2,22 +2,18 @@ package com.github.application.main;
 
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
-import android.view.View;
 import android.widget.ImageButton;
 
 import com.github.application.R;
-import com.github.application.base.BaseHolder;
 import com.github.application.base.MultipleThemeActivity;
-import com.github.application.ui.HomeFragment;
 import com.github.application.ui.SettingActivity;
 import com.github.application.view.ActionBarView;
 
 public class MainActivity extends MultipleThemeActivity
-        implements BaseHolder.OnClickListener,
+        implements
         ActionBarView.MenuItemClickListener,
         ActionBarView.NavigationClickListener {
 
-    private HomeFragment mFragment;
     private SlidingPaneLayout mSlidingPaneLayout;
 
     @Override
@@ -28,15 +24,8 @@ public class MainActivity extends MultipleThemeActivity
         actionBarView.setNavigationClickListener(this);
         actionBarView.addMenuItem(0,R.drawable.ic_setting,this);
         mSlidingPaneLayout = findViewById(R.id.sliding_pane_layout);
-        mFragment = new HomeFragment();
-        mFragment.setOnClickListener(this);
-        getFragmentTransaction().add(R.id.fm_container, mFragment).commitAllowingStateLoss();
-    }
-
-
-    @Override
-    public void onClick(View item, int position) {
-        startActivity(mFragment.get(position).getActivityClass());
+        MainFragment fragment = new MainFragment();
+        getFragmentTransaction().add(R.id.fm_container, fragment).commitAllowingStateLoss();
     }
 
     @Override

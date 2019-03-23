@@ -13,4 +13,5 @@
     <item name="action_bar_view" type="id"/>
     <item name="sliding_pane_layout" type="id"/>
     <item name="linear_layout" type="id"/>
+    <item name="card_view" type="id"/>
 </resources>
