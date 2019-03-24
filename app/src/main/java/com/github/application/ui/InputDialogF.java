@@ -1,11 +1,13 @@
 package com.github.application.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.main.Constants;
+import com.github.application.main.MainApplication;
 import com.github.application.utils.UnitUtils;
 
 /**
@@ -42,6 +46,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         return dialog;
     }
 
@@ -72,6 +77,20 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
                 return false;
             }
         });
+
+        mEtUser.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("InputDialogF", "user hasFocus:" + hasFocus);
+            }
+        });
+
+        mEtPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("InputDialogF", "pwd hasFocus:" + hasFocus);
+            }
+        });
     }
 
 
@@ -84,6 +103,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
         WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
         attributes.y = i;
         getDialog().getWindow().setAttributes(attributes);
+
     }
 
     @Override
@@ -95,7 +115,9 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
             String user = mEtUser.getText().toString().trim();
             String pwd = mEtPwd.getText().toString().trim();
             if (TextUtils.isEmpty(user)) {
-                Toast.makeText(getContext(), "用户名不能为空!", Toast.LENGTH_SHORT).show();
+
+                MainApplication.toast("用户名不能为空!");
+
                 return;
             }
             if (TextUtils.isEmpty(pwd)) {
@@ -103,9 +125,21 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
                 return;
             }
 
+            //关闭软键盘
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            //重新设置窗口位置
+            getDialog().getWindow().setGravity(Gravity.CENTER);
+            WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
+            attributes.y = 0;
+            getDialog().getWindow().setAttributes(attributes);
+
+            //显示加载进度
             mParent.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
 
+            //登录成功
             v.postDelayed(this, 2000);
         }
     }

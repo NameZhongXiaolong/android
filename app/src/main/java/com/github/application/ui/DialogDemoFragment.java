@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -35,7 +36,7 @@ import com.github.application.utils.UnitUtils;
  * Dialog:包括AlertDialog,BottomSheetDialog,ProgressDialog,自定义Dialog,适合交互少,用于用户提示(自定义Dialog就继承Dialog)
  * DialogFragment:就是Fragment的子类,有完整的生命周期,适用于交互(类似登录),在onCreateDialog()方法中返回一个Dialog样式
  * PopupWindow:其他部分阴影设置比较麻烦,而且在Activity创建成功之后才能show(),否则会报错
- *
+ * <p>
  * Dialog和DialogFragment要设置圆角背景就要设置Theme主题,setContentView中的根布局设置需要的圆角
  * 另外也可以用透明的Activity做弹窗,但是比较消耗性能,类似三方授权可以这样用
  */
@@ -125,7 +126,7 @@ public class DialogDemoFragment extends SimpleListFragment {
         }
         if (get(position).equals("PopupWindow")) {
 //            mPopupWindow.showAsDropDown(getView());
-            mPopupWindow.showAtLocation(getView(),Gravity.CENTER,0,0);
+            mPopupWindow.showAtLocation(getView(), Gravity.CENTER, 0, 0);
         }
         if (get(position).equals("DialogFragment交互")) {
             mInputDialogFragment.show(getChildFragmentManager(), "");
@@ -210,12 +211,12 @@ public class DialogDemoFragment extends SimpleListFragment {
         return dialog;
     }
 
-    private PopupWindow createPopupWindow(){
+    private PopupWindow createPopupWindow() {
         final PopupWindow pop = new PopupWindow(getContext());
         View content = getLayoutInflater().inflate(R.layout.dialog_custom, (ViewGroup) pop.getContentView(), false);
         int width = UnitUtils.displayWidth(getContext()) - UnitUtils.dp2px(getContext(), 80);
         content.setMinimumWidth(width);
-        content.setMinimumHeight(width/2);
+        content.setMinimumHeight(width / 2);
         pop.setContentView(content);
         pop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00123456")));
         //设置返回键可以点击
@@ -315,7 +316,8 @@ public class DialogDemoFragment extends SimpleListFragment {
         public void onStart() {
             super.onStart();
             BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-            FrameLayout bottomSheet = dialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet);
+            FrameLayout bottomSheet = dialog.getDelegate().findViewById(android.support.design.R.id
+                    .design_bottom_sheet);
             if (bottomSheet != null) {
                 bottomSheet.setBackgroundColor(Color.TRANSPARENT);//设置弹出框颜色
                 BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet); // 初始为展开状态       
