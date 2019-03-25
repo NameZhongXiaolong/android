@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleText="container"
-        android:background="?attr/colorAccent"/>
+        android:background="?attr/colorPrimary"/>
 
     <FrameLayout
         android:id="@id/fm_container"
