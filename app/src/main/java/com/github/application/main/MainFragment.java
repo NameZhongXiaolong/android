@@ -53,6 +53,10 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     public void onClick(View item, int position) {
         Menu menu = get(position);
         Fragment fragment = menu.getFragment();
+        if (menu.getName().equals("图片相关")) {
+            MainApplication.toast("你好啊");
+            return;
+        }
         if (fragment != null) {
             ContainerActivity.start(getContext(),fragment.getClass(), menu.getName());
             return;
@@ -60,6 +64,8 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
 
         if (menu.getActivityClass() != null) {
             startActivity(menu.getActivityClass());
+            return;
         }
+
     }
 }
