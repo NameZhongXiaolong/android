@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -34,7 +35,8 @@ public class MultipleThemeActivity extends BaseSuperActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int theme = getSharedPrefs().getInt(KEY_THEME, 0);
+        final SharedPreferences sharedPrefs = getSharedPreferences("main_theme", 0);
+        int theme = sharedPrefs.getInt(KEY_THEME, 0);
         if (theme != 0) {
             setTheme(theme);
         }
@@ -46,7 +48,7 @@ public class MultipleThemeActivity extends BaseSuperActivity {
                 int theme = intent.getIntExtra(KEY_THEME, 0);
                 if (theme != 0) {
                     setTheme(theme);
-                    getSharedPrefs().edit().putInt(KEY_THEME, theme).apply();
+                    sharedPrefs.edit().putInt(KEY_THEME, theme).apply();
                     recreate();
                 }
             }
