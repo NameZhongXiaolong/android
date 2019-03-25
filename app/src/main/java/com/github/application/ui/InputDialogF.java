@@ -8,11 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -46,6 +46,8 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setCanceledOnTouchOutside(false);
+        //去掉标题
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         return dialog;
     }
@@ -99,10 +101,10 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
         super.onStart();
         int i = UnitUtils.displayHeight(getContext()) / 2;
         getDialog().getWindow().setLayout((int) (UnitUtils.displayWidth(getContext()) * 0.9), Constants.WRAP_CONTENT);
-        getDialog().getWindow().setGravity(Gravity.BOTTOM);
-        WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
-        attributes.y = i;
-        getDialog().getWindow().setAttributes(attributes);
+//        getDialog().getWindow().setGravity(Gravity.BOTTOM);
+//        WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
+//        attributes.y = i;
+//        getDialog().getWindow().setAttributes(attributes);
 
     }
 
@@ -130,10 +132,10 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
             //重新设置窗口位置
-            getDialog().getWindow().setGravity(Gravity.CENTER);
-            WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
-            attributes.y = 0;
-            getDialog().getWindow().setAttributes(attributes);
+//            getDialog().getWindow().setGravity(Gravity.CENTER);
+//            WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
+//            attributes.y = 0;
+//            getDialog().getWindow().setAttributes(attributes);
 
             //显示加载进度
             mParent.setVisibility(View.INVISIBLE);

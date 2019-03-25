@@ -19,7 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.application.R;
+import com.github.application.main.Constants;
 import com.github.application.utils.UnitUtils;
 
 /**
@@ -195,6 +196,10 @@ public class DialogDemoFragment extends SimpleListFragment {
     private Dialog createCustomDialog(boolean radius) {
         //要设置圆角得设置主题
         final Dialog dialog = radius ? new Dialog(getContext(), R.style.DialogTheme) : new Dialog(getContext());
+        if (!radius) {
+            //默认的Dialog主题带标题,该方法去掉标题
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
         //ContentView根布局大小要固定,不能设置MATCH_PARENT(设置该属性其实相当于WRAP_CONTENT)
         dialog.setContentView(R.layout.dialog_custom);
         LinearLayout layout = dialog.findViewById(R.id.linear_layout);
@@ -217,6 +222,10 @@ public class DialogDemoFragment extends SimpleListFragment {
         int width = UnitUtils.displayWidth(getContext()) - UnitUtils.dp2px(getContext(), 80);
         content.setMinimumWidth(width);
         content.setMinimumHeight(width / 2);
+        //Android5.0一下设备要设置width和height才能正常显示
+        pop.setWidth(Constants.WRAP_CONTENT);
+        pop.setHeight(Constants.WRAP_CONTENT);
+
         pop.setContentView(content);
         pop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00123456")));
         //设置返回键可以点击
@@ -243,6 +252,9 @@ public class DialogDemoFragment extends SimpleListFragment {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             //返回一个Dialog样式,也可以是自定义的
             Dialog dialog = super.onCreateDialog(savedInstanceState);
+            //去掉标题
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
             dialog = new Dialog(getContext(), R.style.DialogTheme);
             return dialog;
         }

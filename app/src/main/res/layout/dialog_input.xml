@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:paddingRight="20dp">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_gravity="center"
+             android:paddingLeft="20dp"
+             android:paddingRight="20dp"
+             android:paddingTop="20dp">
 
     <LinearLayout
         android:id="@id/linear_layout"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/abc_edit_text_bg"
             android:hint="请输入用户名(手机号)"
-            android:inputType="phone"
             android:imeOptions="actionNext"
+            android:inputType="phone"
             android:lines="1"
             android:maxLength="30"
             android:textColor="#333333"
@@ -41,18 +41,18 @@
             android:layout_height="wrap_content"
             android:background="@drawable/abc_edit_text_bg"
             android:hint="请输入密码"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:lines="1"
             android:maxLength="30"
-            android:imeOptions="actionDone"
             android:textColor="#333333"
             android:textColorHint="#999999"
             android:textSize="16sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="45dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Button
@@ -82,8 +82,8 @@
     <ProgressBar
         android:id="@id/progress"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:visibility="gone"/>
 

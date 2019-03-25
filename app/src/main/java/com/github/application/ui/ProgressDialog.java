@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class ProgressDialog extends Dialog {
 
     public ProgressDialog(@NonNull Context context) {
         super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         mColor = Color.WHITE;
     }
 
