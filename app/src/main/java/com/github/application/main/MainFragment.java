@@ -13,7 +13,9 @@ import com.github.application.base.ListFragment;
 import com.github.application.data.Menu;
 import com.github.application.ui.ContainerActivity;
 import com.github.application.ui.DialogDemoFragment;
+import com.github.application.ui.PhoneInfoFragment;
 import com.github.application.ui.SettingActivity;
+import com.github.application.ui.UnitCastFragment;
 
 /**
  * Created by ZhongXiaolong on 2019/3/11 10:21.
@@ -22,16 +24,15 @@ import com.github.application.ui.SettingActivity;
  */
 public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnClickListener {
 
-    private BaseHolder.OnClickListener mOnClickListener;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         add(new Menu("弹出框", new DialogDemoFragment()));
         add(new Menu("图片相关", SettingActivity.class));
-        add(new Menu("单位换算", SettingActivity.class));
+        add(new Menu("单位换算", new UnitCastFragment()));
         add(new Menu("四大组件", SettingActivity.class));
-        add(new Menu("获取设备信息", SettingActivity.class));
+        add(new Menu("获取设备信息", new PhoneInfoFragment()));
         add(new Menu("RecyclerView", SettingActivity.class));
         add(new Menu("note", SettingActivity.class));
         add(new Menu("自定义View--登录", SettingActivity.class));

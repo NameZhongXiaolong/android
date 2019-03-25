@@ -194,7 +194,7 @@ public class DialogDemoFragment extends SimpleListFragment {
      * @param radius 是否设置圆角
      */
     private Dialog createCustomDialog(boolean radius) {
-        //要设置圆角得设置主题
+        //要设置圆角或者透明背景需改变主题
         final Dialog dialog = radius ? new Dialog(getContext(), R.style.DialogTheme) : new Dialog(getContext());
         if (!radius) {
             //默认的Dialog主题带标题,该方法去掉标题
@@ -250,7 +250,7 @@ public class DialogDemoFragment extends SimpleListFragment {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            //返回一个Dialog样式,也可以是自定义的
+            //返回一个Dialog样式,也可以是自定义的,要设置圆角或者透明背景需改变主题(和自定义Dialog一样)
             Dialog dialog = super.onCreateDialog(savedInstanceState);
             //去掉标题
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

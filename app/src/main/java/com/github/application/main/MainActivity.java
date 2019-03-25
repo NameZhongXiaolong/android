@@ -9,6 +9,40 @@ import com.github.application.base.MultipleThemeActivity;
 import com.github.application.ui.SettingActivity;
 import com.github.application.view.ActionBarView;
 
+/**
+ * Main
+ *
+ * 一些动画
+ * //从上往下弹出的显示动画
+ * TranslateAnimation translate = new TranslateAnimation(
+ * Animation.RELATIVE_TO_SELF, 0.0f,
+ * Animation.RELATIVE_TO_SELF, 0.0f,
+ * Animation.RELATIVE_TO_SELF, -1.0f,
+ * Animation.RELATIVE_TO_SELF, 0.0f);
+ * <p>
+ * /*
+ * //从下往上收缩的隐藏动画
+ * TranslateAnimation translate = new TranslateAnimation(
+ * Animation.RELATIVE_TO_SELF, 0.0f,
+ * Animation.RELATIVE_TO_SELF, 0.0f,
+ * Animation.RELATIVE_TO_SELF, 0.0f,
+ * Animation.RELATIVE_TO_SELF, -1.0f);
+ * <p>
+ * //从下往上弹出的显示动画
+ * TranslateAnimation animation2 = new TranslateAnimation(
+ * Animation.RELATIVE_TO_PARENT, 0.0f,
+ * Animation.RELATIVE_TO_PARENT, 0.0f,
+ * Animation.RELATIVE_TO_PARENT, 1.0f,
+ * Animation.RELATIVE_TO_PARENT, 0.0f);
+ * <p>
+ * //从上往下收缩的隐藏动画
+ * TranslateAnimation animation2 = new TranslateAnimation(
+ * Animation.RELATIVE_TO_PARENT, 0.0f,
+ * Animation.RELATIVE_TO_PARENT, 0.0f,
+ * Animation.RELATIVE_TO_PARENT, 0.0f,
+ * Animation.RELATIVE_TO_PARENT, 1.0f);
+ * translate.setDuration(500);
+ */
 public class MainActivity extends MultipleThemeActivity
         implements
         ActionBarView.MenuItemClickListener,
@@ -22,7 +56,7 @@ public class MainActivity extends MultipleThemeActivity
         setContentView(R.layout.activity_main);
         ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         actionBarView.setNavigationClickListener(this);
-        actionBarView.addMenuItem(0,R.drawable.ic_setting,this);
+        actionBarView.addMenuItem(0, R.drawable.ic_setting, this);
         mSlidingPaneLayout = findViewById(R.id.sliding_pane_layout);
         MainFragment fragment = new MainFragment();
         getFragmentTransaction().add(R.id.fm_container, fragment).commitAllowingStateLoss();

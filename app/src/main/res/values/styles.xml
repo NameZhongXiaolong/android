@@ -144,4 +144,9 @@
         <item name="android:windowExitAnimation">@null</item>
     </style>
 
+    <!--顶部弹出/退出动画-->
+    <style name="TopAnimation">
+        <item name="android:windowEnterAnimation">@anim/top_in</item>
+        <item name="android:windowExitAnimation">@anim/top_out</item>
+    </style>
 </resources>

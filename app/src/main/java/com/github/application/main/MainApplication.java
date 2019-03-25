@@ -46,7 +46,7 @@ public class MainApplication extends Application {
     }
 
     public static void toast(CharSequence msg) {
-//        Animation animation = AnimationUtils.loadAnimation(mApplication, R.anim.bottom_show);
+//        Animation animation = AnimationUtils.loadAnimation(mApplication, R.anim.bottom_in);
         ((TextView) sToast.getView().findViewById(R.id.text)).setText(msg);
         sToast.show();
 //        sToast.getView().startAnimation(animation);

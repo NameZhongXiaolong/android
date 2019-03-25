@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:gravity="center"
+              android:id="@id/linear_layout"
+              android:paddingTop="@dimen/statusBarSize"
+              android:layout_height="@dimen/topBarSize">
+
+    <EditText
+        android:id="@id/edit"
+        android:hint="input value"
+        android:lines="1"
+        android:textSize="18sp"
+        android:gravity="right"
+        android:maxLength="4"
+        android:layout_marginLeft="3dp"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@id/text1"
+        android:text="dp"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@id/image"
+        android:src="@drawable/ic_arrow"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@id/text"
+        android:text="0"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@id/text2"
+        android:text="dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
