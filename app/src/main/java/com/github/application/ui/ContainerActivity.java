@@ -35,7 +35,7 @@ public class ContainerActivity extends MultipleThemeActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_container);
 
         final ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         final String title = getIntent().getStringExtra(KEY);
