@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.application.R;
+import com.github.application.utils.UnitUtils;
 
 import java.util.List;
 
@@ -44,7 +45,9 @@ public abstract class ListFragment<T> extends BaseSuperFragment {
             @Override
             public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 if (viewType == mNavigationBar) {
-                    return BaseHolder.instance(parent, R.layout.navigation);
+                    View itemView = new View(getContext());
+                    itemView.setMinimumHeight(UnitUtils.dp2px(getContext(), hasNavigationBar() ? 58 : 10));
+                    return BaseHolder.instance(itemView);
                 }
                 return ListFragment.this.onCreateViewHolder(parent, viewType);
             }

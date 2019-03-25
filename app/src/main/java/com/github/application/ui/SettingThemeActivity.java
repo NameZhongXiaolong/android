@@ -17,6 +17,7 @@ import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.data.Theme;
 import com.github.application.main.Constants;
+import com.github.application.utils.UnitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,6 @@ public class SettingThemeActivity extends MultipleThemeActivity {
         list.add(new Theme("MagentaPurple", R.style.AppTheme_MagentaPurple));
         list.add(new Theme("CircumorbitalRing", R.style.AppTheme_CircumorbitalRing));
         list.add(new Theme("BlueMartina", R.style.AppTheme_BlueMartina));
-        if (hasNavigationBar()) list.add(new Theme(" ", 0));
 
         LinearLayout linearLayout = findViewById(R.id.linear_layout);
         for (Theme theme : list) {
@@ -64,7 +64,7 @@ public class SettingThemeActivity extends MultipleThemeActivity {
             //创建item
             TextView itemTheme = new TextView(contextTheme);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    Constants.MATCH_PARENT, (int) getResources().getDimension(R.dimen.actionBarSize));
+                    Constants.MATCH_PARENT, UnitUtils.getActionBarSize(getContext()));
             int margin = dp2px(10);
             lp.setMargins(margin, margin, margin, 0);
             itemTheme.setGravity(Gravity.CENTER);
@@ -89,6 +89,10 @@ public class SettingThemeActivity extends MultipleThemeActivity {
                 }
             });
         }
+
+        View viewBottom = new View(getContext());
+        viewBottom.setMinimumHeight(UnitUtils.dp2px(getContext(), hasNavigationBar() ? 58 : 10));
+        linearLayout.addView(viewBottom);
 
         NestedScrollView nestedScrollView = findViewById(R.id.scroll_view);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
