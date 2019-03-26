@@ -3,7 +3,6 @@ package com.github.application.main;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +10,6 @@ import com.github.application.R;
 import com.github.application.base.BaseHolder;
 import com.github.application.base.ListFragment;
 import com.github.application.data.Menu;
-import com.github.application.ui.ContainerActivity;
 import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.PhoneInfoFragment;
 import com.github.application.ui.SettingActivity;
@@ -52,20 +50,21 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     @Override
     public void onClick(View item, int position) {
         Menu menu = get(position);
-        Fragment fragment = menu.getFragment();
-        if (menu.getName().equals("图片相关")) {
-            MainApplication.toast("你好啊");
-            return;
-        }
-        if (fragment != null) {
-            ContainerActivity.start(getContext(),fragment.getClass(), menu.getName());
-            return;
-        }
-
-        if (menu.getActivityClass() != null) {
-            startActivity(menu.getActivityClass());
-            return;
-        }
+        MainApplication.toast(menu.getName());
+//        Fragment fragment = menu.getFragment();
+//        if (menu.getName().equals("图片相关")) {
+//            MainApplication.toast("你好啊");
+//            return;
+//        }
+//        if (fragment != null) {
+//            ContainerActivity.start(getContext(),fragment.getClass(), menu.getName());
+//            return;
+//        }
+//
+//        if (menu.getActivityClass() != null) {
+//            startActivity(menu.getActivityClass());
+//            return;
+//        }
 
     }
 }
