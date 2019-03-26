@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -57,10 +56,7 @@ public class UnitCastDialogF extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(getContext(), R.style.DialogTheme);
         dialog.getWindow().getAttributes().windowAnimations = R.style.TopAnimation;
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.BOTTOM;
-        window.setAttributes(wlp);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         return dialog;
     }
 
@@ -81,11 +77,7 @@ public class UnitCastDialogF extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //设置覆盖状态栏
-        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
         final TextView tvValue = view.findViewById(R.id.text);
         final TextView tvFromUnit = view.findViewById(R.id.text1);
@@ -151,8 +143,6 @@ public class UnitCastDialogF extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager
-                .LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         getDialog().getWindow().setGravity(Gravity.TOP);
         getDialog().getWindow().setLayout(UnitUtils.displayWidth(getContext()), Constants.WRAP_CONTENT);
 
