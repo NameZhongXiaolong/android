@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.main.Constants;
@@ -118,12 +117,12 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
             String pwd = mEtPwd.getText().toString().trim();
             if (TextUtils.isEmpty(user)) {
 
-                MainApplication.toast("用户名不能为空!");
+                MainApplication.errToast("用户名不能为空!");
 
                 return;
             }
             if (TextUtils.isEmpty(pwd)) {
-                Toast.makeText(getContext(), "密码不能为空!", Toast.LENGTH_SHORT).show();
+                MainApplication.errToast("密码不能为空!");
                 return;
             }
 
@@ -150,7 +149,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
     public void run() {
         dismiss();
         if (getContext() != null) {
-            Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
+            MainApplication.outToast("登录成功");
         }
     }
 }
