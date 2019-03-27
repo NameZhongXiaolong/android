@@ -42,7 +42,7 @@ public class MainApplication extends Application {
     }
 
     public static void outToast(final CharSequence msg){
-        toast(msg, Color.parseColor("#BFEFFF"));
+        toast(msg, Color.parseColor("#0984E3"));
     }
 
     private static void toast(final CharSequence msg, @ColorInt int color) {
