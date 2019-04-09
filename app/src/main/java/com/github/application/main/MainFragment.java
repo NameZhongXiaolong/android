@@ -12,6 +12,7 @@ import com.github.application.base.BaseHolder;
 import com.github.application.base.ListFragment;
 import com.github.application.data.Menu;
 import com.github.application.ui.ContainerActivity;
+import com.github.application.ui.DatabaseTestFm;
 import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
 import com.github.application.ui.PhoneInfoFragment;
@@ -29,6 +30,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        add(new Menu("Database", new DatabaseTestFm()));
         add(new Menu("弹出框", new DialogDemoFragment()));
         add(new Menu("图片相关", SettingActivity.class));
         add(new Menu("单位换算", new UnitCastFragment()));

@@ -63,4 +63,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseHolder> {
         return mData.get(position);
     }
 
+    public final void clear() {
+        if (mData.size() > 0) {
+            mData.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public final boolean set(int position, T data) {
+        if (mData.size() > position) {
+            mData.set(position, data);
+            notifyDataSetChanged();
+            return true;
+        }
+        return false;
+    }
 }
