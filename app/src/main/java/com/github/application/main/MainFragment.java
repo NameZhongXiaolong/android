@@ -15,6 +15,7 @@ import com.github.application.ui.ContainerActivity;
 import com.github.application.ui.DatabaseTestFm;
 import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
+import com.github.application.ui.NoteActivity;
 import com.github.application.ui.PhoneInfoFragment;
 import com.github.application.ui.SettingActivity;
 import com.github.application.ui.UnitCastFragment;
@@ -37,7 +38,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
         add(new Menu("四大组件", SettingActivity.class));
         add(new Menu("获取设备信息", new PhoneInfoFragment()));
         add(new Menu("RecyclerView", SettingActivity.class));
-        add(new Menu("note", SettingActivity.class));
+        add(new Menu("note", NoteActivity.class));
         add(new Menu("自定义View--登录", new LoginFm()));
     }
 

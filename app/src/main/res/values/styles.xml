@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimary">#333333</item>
         <item name="colorPrimaryDark">#303F9F</item>
-        <item name="colorAccent">#FF4081</item>
+        <item name="colorAccent">#333333</item>
         <item name="android:windowBackground">@color/paleGrey</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>

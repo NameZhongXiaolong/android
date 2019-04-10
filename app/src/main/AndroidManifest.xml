@@ -25,6 +25,7 @@
         <activity android:name=".ui.SettingActivity"/>
         <activity android:name=".ui.SettingThemeActivity"/>
         <activity android:name=".ui.ContainerActivity"/>
+        <activity android:name=".ui.NoteActivity"/>
     </application>
 
 </manifest>
