@@ -67,6 +67,15 @@ public class ActionBarView extends FrameLayout {
 
         //浅色背景(透明度低于<0.2f)设置黑色的返回键\字体颜色\状态栏
         Drawable background = getBackground();
+
+        if (background == null) {
+            //设置默认背景颜色
+            TypedArray typedArray = getContext().obtainStyledAttributes(new int[]{R.attr.colorAccent});
+            int color = typedArray.getColor(0, Color.TRANSPARENT);
+            background = new ColorDrawable(color);
+            setBackground(background);
+        }
+
         if (background instanceof ColorDrawable) {
             int color = ((ColorDrawable) background).getColor();
             //透明度
@@ -91,14 +100,6 @@ public class ActionBarView extends FrameLayout {
                 mContentColor = Color.parseColor("#EE333333");
             }
 
-        }
-
-        if (background == null) {
-            //设置状态栏颜色
-            mContentColor = Color.parseColor("#EE333333");
-            if (getContext() instanceof BaseSuperActivity) {
-                ((BaseSuperActivity) getContext()).setStatusBarDark(true);
-            }
         }
 
         //读取xml属性

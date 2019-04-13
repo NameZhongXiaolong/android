@@ -10,8 +10,7 @@
         android:id="@id/action_bar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleText="container"
-        android:background="?attr/colorPrimary"/>
+        app:titleText="container"/>
 
     <FrameLayout
         android:id="@id/fm_container"

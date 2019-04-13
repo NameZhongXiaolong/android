@@ -17,7 +17,9 @@ import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
 import com.github.application.ui.NoteActivity;
 import com.github.application.ui.PhoneInfoFragment;
+import com.github.application.ui.RecyclerViewDemoFm;
 import com.github.application.ui.SettingActivity;
+import com.github.application.ui.TestActivity;
 import com.github.application.ui.UnitCastFragment;
 
 /**
@@ -31,13 +33,14 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        add(new Menu("测试", TestActivity.class));
         add(new Menu("Database", new DatabaseTestFm()));
         add(new Menu("弹出框", new DialogDemoFragment()));
         add(new Menu("图片相关", SettingActivity.class));
         add(new Menu("单位换算", new UnitCastFragment()));
         add(new Menu("四大组件", SettingActivity.class));
         add(new Menu("获取设备信息", new PhoneInfoFragment()));
-        add(new Menu("RecyclerView", SettingActivity.class));
+        add(new Menu("RecyclerView", new RecyclerViewDemoFm()));
         add(new Menu("note", NoteActivity.class));
         add(new Menu("自定义View--登录", new LoginFm()));
     }

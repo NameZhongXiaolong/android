@@ -47,10 +47,12 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
         dialog.setCanceledOnTouchOutside(false);
         //去掉标题
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams
-                .FLAG_ALT_FOCUSABLE_IM);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager
-                .LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.getWindow().setFlags(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager
+                        .LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE,
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager
+                        .LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+;
         return dialog;
     }
 
@@ -63,6 +65,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setClickable(false);
 
         mParent = view.findViewById(R.id.linear_layout);
         mProgressBar = view.findViewById(R.id.progress);

@@ -24,7 +24,6 @@
         <com.github.application.view.ActionBarView
             android:id="@id/action_bar_view"
             app:titleText="@string/app_name"
-            android:background="?attr/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
