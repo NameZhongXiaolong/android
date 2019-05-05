@@ -2,6 +2,7 @@ package com.github.application.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -66,7 +68,10 @@ public class ProgressDialog extends Dialog {
         container.setBackground(gradientDrawable);
 
 
-        ProgressBar progress = new ProgressBar(getContext());
+        final SharedPreferences sharedPrefs = getContext().getSharedPreferences("main_theme", 0);
+        int theme = sharedPrefs.getInt("theme", R.style.AppTheme);
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), theme);
+        ProgressBar progress = new ProgressBar(contextThemeWrapper);
         container.addView(progress, new LinearLayout.LayoutParams(Constants.WRAP_CONTENT, Constants.WRAP_CONTENT));
 
         mTextView = new TextView(getContext());
