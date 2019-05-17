@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -34,23 +35,25 @@ public class ProgressDialog extends Dialog {
     private float mCornerRadius;
 
     public ProgressDialog(@NonNull Context context) {
-        super(context);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mColor = Color.WHITE;
+        this(context, Color.WHITE, 3);
     }
 
     public ProgressDialog(@NonNull Context context, @ColorInt int color, float cornerRadiusDp) {
-        //要重新设置主题才可以设置背景(颜色,圆角),设置setContentView()中的rootView背景
-        super(context, R.style.DialogTheme);
+        this(context, 0, color, cornerRadiusDp);
+    }
+
+    public ProgressDialog(@NonNull Context context, int themeResId, @ColorInt int color, float cornerRadiusDp) {
+        super(context, themeResId);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         mColor = color;
         mCornerRadius = cornerRadiusDp;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int width = UnitUtils.displayWidth(getContext()) - UnitUtils.dp2px(getContext(), 80);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        int width = UnitUtils.dp2px(getContext(),285);
         final int padding = UnitUtils.dp2px(getContext(), 8);
         mCornerRadius = UnitUtils.dp2px(getContext(), mCornerRadius);
 

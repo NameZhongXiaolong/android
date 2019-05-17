@@ -38,7 +38,11 @@ import com.github.application.utils.UnitUtils;
  * DialogFragment:就是Fragment的子类,有完整的生命周期,适用于交互(类似登录),在onCreateDialog()方法中返回一个Dialog样式
  * PopupWindow:其他部分阴影设置比较麻烦,而且在Activity创建成功之后才能show(),否则会报错
  * <p>
- * Dialog和DialogFragment要设置圆角背景就要设置Theme主题,setContentView中的根布局设置需要的圆角
+ * Dialog和DialogFragment设置圆自定义背景方法
+ * 1.设置Window背景为透明
+ * <r></>a.在代码中设置Dialog.getWindow().setBackgroundDrawable();
+ * <r></>b.使用{@link Dialog(context,themeResId)}),themeResId的属性<item name="android:windowBackground">为透明
+ * 2.在setContentView()中的根布局设置需要的背景
  * 另外也可以用透明的Activity做弹窗,但是比较消耗性能,类似三方授权可以这样用
  */
 public class DialogDemoFragment extends SimpleListFragment {
@@ -63,6 +67,7 @@ public class DialogDemoFragment extends SimpleListFragment {
      * dialog.setCanceledOnTouchOutside(false);
      * 点击外部和返回键都不可以dismiss
      * dialog.setCancelable(false);
+     * {@link #onCreateList()}
      */
     @Override
     void onCreateList() {
@@ -195,10 +200,13 @@ public class DialogDemoFragment extends SimpleListFragment {
      */
     private Dialog createCustomDialog(boolean radius) {
         //要设置圆角或者透明背景需改变主题
+//        final Dialog dialog = new Dialog(getContext());
         final Dialog dialog = radius ? new Dialog(getContext(), R.style.DialogTheme) : new Dialog(getContext());
+        //默认的Dialog主题带标题,该方法去掉标题
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (!radius) {
-            //默认的Dialog主题带标题,该方法去掉标题
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            //要设置背景要将Window背景设为透明
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         //ContentView根布局大小要固定,不能设置MATCH_PARENT(设置该属性其实相当于WRAP_CONTENT)
         dialog.setContentView(R.layout.dialog_custom);
