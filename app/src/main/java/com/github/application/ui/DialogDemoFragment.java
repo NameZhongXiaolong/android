@@ -41,7 +41,7 @@ import com.github.application.utils.UnitUtils;
  * Dialog和DialogFragment设置圆自定义背景方法
  * 1.设置Window背景为透明
  * <r></>a.在代码中设置Dialog.getWindow().setBackgroundDrawable();
- * <r></>b.使用{@link Dialog(context,themeResId)}),themeResId的属性<item name="android:windowBackground">为透明
+ * <r></>b.使用{@link Dialog})Dialog(context,themeResId),themeResId的属性<item name="android:windowBackground">为透明
  * 2.在setContentView()中的根布局设置需要的背景
  * 另外也可以用透明的Activity做弹窗,但是比较消耗性能,类似三方授权可以这样用
  */
