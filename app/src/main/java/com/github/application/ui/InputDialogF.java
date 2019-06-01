@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -47,6 +48,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
         dialog.setCanceledOnTouchOutside(false);
         //去掉标题,将会使Dialog两边变窄(WRAP_CONTENT),6.0以上默认无标题
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         return dialog;
     }
 
@@ -98,7 +100,7 @@ public class InputDialogF extends DialogFragment implements View.OnClickListener
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().setLayout((int) (UnitUtils.displayWidth(getContext()) * 0.9), Constants.WRAP_CONTENT);
+        getDialog().getWindow().setLayout((int) (UnitUtils.displayWidth() * 0.9), Constants.WRAP_CONTENT);
     }
 
     @Override

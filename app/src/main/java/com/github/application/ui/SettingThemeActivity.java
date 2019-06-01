@@ -65,7 +65,7 @@ public class SettingThemeActivity extends MultipleThemeActivity {
             //创建item
             TextView itemTheme = new TextView(contextTheme);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    Constants.MATCH_PARENT, UnitUtils.getActionBarSize(getContext()));
+                    Constants.MATCH_PARENT, UnitUtils.getActionBarSize());
             int margin = dp2px(10);
             lp.setMargins(margin, margin, margin, 0);
             itemTheme.setGravity(Gravity.CENTER);
@@ -92,7 +92,7 @@ public class SettingThemeActivity extends MultipleThemeActivity {
         }
 
         View viewBottom = new View(getContext());
-        viewBottom.setMinimumHeight(UnitUtils.dp2px(getContext(), hasNavigationBar() ? 58 : 10));
+        viewBottom.setMinimumHeight(UnitUtils.dp2px(hasNavigationBar() ? 58 : 10));
         linearLayout.addView(viewBottom);
 
         NestedScrollView nestedScrollView = findViewById(R.id.scroll_view);

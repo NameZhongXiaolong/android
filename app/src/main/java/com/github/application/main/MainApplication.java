@@ -63,16 +63,16 @@ public class MainApplication extends Application {
             Field mParams = mTNObj.getClass().getDeclaredField("mParams");
             mParams.setAccessible(true);
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) mParams.get(mTNObj);
-            params.width = UnitUtils.displayWidth(mApplication);//-1表示全屏, 你也可以设置任意宽度.
-            params.height = UnitUtils.getActionAndStatusBarSize(mApplication);
+            params.width = UnitUtils.displayWidth();//-1表示全屏, 你也可以设置任意宽度.
+            params.height = UnitUtils.getActionAndStatusBarSize();
             params.windowAnimations = R.style.TopAnimation;//设置动画, 需要是style类型
         } catch (Exception e) {
             e.printStackTrace();
         }
         TextView text = new TextView(mApplication);
-        text.setMinWidth(UnitUtils.displayWidth(mApplication));
-        text.setMinHeight((int) UnitUtils.getActionAndStatusBarSize(mApplication));
-        text.setPadding(0, UnitUtils.getStatusBarSize(mApplication), 0, 0);
+        text.setMinWidth(UnitUtils.displayWidth());
+        text.setMinHeight((int) UnitUtils.getActionAndStatusBarSize());
+        text.setPadding(0, UnitUtils.getStatusBarSize(), 0, 0);
         text.setBackgroundColor(color);
         text.setGravity(Gravity.CENTER);
         text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);

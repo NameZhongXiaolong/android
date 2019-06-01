@@ -123,10 +123,10 @@ public class UnitCastDialogF extends DialogFragment {
                 }
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
                 if (tag == TAG_PX2DP) {
-                    tvValue.setText(String.valueOf(UnitUtils.px2dp(getContext(),key)));
+                    tvValue.setText(String.valueOf(UnitUtils.px2dp(key)));
                 }
                 if (tag == TAG_PX2SP) {
-                    tvValue.setText(String.valueOf(UnitUtils.px2sp(getContext(),key)));
+                    tvValue.setText(String.valueOf(UnitUtils.px2sp(key)));
                 }
                 if (tag == TAG_SP2PX) {
                     int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, key, metrics);
@@ -144,7 +144,7 @@ public class UnitCastDialogF extends DialogFragment {
     public void onStart() {
         super.onStart();
         getDialog().getWindow().setGravity(Gravity.TOP);
-        getDialog().getWindow().setLayout(UnitUtils.displayWidth(getContext()), Constants.WRAP_CONTENT);
+        getDialog().getWindow().setLayout(UnitUtils.displayWidth(), Constants.WRAP_CONTENT);
 
     }
 }

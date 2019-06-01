@@ -46,7 +46,7 @@ public abstract class ListFragment<T> extends BaseSuperFragment {
             public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 if (viewType == mNavigationBar) {
                     View itemView = new View(getContext());
-                    itemView.setMinimumHeight(UnitUtils.dp2px(getContext(), hasNavigationBar() ? 58 : 10));
+                    itemView.setMinimumHeight(UnitUtils.dp2px(hasNavigationBar() ? 58 : 10));
                     return BaseHolder.instance(itemView);
                 }
                 return ListFragment.this.onCreateViewHolder(parent, viewType);

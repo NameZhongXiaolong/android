@@ -227,7 +227,7 @@ public class DialogDemoFragment extends SimpleListFragment {
     private PopupWindow createPopupWindow() {
         final PopupWindow pop = new PopupWindow(getContext());
         View content = getLayoutInflater().inflate(R.layout.dialog_custom, (ViewGroup) pop.getContentView(), false);
-        int width = UnitUtils.displayWidth(getContext()) - UnitUtils.dp2px(getContext(), 80);
+        int width = UnitUtils.displayWidth() - UnitUtils.dp2px(80);
         content.setMinimumWidth(width);
         content.setMinimumHeight(width / 2);
         //Android5.0一下设备要设置width和height才能正常显示

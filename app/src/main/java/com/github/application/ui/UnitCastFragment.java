@@ -20,7 +20,7 @@ public class UnitCastFragment extends SimpleListFragment {
 
     @Override
     void onCreateList() {
-        final String display = "屏幕分辨率: " + UnitUtils.displayWidth(getContext()) + " × " + UnitUtils.displayHeight(getContext());
+        final String display = "屏幕分辨率: " + UnitUtils.displayWidth() + " × " + UnitUtils.displayHeight();
         add(display);
         add("dp转px");
         add("sp转px");
