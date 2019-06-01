@@ -92,7 +92,7 @@ public class SettingThemeActivity extends MultipleThemeActivity {
         }
 
         View viewBottom = new View(getContext());
-        viewBottom.setMinimumHeight(UnitUtils.dp2px(hasNavigationBar() ? 58 : 10));
+        viewBottom.setMinimumHeight(UnitUtils.px(hasNavigationBar() ? 58 : 10));
         linearLayout.addView(viewBottom);
 
         NestedScrollView nestedScrollView = findViewById(R.id.scroll_view);

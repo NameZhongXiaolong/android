@@ -123,7 +123,7 @@ public class UnitCastDialogF extends DialogFragment {
                 }
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
                 if (tag == TAG_PX2DP) {
-                    tvValue.setText(String.valueOf(UnitUtils.px2dp(key)));
+                    tvValue.setText(String.valueOf(UnitUtils.dp(key)));
                 }
                 if (tag == TAG_PX2SP) {
                     tvValue.setText(String.valueOf(UnitUtils.px2sp(key)));

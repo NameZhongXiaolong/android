@@ -22,16 +22,15 @@ public class UnitUtils {
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
-    public static int dp2px(float dpValue) {
+    public static int px(float dpValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
-    public static int px2dp(float pxValue) {
+    public static int dp(float pxValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
@@ -88,14 +87,14 @@ public class UnitUtils {
 
     public static int getStatusBarSize() {
         if (sStatusBarSize == 0) {
-            sStatusBarSize = dp2px(24);
+            sStatusBarSize = px(24);
         }
         return sStatusBarSize;
     }
 
     public static int getActionBarSize() {
         if (sActionBarSize == 0) {
-            sActionBarSize = dp2px(48);
+            sActionBarSize = px(48);
         }
         return sActionBarSize;
     }

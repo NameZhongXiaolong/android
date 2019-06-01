@@ -134,7 +134,7 @@ public class ActionBarView extends FrameLayout {
         mIbNavigation.setImageResource(navigationIcon);
         if (navigationIcon == R.drawable.ic_back) {
             if (getPaddingLeft() == 0) {
-                int dp10 = UnitUtils.dp2px(10);
+                int dp10 = UnitUtils.px(10);
                 mIbNavigation.setPadding(dp10, 0, dp10, 0);
             }
         }
@@ -286,7 +286,7 @@ public class ActionBarView extends FrameLayout {
         imageButton.setColorFilter(mContentColor);
         imageButton.setBackgroundColor(Color.TRANSPARENT);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Constants.WRAP_CONTENT, Constants.WRAP_CONTENT);
-        lp.setMargins(0, 0, UnitUtils.dp2px(10), 0);
+        lp.setMargins(0, 0, UnitUtils.px(10), 0);
         mActionMenuView.addView(imageButton, lp);
         imageButton.setOnClickListener(new OnClickListener() {
             @Override

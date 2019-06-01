@@ -40,11 +40,11 @@ public class UnitCastFragment extends SimpleListFragment {
     void onClick(View item, int position) {
         String title = get(position);
         if ("dp转px".equals(title)) {
-            mDp2px.show(getChildFragmentManager(), "dp2px");
+            mDp2px.show(getChildFragmentManager(), "px");
         }else if ("sp转px".equals(title)){
             mSp2px.show(getChildFragmentManager(), "sp2px");
         } else if ("px转dp".equals(title)) {
-            mPx2dp.show(getChildFragmentManager(), "px2dp");
+            mPx2dp.show(getChildFragmentManager(), "dp");
         } else if ("px转sp".equals(title)) {
             mPx2sp.show(getChildFragmentManager(), "px2sp");
 

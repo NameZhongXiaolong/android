@@ -53,9 +53,9 @@ public class ProgressDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        int width = UnitUtils.dp2px(285);
-        final int padding = UnitUtils.dp2px(8);
-        mCornerRadius = UnitUtils.dp2px(mCornerRadius);
+        int width = UnitUtils.px(285);
+        final int padding = UnitUtils.px(8);
+        mCornerRadius = UnitUtils.px(mCornerRadius);
 
         LinearLayout container = new LinearLayout(getContext());
         container.setOrientation(LinearLayout.VERTICAL);
@@ -101,7 +101,7 @@ public class ProgressDialog extends Dialog {
         mTextView.setVisibility(TextUtils.isEmpty(msg) ? View.GONE : View.VISIBLE);
         if (!TextUtils.isEmpty(msg)) mTextView.setText(msg);
         if (showEllipsis) {
-            int i = UnitUtils.dp2px(18);
+            int i = UnitUtils.px(18);
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_ellipsis);
             drawable.setBounds(0, 0, i, i);
             mTextView.setCompoundDrawables(null, null, drawable, null);
