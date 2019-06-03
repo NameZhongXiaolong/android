@@ -230,7 +230,7 @@ public class DialogDemoFragment extends SimpleListFragment {
         int width = UnitUtils.displayWidth() - UnitUtils.px(80);
         content.setMinimumWidth(width);
         content.setMinimumHeight(width / 2);
-        //Android5.0一下设备要设置width和height才能正常显示
+        //Android5.0以下设备要设置width和height才能正常显示
         pop.setWidth(Constants.WRAP_CONTENT);
         pop.setHeight(Constants.WRAP_CONTENT);
 
