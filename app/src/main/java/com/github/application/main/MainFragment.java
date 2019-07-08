@@ -17,6 +17,7 @@ import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
 import com.github.application.ui.NoteActivity;
 import com.github.application.ui.PhoneInfoFragment;
+import com.github.application.ui.PictureFm;
 import com.github.application.ui.RecyclerViewDemoFm;
 import com.github.application.ui.SettingActivity;
 import com.github.application.ui.TestActivity;
@@ -33,6 +34,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        add(new Menu("图片选择器", new PictureFm()));
         add(new Menu("测试", TestActivity.class));
         add(new Menu("Database", new DatabaseTestFm()));
         add(new Menu("弹出框", new DialogDemoFragment()));
