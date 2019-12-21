@@ -23,14 +23,19 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;
+import com.github.application.utils.UnitUtils;
 import com.github.application.view.ActionBarView;
+import com.github.application.view.picasso.CornerRadiusTransform;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -40,6 +45,7 @@ import java.io.IOException;
 public class TestActivity extends MultipleThemeActivity implements ActionBarView.MenuItemClickListener {
 
     private EditText mEditText;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +64,19 @@ public class TestActivity extends MultipleThemeActivity implements ActionBarView
 
 
         mEditText = findViewById(R.id.edit);
+        mImageView = findViewById(R.id.image_view);
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setCornerRadius(dp2px(8));
+        gradientDrawable.setColor(Color.parseColor("#EDEDED"));
+        Picasso.get()
+                .load("https://raw.githubusercontent.com/NameZhongXiaolong/beauty/master/one/image_c.jpg")
+                .placeholder(gradientDrawable)
+                .error(gradientDrawable)
+                .transform(new CornerRadiusTransform(dp2px(8)))
+                .resize(UnitUtils.displayWidth(), UnitUtils.px(200))
+                .centerCrop(Gravity.START)
+                .into(mImageView);
+
         GradientDrawable background = new GradientDrawable();
         background.setColor(Color.parseColor("#F5F5F5"));
         background.setCornerRadius(dp2px(8));

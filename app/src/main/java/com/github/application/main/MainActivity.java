@@ -71,6 +71,7 @@ public class MainActivity extends MultipleThemeActivity
 
     @Override
     public void onNavigationClick(ImageButton button) {
-        mSlidingPaneLayout.openPane();
+//        mSlidingPaneLayout.openPane();
+        startActivity(MainActivity.class);
     }
 }

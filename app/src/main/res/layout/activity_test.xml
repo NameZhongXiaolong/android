@@ -6,6 +6,11 @@
               android:background="@color/white"
               android:orientation="vertical">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/image_view"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
     <com.github.application.view.ActionBarView
         android:id="@id/action_bar_view"
         android:layout_width="match_parent"

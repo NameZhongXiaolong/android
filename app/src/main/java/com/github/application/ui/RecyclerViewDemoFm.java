@@ -1,20 +1,32 @@
 package com.github.application.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.github.application.R;
 import com.github.application.base.BaseAdapter;
 import com.github.application.base.BaseHolder;
 import com.github.application.base.BaseSuperFragment;
+import com.github.application.utils.UnitUtils;
+import com.github.application.view.GridLayout;
+import com.github.application.view.picasso.CornerRadiusTransform;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by ZhongXiaolong on 2019/4/11 18:13.
@@ -38,34 +50,85 @@ public class RecyclerViewDemoFm extends BaseSuperFragment {
         recyclerView.setAdapter(testAdapter);
 
 
-        testAdapter.addAll(Arrays.asList("a", "d", "c", "d"));
+        List<AdapterData> data = new ArrayList<>();
+        data.add(new AdapterData("a", Collections.singletonList("https://raw.githubusercontent.com/NameZhongXiaolong/beauty/master/three/8.jpg")));
+        data.add(new AdapterData("b", getUrl()));
+        data.add(new AdapterData("c", getUrl()));
+        data.add(new AdapterData("d", getUrl()));
+        data.add(new AdapterData("e", getUrl()));
+        data.add(new AdapterData("f", getUrl()));
+        data.add(new AdapterData("g", getUrl()));
+        data.add(new AdapterData("h", getUrl()));
+        testAdapter.addAll(data);
     }
 
-    private class TestAdapter extends BaseAdapter<String> {
+    private String[] getUrl(){
+        Random random = new Random();
+        int size = random.nextInt(9);
+        String[] urls = new String[size];
+        for (int i = 0; i < size; i++) {
+            urls[i] = "https://raw.githubusercontent.com/NameZhongXiaolong/beauty/master/three/"+random.nextInt(53)+".jpg";
+        }
+        return urls;
+    }
+    private class TestAdapter extends BaseAdapter<AdapterData> {
+
+
         @NonNull
         @Override
         public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (viewType == 10) {
-                return BaseHolder.instance(parent, R.layout.item_test);
-            }
-            return BaseHolder.instance(parent, R.layout.item_menu_1);
+            return BaseHolder.instance(parent, R.layout.item_test);
         }
 
         @Override
         public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
-            if (getItemViewType(position) != 10) {
-                holder.text(R.id.text, get(position));
-            }else{
-                ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+            GridLayout nineGridlayout = holder.findViewById(R.id.nine_gridlayout);
+            AdapterData adapterData = get(position);
+            List<String> urls = adapterData.urls;
+            nineGridlayout.setAdapter(new GridLayout.BaseAdapter() {
+                GradientDrawable mGradientDrawable;
+                @Override
+                public int getCount() {
+                    return urls.size();
+                }
 
-            }
-        }
+                @Override
+                public View getView(int position, ViewGroup parent) {
+                    if (mGradientDrawable == null) {
+                        mGradientDrawable = new GradientDrawable();
+                        mGradientDrawable.setColor(Color.WHITE);
+                        mGradientDrawable.setCornerRadius(UnitUtils.px(8));
+                    }
 
-        @Override
-        public int getItemViewType(int position) {
-            if (position==getItemCount()-1) return 10;
-            return super.getItemViewType(position);
+                    ImageView imageView = new ImageView(parent.getContext());
+                    int i = UnitUtils.displayWidth() / 3;
+                    Log.d("TestAdapter", "imageView.getMeasuredHeight():" + imageView.getMeasuredHeight());
+//                    imageView.setMinimumHeight(i);
+//                    imageView.setMinimumWidth(i);
+                    Picasso.get().load(urls.get(position))
+                            .placeholder(mGradientDrawable)
+                            .error(mGradientDrawable)
+                            .resize(i,i)
+                            .centerCrop()
+                            .transform(new CornerRadiusTransform(UnitUtils.px(8)))
+                            .into(imageView);
+                    return imageView;
+                }
+            });
         }
     }
 
+    private class AdapterData{
+        private String title;
+        private List<String> urls;
+        public AdapterData(String title, String[] urls) {
+            this.title = title;
+            this.urls = Arrays.asList(urls);
+        }
+
+        public AdapterData(String title, List<String> urls) {
+            this.title = title;
+            this.urls = urls;
+        }
+    }
 }
