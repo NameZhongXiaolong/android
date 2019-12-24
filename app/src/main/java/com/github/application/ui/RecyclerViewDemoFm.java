@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.github.application.R;
 import com.github.application.base.BaseAdapter;
@@ -19,8 +18,10 @@ import com.github.application.view.NineGridlayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by ZhongXiaolong on 2019/4/11 18:13.
@@ -40,27 +41,21 @@ public class RecyclerViewDemoFm extends BaseSuperFragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                TestAdapter testAdapter = new TestAdapter();
-                recyclerView.setAdapter(testAdapter);
-                List<AdapterData> data = new ArrayList<>();
-                    data.add(new AdapterData("b", getUrl()));
-                for (int i = 0; i < 100; i++) {
-                    data.add(new AdapterData("a", Collections.singletonList("https://raw.githubusercontent" +
-                            ".com/NameZhongXiaolong/beauty/master/three/8.jpg")));
-                    data.add(new AdapterData("c", getUrl()));
-                    data.add(new AdapterData("d", getUrl()));
-                    data.add(new AdapterData("e", getUrl()));
-                    data.add(new AdapterData("f", getUrl()));
-                    data.add(new AdapterData("g", getUrl()));
-                    data.add(new AdapterData("h", getUrl()));
-                }
-                testAdapter.addAll(data);
-                recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        TestAdapter testAdapter = new TestAdapter();
+        recyclerView.setAdapter(testAdapter);
+        Set<AdapterData> data = new HashSet<>();
+        data.add(new AdapterData("b", getUrl()));
+        for (int i = 0; i < 100; i++) {
+            data.add(new AdapterData("a", Collections.singletonList("https://raw.githubusercontent" +
+                    ".com/NameZhongXiaolong/beauty/master/three/8.jpg")));
+            data.add(new AdapterData("c", getUrl()));
+            data.add(new AdapterData("d", getUrl()));
+            data.add(new AdapterData("e", getUrl()));
+            data.add(new AdapterData("f", getUrl()));
+            data.add(new AdapterData("g", getUrl()));
+            data.add(new AdapterData("h", getUrl()));
+        }
+        testAdapter.addAll(new ArrayList<>(data));;
 
 
     }
