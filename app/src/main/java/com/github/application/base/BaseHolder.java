@@ -3,6 +3,7 @@ package com.github.application.base;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,15 @@ public class BaseHolder extends RecyclerView.ViewHolder{
         return itemView.findViewById(id);
     }
 
-    public TextView text(@IdRes int id,CharSequence text) {
+    public TextView text(@IdRes int id, CharSequence text) {
         View viewById = findViewById(id);
         if (viewById instanceof TextView) {
             TextView textView = (TextView) viewById;
-            textView.setText(text);
+            if (!TextUtils.isEmpty(text)) {
+                textView.setText(text);
+            }
             return textView;
-        }else{
+        } else {
             throw new ClassCastException("View most is TextView");
         }
     }
