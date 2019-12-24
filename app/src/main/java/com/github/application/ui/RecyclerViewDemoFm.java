@@ -46,10 +46,10 @@ public class RecyclerViewDemoFm extends BaseSuperFragment {
                 TestAdapter testAdapter = new TestAdapter();
                 recyclerView.setAdapter(testAdapter);
                 List<AdapterData> data = new ArrayList<>();
-                data.add(new AdapterData("a", Collections.singletonList("https://raw.githubusercontent" +
-                        ".com/NameZhongXiaolong/beauty/master/three/8.jpg")));
-                for (int i = 0; i < 100; i++) {
                     data.add(new AdapterData("b", getUrl()));
+                for (int i = 0; i < 100; i++) {
+                    data.add(new AdapterData("a", Collections.singletonList("https://raw.githubusercontent" +
+                            ".com/NameZhongXiaolong/beauty/master/three/8.jpg")));
                     data.add(new AdapterData("c", getUrl()));
                     data.add(new AdapterData("d", getUrl()));
                     data.add(new AdapterData("e", getUrl()));

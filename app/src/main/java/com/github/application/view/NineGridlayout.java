@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,6 +46,7 @@ public class NineGridlayout extends ViewGroup {
     private OnItemClickListener mOnItemClickListener;
     protected Adapter mAdapter;
     protected DataSetObserver mObserver;
+    private boolean mCreate;
 
     public NineGridlayout(Context context) {
         this(context, null);
@@ -105,32 +107,35 @@ public class NineGridlayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int childCount = getChildCount();
-        // 计算一下最大的条目数量
-        childCount = Math.min(childCount, mMaxItem);
-        if (childCount <= 0) {
-            return;
-        }
-        int cl = getPaddingLeft();
-        int ct = 0;
-        for (int i = 0; i < childCount; i++) {
-            View child = getChildAt(i);
-            if (child.getVisibility() == GONE) {
-                continue;
+        if (!mCreate) {
+            int childCount = getChildCount();
+            // 计算一下最大的条目数量
+            childCount = Math.min(childCount, mMaxItem);
+            if (childCount <= 0) {
+                return;
             }
-            int width = child.getMeasuredWidth();
-            int height = child.getMeasuredHeight();
-            child.layout(cl, ct, cl + width, ct + height);
-            // 累加宽度
-            cl += width + mHorizontalSpace;
-            // 如果是换行
-            if ((i + 1) % mSpan == 0) {
-                // 重置左边的位置
-                cl = getPaddingLeft();
-                // 叠加高度
-                ct += height + mVerticalSpace;
+            int cl = getPaddingLeft();
+            int ct = 0;
+            for (int i = 0; i < childCount; i++) {
+                View child = getChildAt(i);
+                if (child.getVisibility() == GONE) {
+                    continue;
+                }
+                int width = child.getMeasuredWidth();
+                int height = child.getMeasuredHeight();
+                child.layout(cl, ct, cl + width, ct + height);
+                // 累加宽度
+                cl += width + mHorizontalSpace;
+                // 如果是换行
+                if ((i + 1) % mSpan == 0) {
+                    // 重置左边的位置
+                    cl = getPaddingLeft();
+                    // 叠加高度
+                    ct += height + mVerticalSpace;
+                }
+                mAdapter.bindView(i, getChildAt(i));
             }
-            mAdapter.bindView(i, getChildAt(i));
+            mCreate = true;
         }
     }
 
@@ -163,6 +168,7 @@ public class NineGridlayout extends ViewGroup {
      * 重新添加布局
      */
     protected void resetLayout() {
+        mCreate = false;
         removeAllViews();
         int count = mAdapter.getCount();
         count = Math.min(count, mMaxItem);
