@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -157,6 +158,14 @@ public class MainActivity extends MultipleThemeActivity
         mSlidingPaneLayout = findViewById(R.id.sliding_pane_layout);
         MainFragment fragment = new MainFragment();
         getFragmentTransaction().add(R.id.fm_container, fragment).commitAllowingStateLoss();
+        createTable();
+    }
+
+    private void createTable(){
+        SQLiteDatabase db = DatabaseHelper.getInstance();
+        db.execSQL("CREATE TABLE IF NOT EXISTS Note(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(200),content VARCHAR(200),insertTime BIGINT,updateTime BIGINT, deleteFlag INTEGER DEFAULT (0));");
+        db.execSQL("CREATE TABLE IF NOT EXISTS NotePhoto(id INTEGER PRIMARY KEY AUTOINCREMENT, noteId INTEGER PRIMARY KEY AUTOINCREMENT,path VARCHAR(200),insertTime BIGINT,updateTime BIGINT,deleteFlag INTEGER);");
+        db.close();
     }
 
     @Override
