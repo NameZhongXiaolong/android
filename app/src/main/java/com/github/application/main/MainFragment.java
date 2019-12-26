@@ -58,7 +58,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
 
     @Override
     public void onClick(View item, int position) {
-        if (position == 0) {
+        if (position == 1) {
             new ChoiceGallery(getContext()).show();
             return;
         }
