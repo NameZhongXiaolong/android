@@ -52,7 +52,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseHolder> {
     }
 
     public final T remove(int position) {
-        return mData.remove(position);
+        T remove = mData.remove(position);
+        notifyDataSetChanged();
+        return remove;
     }
 
     public final T remove(int position, T data) {

@@ -2,6 +2,7 @@ package com.github.application.main;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.github.application.R;
 import com.github.application.utils.UnitUtils;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 /**
@@ -28,8 +30,8 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mApplication = this;
-    }
 
+    }
 
     public static MainApplication getApplication() {
         return mApplication;
@@ -89,5 +91,21 @@ public class MainApplication extends Application {
 
     }
 
-
+    /**
+     * 获取本app专属目录
+     */
+    public static String getFileRoot(){
+        String dir;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            dir = Environment.getExternalStorageDirectory().getPath();
+        } else {
+            dir = Environment.getDataDirectory().getPath();
+        }
+        File file = new File(dir,"abc_application");
+        if(!file.exists()){
+            return file.mkdirs() ? file.getAbsolutePath() : dir;
+        }else{
+            return file.getAbsolutePath();
+        }
+    }
 }

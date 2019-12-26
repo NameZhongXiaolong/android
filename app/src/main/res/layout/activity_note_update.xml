@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <com.github.application.view.ActionBarView
+        android:id="@id/action_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleText="笔记" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="标题"
+        android:textColorHint="#CCCCCC">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@id/edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:background="@drawable/abc_edit_text_bg"
+            android:gravity="center_vertical"
+            android:minHeight="30dp"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@id/edit_content"
+                android:padding="6dp"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/abc_edit_text_bg"
+                android:gravity="top"
+                android:minHeight="30dp"
+                android:imeOptions="actionDone"
+                android:hint="内容"
+                android:inputType="textMultiLine"
+                android:textColorHint="#CCCCCC"
+                android:minLines="8"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/list"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@id/button"
+                android:background="#ea7"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:minHeight="45dp"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

@@ -23,4 +23,6 @@
     <item name="progress" type="id"/>
     <item name="relative_layout" type="id"/>
     <item name="frame_layout" type="id"/>
+    <item name="edit_title" type="id"/>
+    <item name="edit_content" type="id"/>
 </resources>

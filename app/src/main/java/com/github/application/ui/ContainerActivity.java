@@ -17,7 +17,9 @@ import com.github.application.view.ActionBarView;
  */
 public class ContainerActivity extends MultipleThemeActivity {
 
-    public static void start(Context context,Class<? extends Fragment> fragmentClass,String title) {
+    private ActionBarView mActionBarView;
+
+    public static void start(Context context, Class<? extends Fragment> fragmentClass, String title) {
         Intent starter = new Intent(context, ContainerActivity.class);
         starter.putExtra(KEY, title);
         starter.putExtra(KEY_STRING, fragmentClass.getCanonicalName());
@@ -37,12 +39,12 @@ public class ContainerActivity extends MultipleThemeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
-        final ActionBarView actionBarView = findViewById(R.id.action_bar_view);
+        mActionBarView = findViewById(R.id.action_bar_view);
         final String title = getIntent().getStringExtra(KEY);
         final String fragmentClassName = getIntent().getStringExtra(KEY_STRING);
 
         if (!TextUtils.isEmpty(title)) {
-            actionBarView.setTitle(title);
+            mActionBarView.setTitle(title);
         }
 
         try {
@@ -51,6 +53,9 @@ public class ContainerActivity extends MultipleThemeActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public ActionBarView getActionBarView() {
+        return mActionBarView;
     }
 }

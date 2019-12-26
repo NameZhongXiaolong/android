@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,7 +14,9 @@ import android.widget.ImageView;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.picasso.CornerRadiusTransform;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
+import java.io.File;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -288,11 +289,11 @@ public class NineGridlayout extends ViewGroup {
         }
 
         /**
-         * @param imageUrls 图片路径
+         * @param imageUrls             图片路径
          * @param imageViewCornerRadius 图片圆角
-         * @param placeholderColor 图片加载/错误背景颜色
+         * @param placeholderColor      图片加载/错误背景颜色
          */
-        public SimpleImageAdapter(List<String> imageUrls,float imageViewCornerRadius ,@ColorInt int placeholderColor) {
+        public SimpleImageAdapter(List<String> imageUrls, float imageViewCornerRadius, @ColorInt int placeholderColor) {
             mImageUrls = imageUrls;
             mCornerRadius = imageViewCornerRadius;
             mGradientDrawable = new GradientDrawable();
@@ -315,8 +316,11 @@ public class NineGridlayout extends ViewGroup {
         @Override
         public void bindView(int position, View item) {
             ImageView imageView = ((ImageView) item);
-            Picasso.get().load(mImageUrls.get(position))
-                    .placeholder(mGradientDrawable)
+            String pathname = mImageUrls.get(position);
+            File file = new File(pathname);
+            RequestCreator load = file.exists() ? Picasso.get().load(file) : Picasso.get().load(pathname);
+
+            load.placeholder(mGradientDrawable)
                     .error(mGradientDrawable)
                     .resize(item.getWidth(), item.getHeight())
                     .centerCrop()
