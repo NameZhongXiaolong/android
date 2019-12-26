@@ -65,6 +65,7 @@ public class MainActivity extends MultipleThemeActivity
     private SlidingPaneLayout mSlidingPaneLayout;
     private boolean mWriteExternalStorage;//是否获取存储权限
     private AlertDialog mPermissionDialog;//权限弹出框
+    private boolean mOnRequestPermissions;//是否正在请求权限
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MainActivity extends MultipleThemeActivity
             create();
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mOnRequestPermissions = true;
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
             }
             mPermissionDialog = new AlertDialog
@@ -86,6 +88,7 @@ public class MainActivity extends MultipleThemeActivity
                     .setPositiveButton("去设置", (dialog, which) -> {
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                mOnRequestPermissions = true;
                                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
                             }
                         }else{
@@ -112,6 +115,7 @@ public class MainActivity extends MultipleThemeActivity
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
+            mOnRequestPermissions = false;
             for (int i = 0; i < permissions.length; i++) {
                 if (permissions[i].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
@@ -133,7 +137,7 @@ public class MainActivity extends MultipleThemeActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (!mWriteExternalStorage) {
+        if (!mWriteExternalStorage&&!mOnRequestPermissions) {
             int permission = PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (permission == PackageManager.PERMISSION_GRANTED) {
                 create();
@@ -149,12 +153,16 @@ public class MainActivity extends MultipleThemeActivity
      * 初始化
      */
     private void create() {
+        if (mPermissionDialog != null && mPermissionDialog.isShowing()) {
+            mPermissionDialog.dismiss();
+        }
         mWriteExternalStorage = true;
         UnitUtils.displayHeight(this);
         setContentView(R.layout.activity_main);
         ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         actionBarView.setNavigationClickListener(this);
         actionBarView.addMenuItem(0, R.drawable.ic_setting, this);
+        actionBarView.setNavigationClickListener(button -> mSlidingPaneLayout.openPane());
         mSlidingPaneLayout = findViewById(R.id.sliding_pane_layout);
         MainFragment fragment = new MainFragment();
         getFragmentTransaction().add(R.id.fm_container, fragment).commitAllowingStateLoss();
@@ -163,8 +171,8 @@ public class MainActivity extends MultipleThemeActivity
 
     private void createTable(){
         SQLiteDatabase db = DatabaseHelper.getInstance();
-        db.execSQL("CREATE TABLE IF NOT EXISTS Note(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(200),content VARCHAR(200),insertTime BIGINT,updateTime BIGINT, deleteFlag INTEGER DEFAULT (0));");
-        db.execSQL("CREATE TABLE IF NOT EXISTS NotePhoto(id INTEGER PRIMARY KEY AUTOINCREMENT, noteId INTEGER PRIMARY KEY AUTOINCREMENT,path VARCHAR(200),insertTime BIGINT,updateTime BIGINT,deleteFlag INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS Note(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(200),content VARCHAR(1200),insertTime BIGINT,updateTime BIGINT, deleteFlag INTEGER DEFAULT (0));");
+        db.execSQL("CREATE TABLE IF NOT EXISTS NotePhoto(id INTEGER PRIMARY KEY AUTOINCREMENT, noteId INTEGER,path VARCHAR(200),insertTime BIGINT,updateTime BIGINT,deleteFlag INTEGER);");
         db.close();
     }
 
