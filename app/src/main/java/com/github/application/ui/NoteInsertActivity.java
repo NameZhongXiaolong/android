@@ -55,7 +55,7 @@ public class NoteInsertActivity extends MultipleThemeActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_note_insert);
         ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         mEditTitle = findViewById(R.id.edit_title);
@@ -107,7 +107,7 @@ public class NoteInsertActivity extends MultipleThemeActivity {
             MainApplication.errToast("请输入标题");
             return;
         }
-        if (mEditContent.length() == 0) {
+        if (mEditContent.length() == 0 && mChoicePhotoAdapter.getItemCount() <= 1) {
             MainApplication.errToast("请输入内容");
             return;
         }
@@ -164,13 +164,14 @@ public class NoteInsertActivity extends MultipleThemeActivity {
     }
 
     protected void clearFocusHideInputMethod(){
-        if (getCurrentFocus() != null && getCurrentFocus() instanceof EditText) {
-            getCurrentFocus().clearFocus();
+        View currentFocus = getCurrentFocus();
+        if (currentFocus instanceof EditText) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm != null){
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                imm.hideSoftInputFromWindow(currentFocus.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            currentFocus.clearFocus();
         }
     }
 
