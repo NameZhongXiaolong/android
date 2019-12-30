@@ -1,6 +1,9 @@
 package com.github.application.main;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,6 +38,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
 
         add(new Menu("笔记", new NoteFm()));
         add(new Menu("图片选择器", TestActivity.class));
+        add(new Menu("进入开发者模式", TestActivity.class));
         add(new Menu("测试", TestActivity.class));
         add(new Menu("Database", new DatabaseTestFm()));
         add(new Menu("弹出框", new DialogDemoFragment()));
@@ -58,8 +62,31 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
 
     @Override
     public void onClick(View item, int position) {
-        if (position == 1) {
-            new ChoiceGallery(getContext()).show();
+        String title = get(position).getName();
+        if (title.equalsIgnoreCase("图片选择器")) {
+            new ChoiceGallery(requireContext()).show();
+            return;
+        }
+        if (title.equalsIgnoreCase("进入开发者模式")) {
+            try {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+                startActivity(intent);
+            } catch (Exception e) {
+                try {
+                    ComponentName componentName = new ComponentName("com.android.settings", "com.android.settings.DevelopmentSettings");
+                    Intent intent = new Intent();
+                    intent.setComponent(componentName);
+                    intent.setAction("android.intent.action.View");
+                    startActivity(intent);
+                } catch (Exception e1) {
+                    try {
+                        Intent intent = new Intent("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
+                        startActivity(intent);
+                    } catch (Exception ignored) {
+
+                    }
+                }
+            }
             return;
         }
 
