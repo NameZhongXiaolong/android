@@ -93,12 +93,11 @@ public class NoteInsertActivity extends MultipleThemeActivity {
         }else{
             //未选择
             clearFocusHideInputMethod();
-            new ChoiceGallery(this).setChoiceList(mChoicePhotoAdapter.getChoiceData()).setCallback(this::onChoiceCallback).start();
+            new ChoiceGallery(this).setCallback(this::onChoiceCallback).start();
         }
     }
 
     private void onChoiceCallback(List<String> photos) {
-        mChoicePhotoAdapter.clear();
         mChoicePhotoAdapter.addAll(photos);
     }
 
@@ -128,8 +127,7 @@ public class NoteInsertActivity extends MultipleThemeActivity {
             note.setUpdateTime(note.getInsertTime());
             note.setNotePhotoList(new ArrayList<>());
 
-            for (int i = 0; i < mChoicePhotoAdapter.getItemCount(); i++) {
-                String picturePath = mChoicePhotoAdapter.get(i);
+            for (String picturePath : mChoicePhotoAdapter.getChoiceData()) {
                 if (TextUtils.isEmpty(picturePath)){
                     continue;
                 }
@@ -146,6 +144,7 @@ public class NoteInsertActivity extends MultipleThemeActivity {
                 notePhoto.setInsertTime(note.getInsertTime());
                 notePhoto.setUpdateTime(note.getInsertTime());
                 note.getNotePhotoList().add(notePhoto);
+
             }
 
             if (NoteDatabase.insert(note) > 0) {

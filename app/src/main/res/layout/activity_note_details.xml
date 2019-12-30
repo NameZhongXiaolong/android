@@ -31,7 +31,6 @@
                 android:gravity="top"
                 android:minHeight="30dp"
                 android:imeOptions="actionDone"
-                android:hint="内容"
                 android:inputType="textMultiLine"
                 android:textColorHint="#CCCCCC"
                 android:textColor="#666666"

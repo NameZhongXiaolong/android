@@ -39,9 +39,7 @@ public class BaseHolder extends RecyclerView.ViewHolder{
         View viewById = findViewById(id);
         if (viewById instanceof TextView) {
             TextView textView = (TextView) viewById;
-            if (!TextUtils.isEmpty(text)) {
-                textView.setText(text);
-            }
+            textView.setText(text);
             return textView;
         } else {
             throw new ClassCastException("View most is TextView");
