@@ -14,7 +14,6 @@ import com.github.application.R;
 import com.github.application.base.BaseHolder;
 import com.github.application.base.ListFragment;
 import com.github.application.data.Menu;
-import com.github.application.ui.ChoiceGallery;
 import com.github.application.ui.ContainerActivity;
 import com.github.application.ui.DatabaseTestFm;
 import com.github.application.ui.DialogDemoFragment;
@@ -64,7 +63,6 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
     public void onClick(View item, int position) {
         String title = get(position).getName();
         if (title.equalsIgnoreCase("图片选择器")) {
-            new ChoiceGallery(requireContext()).show();
             return;
         }
         if (title.equalsIgnoreCase("进入开发者模式")) {

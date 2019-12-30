@@ -3,15 +3,10 @@ package com.github.application.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
@@ -24,14 +19,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.github.application.R;
-import com.github.application.base.BaseAdapter;
-import com.github.application.base.BaseHolder;
 import com.github.application.base.MultipleThemeActivity;
+import com.github.application.base.choice.gallery.ChoiceGallery;
 import com.github.application.data.Note;
 import com.github.application.data.NoteDatabase;
 import com.github.application.main.MainApplication;
@@ -56,7 +49,7 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
 
     private EditText mEditContent;
     private EditText mEditTitle;
-    private ChoicePhotoAdapter mChoicePhotoAdapter;
+    private NoteChoicePhotoAdapter mChoicePhotoAdapter;
     private Note mNote;
 
     public static void start(Context context, int noteId) {
@@ -91,8 +84,8 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
         listParent.rightMargin -= spacing;
         recyclerView.addItemDecoration(new SquareItemDecoration(parentWidth, 3, spacing));
 
-        mChoicePhotoAdapter = new ChoicePhotoAdapter(parentWidth / 3 - spacing);
-        mChoicePhotoAdapter.add(null);
+        mChoicePhotoAdapter = new NoteChoicePhotoAdapter(parentWidth / 3 - spacing);
+        mChoicePhotoAdapter.setOnItemClickListener(this::onItemClick);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mChoicePhotoAdapter);
 
@@ -119,23 +112,29 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            //查询我们需要的数据
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    mChoicePhotoAdapter.add(0, picturePath);
-                }
-                cursor.close();
-            }
+    private void onItemClick(View item, int position) {
+        boolean isChoiced = item.findViewById(R.id.button).getVisibility() == View.VISIBLE;
+        if (isChoiced) {
+            //已经选择
+            File file = new File(mChoicePhotoAdapter.get(position));
+            AppCompatImageView dialogImage = new AppCompatImageView(this);
+            dialogImage.setAdjustViewBounds(true);
+            dialogImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            dialogImage.setMinimumWidth(UnitUtils.px(300));
+            Picasso.get().load(file).into(dialogImage);
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(dialogImage);
+            dialog.show();
+        }else{
+            //未选择
+            clearFocusHideInputMethod();
+            new ChoiceGallery(this).setChoiceList(mChoicePhotoAdapter.getChoiceData()).setCallback(this::onChoiceCallback).start();
         }
+    }
+
+    private void onChoiceCallback(List<String> photos) {
+        mChoicePhotoAdapter.clear();
+        mChoicePhotoAdapter.addAll(photos);
     }
 
     private void save() {
@@ -180,9 +179,13 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
                 if (fileExists) {
                     notePhoto.setPath(picturePath);
                 }else{
-                    String filePath = MainApplication.getFileRoot() + "/res/" + System.currentTimeMillis() + ".jpg";
-                    FileUtils.copyFile(picturePath, filePath);
-                    notePhoto.setPath(filePath);
+                    StringBuilder filePath = new StringBuilder(MainApplication.getFileRoot());
+                    filePath.append("/res/");
+                    filePath.append(System.currentTimeMillis());
+                    filePath.append(".").append(FileUtils.getFileExtension(picturePath));
+
+                    FileUtils.copyFile(picturePath, filePath.toString());
+                    notePhoto.setPath(filePath.toString());
                 }
 
                 notePhoto.setInsertTime(mNote.getUpdateTime());
@@ -268,58 +271,6 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    private class ChoicePhotoAdapter extends BaseAdapter<String> {
-
-        private int mItemSize;
-
-        private ChoicePhotoAdapter(int itemSize) {
-            mItemSize = itemSize;
-        }
-
-        @NonNull
-        @Override
-        public BaseHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return BaseHolder.instance(viewGroup, R.layout.item_choice_image);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull BaseHolder baseHolder, final int i) {
-            Context context = baseHolder.getItemView().getContext();
-            ImageView imageView = baseHolder.findViewById(R.id.image);
-            ImageButton button = baseHolder.findViewById(R.id.button);
-            button.setOnClickListener(v -> remove(i));
-            String url = get(i);
-            if (TextUtils.isEmpty(url)) {
-                baseHolder.setOnClickListener((item, position) -> {
-                    clearFocusHideInputMethod();
-                    Intent intent = new Intent();
-                    // 开启Pictures画面Type设定为image
-                    intent.setType("image/*");
-                    // 使用Intent.ACTION_GET_CONTENT这个Action
-                    intent.setAction(Intent.ACTION_PICK);
-                    // 取得相片后返回本画面
-                    startActivityForResult(intent, 100);
-                });
-                imageView.setImageResource(R.mipmap.ic_add_to);
-                button.setVisibility(View.INVISIBLE);
-            } else {
-                button.setVisibility(View.VISIBLE);
-                File file = new File(url);
-                Picasso.get().load(file).resize(mItemSize, mItemSize).centerCrop().into(imageView);
-                baseHolder.setOnClickListener((item, position) -> {
-                    AppCompatImageView dialogImage = new AppCompatImageView(context);
-                    dialogImage.setAdjustViewBounds(true);
-                    dialogImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                    dialogImage.setMinimumWidth(UnitUtils.px(300));
-                    dialogImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                    Dialog dialog = new Dialog(context);
-                    dialog.setContentView(dialogImage);
-                    dialog.show();
-                });
-            }
-        }
     }
 
 }
