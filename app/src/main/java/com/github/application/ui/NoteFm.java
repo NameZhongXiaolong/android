@@ -1,15 +1,23 @@
 package com.github.application.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.BaseAdapter;
@@ -22,6 +30,8 @@ import com.github.application.receiver.NoteUpdateReceiver;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.NineGridlayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +109,62 @@ public class NoteFm extends BaseSuperFragment {
         }
     }
 
+    /**
+     * 显示底部弹出按钮弹窗
+     */
+    private void showButtonDialog(View view){
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        dialog.setContentView(R.layout.dialog_bottom_note);
+        //设置大背景颜色
+        View container = dialog.findViewById(R.id.design_bottom_sheet);
+        if (container != null) container.setBackgroundColor(Color.TRANSPARENT);
+        dialog.show();
+
+        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
+        Button button_1 = dialog.findViewById(R.id.button_1);
+        if (btnCancel != null && button_1 != null) {
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
+            button_1.setOnClickListener(v -> {
+                dialog.dismiss();
+                screenshotLoad(view);
+                Toast.makeText(requireContext(), "保存成功", Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+    /**
+     * view截图保存本地
+     * @param view 要保存的view
+     */
+    private void screenshotLoad(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+        c.drawColor(Color.TRANSPARENT);
+        view.draw(c);
+
+        String child = "Screenshots/" + System.currentTimeMillis() + ".png";
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), child);
+
+        try {
+            boolean mkdirs = true;
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                mkdirs = file.getParentFile().mkdirs();
+            }
+
+            if (mkdirs && file.createNewFile()) {
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+                out.flush();
+                out.close();
+                //通知系统刷新
+                requireActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                Uri.parse("file://" + file.getAbsolutePath())));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -136,6 +202,13 @@ public class NoteFm extends BaseSuperFragment {
             holder.text(R.id.text2, note.getContent());
             holder.setOnClickListener((item, i) -> NoteDetailsActivity.start(requireContext(), note.getId()));
             nineGridlayout.setOnItemClickListener((i, v) -> NoteDetailsActivity.start(requireContext(), note.getId()));
+
+            holder.setOnLongClickListener((item, i) -> {
+                showButtonDialog(item);
+                return true;
+            });
+
+            nineGridlayout.setOnItemLongClickListener((i, view) -> holder.itemView.performLongClick());
         }
 
         @Override

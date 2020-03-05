@@ -3,7 +3,6 @@ package com.github.application.base;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,15 @@ public class BaseHolder extends RecyclerView.ViewHolder{
         getItemView().setOnClickListener(v -> l.onClick(v, getLayoutPosition()));
     }
 
+    public void setOnLongClickListener(final OnLongClickListener l){
+        getItemView().setOnLongClickListener(v -> l.onClick(v, getLayoutPosition()));
+    }
+
     public interface  OnClickListener{
-        void onClick(View item,int position);
+        void onClick(View item, int position);
+    }
+
+    public interface OnLongClickListener {
+        boolean onClick(View item, int position);
     }
 }

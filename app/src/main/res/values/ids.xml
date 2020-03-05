@@ -2,6 +2,11 @@
 <resources>
     <item name="fm_container" type="id"/>
     <item name="button" type="id"/>
+    <item name="button_1" type="id"/>
+    <item name="button_2" type="id"/>
+    <item name="button_3" type="id"/>
+    <item name="button_4" type="id"/>
+    <item name="button_5" type="id"/>
     <item name="btn_confirm" type="id"/>
     <item name="btn_cancel" type="id"/>
     <item name="text" type="id"/>

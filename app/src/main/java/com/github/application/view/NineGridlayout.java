@@ -45,6 +45,7 @@ public class NineGridlayout extends ViewGroup {
     private int mMaxItem = 9;
 
     private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
     protected Adapter mAdapter;
     protected DataSetObserver mObserver;
     private boolean mCreate;
@@ -180,6 +181,13 @@ public class NineGridlayout extends ViewGroup {
             view.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) mOnItemClickListener.onItemClick(position, v);
             });
+
+            view.setOnLongClickListener(v -> {
+                if (mOnItemLongClickListener != null) {
+                    return mOnItemLongClickListener.onItemClick(position, v);
+                }
+                return false;
+            });
         }
     }
 
@@ -210,6 +218,13 @@ public class NineGridlayout extends ViewGroup {
      */
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
+    }
+
+    /**
+     * item长按时间
+     */
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
     }
 
     @Override
@@ -266,6 +281,15 @@ public class NineGridlayout extends ViewGroup {
     public interface OnItemClickListener {
 
         void onItemClick(int position, View view);
+    }
+
+    /**
+     * item长按时间
+     */
+    public interface OnItemLongClickListener {
+
+        boolean onItemClick(int position, View view);
+
     }
 
     /**
