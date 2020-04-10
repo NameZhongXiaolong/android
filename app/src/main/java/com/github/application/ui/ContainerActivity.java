@@ -48,8 +48,10 @@ public class ContainerActivity extends MultipleThemeActivity {
         }
 
         try {
-            Fragment fragment = (Fragment) Class.forName(fragmentClassName).newInstance();
-            getFragmentTransaction().replace(R.id.fm_container, fragment, fragmentClassName).commitAllowingStateLoss();
+            if (!TextUtils.isEmpty(fragmentClassName)) {
+                Fragment fragment = (Fragment) Class.forName(fragmentClassName).newInstance();
+                getFragmentTransaction().replace(R.id.fm_container, fragment, fragmentClassName).commitAllowingStateLoss();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
