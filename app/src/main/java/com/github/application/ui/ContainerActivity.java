@@ -49,7 +49,7 @@ public class ContainerActivity extends MultipleThemeActivity {
 
         try {
             Fragment fragment = (Fragment) Class.forName(fragmentClassName).newInstance();
-            getFragmentTransaction().add(R.id.fm_container, fragment, fragmentClassName).commitAllowingStateLoss();
+            getFragmentTransaction().replace(R.id.fm_container, fragment, fragmentClassName).commitAllowingStateLoss();
         } catch (Exception e) {
             e.printStackTrace();
         }
