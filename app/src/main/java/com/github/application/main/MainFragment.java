@@ -20,6 +20,7 @@ import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
 import com.github.application.ui.NoteFm;
 import com.github.application.ui.PhoneInfoFragment;
+import com.github.application.ui.PlaneGraphFragment;
 import com.github.application.ui.SettingActivity;
 import com.github.application.ui.TestActivity;
 import com.github.application.ui.UnitCastFragment;
@@ -38,6 +39,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
         add(new Menu("笔记", new NoteFm()));
         add(new Menu("图片选择器", TestActivity.class));
         add(new Menu("进入开发者模式", TestActivity.class));
+        add(new Menu("拼图", new PlaneGraphFragment()));
         add(new Menu("测试", TestActivity.class));
         add(new Menu("Database", new DatabaseTestFm()));
         add(new Menu("弹出框", new DialogDemoFragment()));

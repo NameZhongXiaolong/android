@@ -11,11 +11,11 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-    <com.github.application.view.ActionBarView
+    <com.github.application.view.ActionBarView2
         android:id="@id/action_bar_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleText="测试"/>
+        android:background="#FF0"
+        android:layout_height="56dp"/>
 
     <Button
         android:id="@id/button"

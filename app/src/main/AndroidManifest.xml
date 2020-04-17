@@ -34,6 +34,7 @@
         <activity android:name=".ui.TestActivity"/>
         <activity android:name=".ui.NoteDetailsActivity"/>
         <activity android:name=".base.choice.gallery.ChoiceGalleryActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <service android:name=".base.choice.gallery.ScanningLocalPhotoService"/>
     </application>
 
 </manifest>

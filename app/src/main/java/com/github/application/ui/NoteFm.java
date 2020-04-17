@@ -25,6 +25,7 @@ import com.github.application.base.BaseHolder;
 import com.github.application.base.BaseSuperFragment;
 import com.github.application.data.Note;
 import com.github.application.data.NoteDatabase;
+import com.github.application.main.MainApplication;
 import com.github.application.receiver.NoteDeleteReceiver;
 import com.github.application.receiver.NoteUpdateReceiver;
 import com.github.application.utils.UnitUtils;
@@ -127,7 +128,7 @@ public class NoteFm extends BaseSuperFragment {
             button_1.setOnClickListener(v -> {
                 dialog.dismiss();
                 screenshotLoad(view);
-                Toast.makeText(requireContext(), "保存成功", Toast.LENGTH_SHORT).show();
+                MainApplication.outToast("保存成功");
             });
         }
     }

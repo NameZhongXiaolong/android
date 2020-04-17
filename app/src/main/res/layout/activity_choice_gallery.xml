@@ -1,39 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.v4.widget.SlidingPaneLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:id="@id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@id/tool_bar"
-        android:layout_width="match_parent"
-        app:navigationIcon="@drawable/ic_back"
-        android:layout_height="?actionBarSize">
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#ededed"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_choice_complete"
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="15dp"
-            android:background="#CCCCCC"
-            android:minWidth="70dp"
-            android:minHeight="30dp"
-            android:text="0/9"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-    </android.support.v7.widget.Toolbar>
+            android:layout_height="@dimen/actionBarSize"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="目录"
+            android:textColor="#333333"
+            android:textSize="18sp" />
 
-    <View
+        <ListView
+            android:id="@id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:divider="@color/transparent" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#333333" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <android.support.v7.widget.Toolbar
+            android:id="@id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="end"
+            app:navigationIcon="@drawable/ic_back">
 
-</LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_choice_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="15dp"
+                android:background="#CCCCCC"
+                android:minWidth="70dp"
+                android:minHeight="30dp"
+                android:text="0/9"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#333333" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.SlidingPaneLayout>

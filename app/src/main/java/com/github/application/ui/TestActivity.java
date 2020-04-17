@@ -34,6 +34,7 @@ import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.ActionBarView;
+import com.github.application.view.ActionBarView2;
 import com.github.application.view.picasso.CornerRadiusTransform;
 import com.squareup.picasso.Picasso;
 
@@ -59,8 +60,7 @@ public class TestActivity extends MultipleThemeActivity implements ActionBarView
             }
         });
 
-        ActionBarView actionBarView = findViewById(R.id.action_bar_view);
-        actionBarView.addMenuItem(0,android.R.drawable.ic_input_add,this);
+        ActionBarView2 actionBarView = findViewById(R.id.action_bar_view);
 
 
         mEditText = findViewById(R.id.edit);

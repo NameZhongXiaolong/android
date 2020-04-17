@@ -9,6 +9,14 @@ import java.util.List;
 
 /**
  * Created by ZhongXiaolong on 2019/12/30 17:16.
+ *
+ * 图库选择,使用时只要把这个模块复制过去就能用了
+ * 链式结构
+ * new ChoiceGallery(this)
+ *         .setMaxChoice(9)//最大选择数
+ *         .setChoiceList(new ArrayList<String>())//已经选择图片
+ *         .setCallback(OnChoiceGalleryCallback)//回调
+ *         .start()//启动
  */
 public class ChoiceGallery {
 
