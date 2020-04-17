@@ -44,7 +44,8 @@ public class DialogUtils {
             button.setBackgroundColor(Color.WHITE);
             button.setTextColor(textColor);
             button.setText(menu);
-            button.setOnClickListener(v -> l.onButtonClick(dialog, menuContainer.getChildCount(), menu));
+            final int position = menuContainer.getChildCount();
+            button.setOnClickListener(v -> l.onButtonClick(dialog, position, menu));
             menuContainer.addView(button, lp);
         }
         View button = dialog.findViewById(R.id.button);

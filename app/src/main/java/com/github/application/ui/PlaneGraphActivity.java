@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import com.github.application.base.MultipleThemeActivity;
 import com.github.application.base.choice.gallery.ChoiceGallery;
 import com.github.application.utils.DialogUtils;
 import com.github.application.utils.UnitUtils;
+import com.github.application.view.ActionBarView;
+import com.github.application.view.FreeImageView;
 import com.github.application.view.picasso.CircleTransform;
 import com.squareup.picasso.Picasso;
 
@@ -33,8 +36,8 @@ import java.util.List;
  */
 public class PlaneGraphActivity extends MultipleThemeActivity {
 
-    private ImageView mIvContent;
     private ImageView mIvBackground;
+    private FrameLayout mFlParent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,18 +45,25 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
         setContentView(R.layout.activity_plane_graph);
 
         mIvBackground = findViewById(R.id.image1);
-        mIvContent = findViewById(R.id.image2);
+        mFlParent = findViewById(R.id.parent);
+        ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         findViewById(R.id.view).setVisibility(hasNavigationBar() ? View.VISIBLE : View.GONE);
-        mIvBackground.setOnClickListener(v -> new ChoiceGallery(this).setMaxChoice(1).setCallback(this::onBackgroundChoiceGalleryComplete).start());
-        mIvContent.setOnClickListener(v -> new ChoiceGallery(this).setMaxChoice(1).setCallback(this::onContentChoiceGalleryComplete).start());
-        findViewById(R.id.parent).setOnLongClickListener(this::showButtonDialog);
-        mIvBackground.setOnLongClickListener(v -> findViewById(R.id.parent).performLongClick());
-        mIvContent.setOnLongClickListener(v -> findViewById(R.id.parent).performLongClick());
+        actionBarView.addMenuItem(0, R.drawable.ic_ellipsis,
+                id -> DialogUtils.bottomSheetMenu(this, this::onAddImageClick, "设置背景", "添加图片").show());
 
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setColor(Color.parseColor("#0984E3"));
-        gradientDrawable.setShape(GradientDrawable.OVAL);
-        mIvContent.setImageDrawable(gradientDrawable);
+    }
+
+    /**
+     * 添加图片
+     */
+    private void onAddImageClick(Dialog dialog, int position, String menu) {
+        dialog.dismiss();
+        if (position == 0) {
+            new ChoiceGallery(this).setMaxChoice(1).setCallback(this::onBackgroundChoiceGalleryComplete).start();
+        }
+        if (position == 1) {
+            new ChoiceGallery(this).setMaxChoice(9).setCallback(this::onContentChoiceGalleryComplete).start();
+        }
     }
 
     public void onBackgroundChoiceGalleryComplete(List<String> photos) {
@@ -63,12 +73,15 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
     }
 
     public void onContentChoiceGalleryComplete(List<String> photos) {
-        String url = photos.get(0);
-        Picasso.get().load(new File(url))
-                .transform(new CircleTransform())
-                .resize(UnitUtils.px(120), UnitUtils.px(120))
-                .centerCrop()
-                .into(mIvContent);
+        for (String photo : photos) {
+            FreeImageView image = new FreeImageView(this);
+            mFlParent.addView(image, new FrameLayout.LayoutParams(UnitUtils.px(120), UnitUtils.px(120), Gravity.CENTER));
+            Picasso.get().load(new File(photo))
+                    .transform(new CircleTransform())
+                    .resize(UnitUtils.px(120), UnitUtils.px(120))
+                    .centerCrop()
+                    .into(image);
+        }
     }
 
     /**
