@@ -94,7 +94,7 @@ public class UnitUtils {
 
     public static int getActionBarSize() {
         if (sActionBarSize == 0) {
-            sActionBarSize = px(48);
+            sActionBarSize = px(56);
         }
         return sActionBarSize;
     }

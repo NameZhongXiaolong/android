@@ -13,15 +13,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.base.choice.gallery.ChoiceGallery;
+import com.github.application.main.MainApplication;
 import com.github.application.utils.DialogUtils;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.ActionBarView;
-import com.github.application.view.FreeImageView;
+import com.github.application.view.DragFrameLayout;
 import com.github.application.view.picasso.CircleTransform;
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +37,7 @@ import java.util.List;
 public class PlaneGraphActivity extends MultipleThemeActivity {
 
     private ImageView mIvBackground;
-    private FrameLayout mFlParent;
+    private DragFrameLayout mDragFrameLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +45,11 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
         setContentView(R.layout.activity_plane_graph);
 
         mIvBackground = findViewById(R.id.image1);
-        mFlParent = findViewById(R.id.parent);
+        mDragFrameLayout = findViewById(R.id.parent);
         ActionBarView actionBarView = findViewById(R.id.action_bar_view);
         findViewById(R.id.view).setVisibility(hasNavigationBar() ? View.VISIBLE : View.GONE);
         actionBarView.addMenuItem(0, R.drawable.ic_ellipsis,
-                id -> DialogUtils.bottomSheetMenu(this, this::onAddImageClick, "设置背景", "添加图片").show());
+                id -> DialogUtils.bottomSheetMenu(this, this::onAddImageClick, "设置背景", "添加图片", "保存图片").show());
 
     }
 
@@ -64,6 +64,9 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
         if (position == 1) {
             new ChoiceGallery(this).setMaxChoice(9).setCallback(this::onContentChoiceGalleryComplete).start();
         }
+        if (position == 2) {
+            screenshotLoad(mDragFrameLayout);
+        }
     }
 
     public void onBackgroundChoiceGalleryComplete(List<String> photos) {
@@ -74,28 +77,15 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
 
     public void onContentChoiceGalleryComplete(List<String> photos) {
         for (String photo : photos) {
-            FreeImageView image = new FreeImageView(this);
-            mFlParent.addView(image, new FrameLayout.LayoutParams(UnitUtils.px(120), UnitUtils.px(120), Gravity.CENTER));
+            ImageView image = new ImageView(this);
+            mDragFrameLayout.addDragChildView(image);
+            mDragFrameLayout.addView(image,new FrameLayout.LayoutParams(UnitUtils.px(120),UnitUtils.px(120), Gravity.CENTER));
             Picasso.get().load(new File(photo))
                     .transform(new CircleTransform())
                     .resize(UnitUtils.px(120), UnitUtils.px(120))
                     .centerCrop()
                     .into(image);
         }
-    }
-
-    /**
-     * 显示底部弹出按钮弹窗
-     */
-    private boolean showButtonDialog(View view) {
-        DialogUtils.bottomSheetMenu(this, new DialogUtils.OnDialogCallBack() {
-            @Override
-            public void onButtonClick(Dialog dialog, int position, String menu) {
-                Toast.makeText(PlaneGraphActivity.this, menu, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        }, "保存", "不要", "照片").show();
-        return true;
     }
 
     private void screenshotLoad(View view) {
@@ -122,6 +112,8 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                         Uri.parse("file://" + file.getAbsolutePath())));
             }
+
+            MainApplication.outToast("保存成功");
         } catch (Exception e) {
             e.printStackTrace();
         }

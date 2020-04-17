@@ -142,16 +142,16 @@ public class ActionBarView extends FrameLayout {
 
         //设置分割线,最高为8px
         ViewGroup.LayoutParams lp = mViewDivider.getLayoutParams();
-        lp.height = dividerHeight > 8 ? 8 : dividerHeight;
+        lp.height = Math.min(dividerHeight, 8);
         mViewDivider.setLayoutParams(lp);
         mViewDivider.setBackgroundColor(dividerColor);
 
         //设置statusBarPadding,并且设置最小高度
         int minHeight = (int) getContext().getResources().getDimension(R.dimen.actionBarSize);
         if (statusPadding) {
-            int paddingTop = (int) (getPaddingTop() + getContext().getResources().getDimension(R.dimen.statusBarSize));
-            setPadding(getLeft(), paddingTop, getRight(), getBottom());
-            minHeight = minHeight + paddingTop;
+            int statusBarSize = (int) getContext().getResources().getDimension(R.dimen.statusBarSize);
+            setPadding(getLeft(), getPaddingTop() + statusBarSize, getRight(), getBottom());
+            minHeight = minHeight + statusBarSize;
         }
         setMinimumHeight(minHeight);
     }

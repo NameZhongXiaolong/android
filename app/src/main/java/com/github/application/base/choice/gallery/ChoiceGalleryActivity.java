@@ -162,8 +162,12 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //返回也发送广播,触发注销广播方法
-        ChoiceGalleryReceiver.post(this, mTag, new ArrayList<>());
+        if (mSlidingPaneLayout.isOpen()) {
+            mSlidingPaneLayout.closePane();
+        } else {
+            super.onBackPressed();
+            //返回也发送广播,触发注销广播方法
+            ChoiceGalleryReceiver.post(this, mTag, new ArrayList<>());
+        }
     }
 }
