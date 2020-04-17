@@ -1,5 +1,6 @@
 package com.github.application.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,15 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.MultipleThemeActivity;
 import com.github.application.base.choice.gallery.ChoiceGallery;
-import com.github.application.main.MainApplication;
+import com.github.application.utils.DialogUtils;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.picasso.CircleTransform;
 import com.squareup.picasso.Picasso;
@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * Created by ZhongXiaolong on 2020/4/17 11:11.
- *
+ * <p>
  * 多图片拼接
  */
 public class PlaneGraphActivity extends MultipleThemeActivity {
@@ -74,24 +74,14 @@ public class PlaneGraphActivity extends MultipleThemeActivity {
     /**
      * 显示底部弹出按钮弹窗
      */
-    private boolean showButtonDialog(View view){
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(R.layout.dialog_bottom_note);
-        //设置大背景颜色
-        View container = dialog.findViewById(R.id.design_bottom_sheet);
-        if (container != null) container.setBackgroundColor(Color.TRANSPARENT);
-        dialog.show();
-
-        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
-        Button button_1 = dialog.findViewById(R.id.button_1);
-        if (btnCancel != null && button_1 != null) {
-            btnCancel.setOnClickListener(v -> dialog.dismiss());
-            button_1.setOnClickListener(v -> {
+    private boolean showButtonDialog(View view) {
+        DialogUtils.bottomSheetMenu(this, new DialogUtils.OnDialogCallBack() {
+            @Override
+            public void onButtonClick(Dialog dialog, int position, String menu) {
+                Toast.makeText(PlaneGraphActivity.this, menu, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
-                screenshotLoad(view);
-                MainApplication.outToast("保存成功");
-            });
-        }
+            }
+        }, "保存", "不要", "照片").show();
         return true;
     }
 

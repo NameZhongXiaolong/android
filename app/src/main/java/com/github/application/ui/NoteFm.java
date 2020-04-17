@@ -1,5 +1,6 @@
 package com.github.application.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,15 +10,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.github.application.R;
 import com.github.application.base.BaseAdapter;
@@ -28,6 +26,7 @@ import com.github.application.data.NoteDatabase;
 import com.github.application.main.MainApplication;
 import com.github.application.receiver.NoteDeleteReceiver;
 import com.github.application.receiver.NoteUpdateReceiver;
+import com.github.application.utils.DialogUtils;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.NineGridlayout;
 
@@ -114,30 +113,14 @@ public class NoteFm extends BaseSuperFragment {
      * 显示底部弹出按钮弹窗
      */
     private void showButtonDialog(View view){
-        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
-        dialog.setContentView(R.layout.dialog_bottom_note);
-        //设置大背景颜色
-        View container = dialog.findViewById(R.id.design_bottom_sheet);
-        if (container != null) container.setBackgroundColor(Color.TRANSPARENT);
-        dialog.show();
-
-        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
-        Button button_1 = dialog.findViewById(R.id.button_1);
-        if (btnCancel != null && button_1 != null) {
-            btnCancel.setOnClickListener(v -> dialog.dismiss());
-            button_1.setOnClickListener(v -> {
-                dialog.dismiss();
-                screenshotLoad(view);
-                MainApplication.outToast("保存成功");
-            });
-        }
+        DialogUtils.bottomSheetMenu(requireContext(), (dialog, i, m) -> screenshotLoad(view, dialog), "截图保存").show();
     }
 
     /**
      * view截图保存本地
-     * @param view 要保存的view
      */
-    private void screenshotLoad(View view) {
+    public void screenshotLoad(View view,Dialog dialog) {
+        dialog.dismiss();
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bitmap);
         c.drawColor(Color.TRANSPARENT);
@@ -159,8 +142,9 @@ public class NoteFm extends BaseSuperFragment {
                 out.close();
                 //通知系统刷新
                 requireActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                Uri.parse("file://" + file.getAbsolutePath())));
+                        Uri.parse("file://" + file.getAbsolutePath())));
             }
+            MainApplication.outToast("保存成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
