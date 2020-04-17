@@ -21,6 +21,7 @@ import com.github.application.ui.DialogDemoFragment;
 import com.github.application.ui.LoginFm;
 import com.github.application.ui.NoteFm;
 import com.github.application.ui.PhoneInfoFragment;
+import com.github.application.ui.PictureTextRecordActivity;
 import com.github.application.ui.PlaneGraphActivity;
 import com.github.application.ui.SettingActivity;
 import com.github.application.ui.TestActivity;
@@ -42,6 +43,7 @@ public class MainFragment extends ListFragment<Menu> implements BaseHolder.OnCli
         super.onViewCreated(view, savedInstanceState);
 
         add(new Menu("进入开发者模式", TestActivity.class));
+        add(new Menu("图文笔记", PictureTextRecordActivity.class ));
         add(new Menu("笔记", new NoteFm()));
         add(new Menu("拼图", PlaneGraphActivity.class));
         add(new Menu("测试", TestActivity.class));

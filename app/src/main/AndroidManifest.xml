@@ -36,6 +36,7 @@
         <activity android:name=".ui.PlaneGraphActivity"/>
         <activity android:name=".base.choice.gallery.ChoiceGalleryActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <service android:name=".base.choice.gallery.ScanningLocalPhotoService"/>
+        <activity android:name=".ui.PictureTextRecordActivity" />
     </application>
 
 </manifest>
