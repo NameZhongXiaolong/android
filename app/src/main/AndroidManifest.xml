@@ -33,6 +33,7 @@
         <activity android:name=".ui.NoteUpdateActivity"/>
         <activity android:name=".ui.TestActivity"/>
         <activity android:name=".ui.NoteDetailsActivity"/>
+        <activity android:name=".ui.PlaneGraphActivity"/>
         <activity android:name=".base.choice.gallery.ChoiceGalleryActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <service android:name=".base.choice.gallery.ScanningLocalPhotoService"/>
     </application>

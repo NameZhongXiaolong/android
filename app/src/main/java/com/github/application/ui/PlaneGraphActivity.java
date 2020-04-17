@@ -10,14 +10,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.github.application.R;
-import com.github.application.base.BaseSuperFragment;
+import com.github.application.base.MultipleThemeActivity;
 import com.github.application.base.choice.gallery.ChoiceGallery;
 import com.github.application.main.MainApplication;
 import com.github.application.utils.UnitUtils;
@@ -33,28 +31,24 @@ import java.util.List;
  *
  * 多图片拼接
  */
-public class PlaneGraphFragment extends BaseSuperFragment {
+public class PlaneGraphActivity extends MultipleThemeActivity {
 
     private ImageView mIvContent;
     private ImageView mIvBackground;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup root, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_plane_graph, root, false);
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_plane_graph);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mIvBackground = view.findViewById(R.id.image1);
-        mIvContent = view.findViewById(R.id.image2);
-        view.findViewById(R.id.view).setVisibility(getBaseSuperActivity().hasNavigationBar() ? View.VISIBLE : View.GONE);
+        mIvBackground = findViewById(R.id.image1);
+        mIvContent = findViewById(R.id.image2);
+        findViewById(R.id.view).setVisibility(hasNavigationBar() ? View.VISIBLE : View.GONE);
         mIvBackground.setOnClickListener(v -> new ChoiceGallery(this).setMaxChoice(1).setCallback(this::onBackgroundChoiceGalleryComplete).start());
         mIvContent.setOnClickListener(v -> new ChoiceGallery(this).setMaxChoice(1).setCallback(this::onContentChoiceGalleryComplete).start());
-        view.findViewById(R.id.parent).setOnLongClickListener(this::showButtonDialog);
-        mIvBackground.setOnLongClickListener(v -> view.findViewById(R.id.parent).performLongClick());
-        mIvContent.setOnLongClickListener(v -> view.findViewById(R.id.parent).performLongClick());
+        findViewById(R.id.parent).setOnLongClickListener(this::showButtonDialog);
+        mIvBackground.setOnLongClickListener(v -> findViewById(R.id.parent).performLongClick());
+        mIvContent.setOnLongClickListener(v -> findViewById(R.id.parent).performLongClick());
 
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setColor(Color.parseColor("#0984E3"));
@@ -81,7 +75,7 @@ public class PlaneGraphFragment extends BaseSuperFragment {
      * 显示底部弹出按钮弹窗
      */
     private boolean showButtonDialog(View view){
-        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.dialog_bottom_note);
         //设置大背景颜色
         View container = dialog.findViewById(R.id.design_bottom_sheet);
@@ -122,7 +116,7 @@ public class PlaneGraphFragment extends BaseSuperFragment {
                 out.flush();
                 out.close();
                 //通知系统刷新
-                requireActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                         Uri.parse("file://" + file.getAbsolutePath())));
             }
         } catch (Exception e) {
