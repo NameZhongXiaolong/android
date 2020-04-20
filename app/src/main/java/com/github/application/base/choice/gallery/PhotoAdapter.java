@@ -3,9 +3,11 @@ package com.github.application.base.choice.gallery;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.github.application.R;
@@ -74,6 +76,17 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
     }
 
     /**
+     * 根据下标获取图片路径
+     */
+    String getItem(int position) {
+        return mData.get(position);
+    }
+
+    int indexOf(String photo) {
+        return mData.indexOf(photo);
+    }
+
+    /**
      * 设置是否选中
      */
     void setChecked(int position, boolean isChecked) {
@@ -95,6 +108,13 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
                     notifyItemChanged(mData.indexOf(mChoicePhotos.get(i)));
                 }
             }
+        }
+    }
+
+    void setChecked(String path, boolean isChecked) {
+        int position = mData.indexOf(path);
+        if (position >= 0) {
+            setChecked(position,isChecked);
         }
     }
 
@@ -122,7 +142,11 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
      * 点击事件
      */
     interface OnItemClickListener {
-        void onItemClick(PhotoHolder holder, int position);
+        void onItemClick(OnItemClickType type, int position);
+    }
+
+    enum OnItemClickType{
+        CHECKED,OTHER
     }
 
     /**
@@ -131,14 +155,19 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
     static class PhotoHolder extends RecyclerView.ViewHolder {
 
         private final ImageView mImage;
-        private final Button mButton;
+        private final View mButton;
+        private final CheckBox mCheckBox;
         private final static int IMAGE_SIZE = UnitUtils.displayWidth() / 4;
 
         private PhotoHolder(@NonNull ViewGroup parent, final OnItemClickListener l) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery_photo, parent, false));
             mImage = itemView.findViewById(R.id.image);
-            mButton = itemView.findViewById(R.id.button);
-            mButton.setOnClickListener(v -> l.onItemClick(this, getAdapterPosition()));
+            mButton = itemView.findViewById(R.id.button_1);
+            mCheckBox = itemView.findViewById(R.id.text);
+            View button2 = itemView.findViewById(R.id.button_2);
+            mButton.setOnClickListener(v -> l.onItemClick(OnItemClickType.OTHER, getAdapterPosition()));
+            mCheckBox.setOnClickListener(v -> l.onItemClick(OnItemClickType.CHECKED, getAdapterPosition()));
+            button2.setOnClickListener(v -> l.onItemClick(OnItemClickType.CHECKED, getAdapterPosition()));
         }
 
         private void setImage(String path) {
@@ -146,7 +175,8 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
         }
 
         private void setButtonText(String text) {
-            mButton.setText(text);
+            mCheckBox.setText(text);
+            mCheckBox.setChecked(!TextUtils.isEmpty(text));
         }
 
         private void setButtonForeground(int color) {

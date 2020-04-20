@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.widget.AbsListView.CHOICE_MODE_SINGLE;
+import static com.github.application.base.choice.gallery.PhotoAdapter.OnItemClickType.CHECKED;
 
 /**
  * Created by ZhongXiaolong on 2019/12/30 17:16.
@@ -128,18 +129,24 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
     /**
      * 照片点击事件
      */
-    private void onPhotoItemClick(PhotoAdapter.PhotoHolder holder, int position) {
-        boolean checked = mPhotoAdapter.getChecked(position);
-        if (!checked && mPhotoAdapter.getChoicePhotoCount() >= mMaxChoice) {
-            MainApplication.errToast("最多只能选择" + mMaxChoice + "张图片");
-        } else {
-            mPhotoAdapter.setChecked(position, !checked);
-            mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
-            mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
-        }
+    private void onPhotoItemClick(PhotoAdapter.OnItemClickType type, int position) {
+        if (type == CHECKED) {
+            boolean checked = mPhotoAdapter.getChecked(position);
+            if (!checked && mPhotoAdapter.getChoicePhotoCount() >= mMaxChoice) {
+                MainApplication.errToast("最多只能选择" + mMaxChoice + "张图片");
+            } else {
+                mPhotoAdapter.setChecked(position, !checked);
+                mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
+                mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+            }
 
-        if (mSlidingPaneLayout.isOpen()) {
-            mSlidingPaneLayout.closePane();
+            if (mSlidingPaneLayout.isOpen()) {
+                mSlidingPaneLayout.closePane();
+            }
+        } else {
+            PhotoPreviewDialogFragment.newInstance(mPhotoAdapter.getItem(position), mPhotoAdapter.getChecked(position))
+                    .setCallBack((photo) -> onPhotoItemClick(CHECKED, mPhotoAdapter.indexOf(photo)))
+                    .show(getSupportFragmentManager(), "photo_preview");
         }
     }
 

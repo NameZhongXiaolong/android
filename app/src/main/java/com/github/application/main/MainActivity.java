@@ -165,7 +165,7 @@ public class MainActivity extends MultipleThemeActivity
         actionBarView.setNavigationClickListener(button -> mSlidingPaneLayout.openPane());
         mSlidingPaneLayout = findViewById(R.id.sliding_pane_layout);
         MainFragment fragment = new MainFragment();
-        getFragmentTransaction().add(R.id.fm_container, fragment).commitAllowingStateLoss();
+        getFragmentTransaction().replace(R.id.fm_container, fragment).commitAllowingStateLoss();
         createTable();
     }
 
