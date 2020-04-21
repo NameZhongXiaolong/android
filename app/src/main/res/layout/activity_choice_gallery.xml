@@ -66,8 +66,26 @@
         <android.support.v7.widget.RecyclerView
             android:id="@id/list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_weight="1"
+            android:layout_height="0dp" />
 
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@id/button_2"
+                android:background="@color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="75dp"
+                android:text="预览"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v4.widget.SlidingPaneLayout>

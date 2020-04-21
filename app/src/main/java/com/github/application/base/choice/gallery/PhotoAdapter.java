@@ -55,6 +55,13 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
      }
 
     /**
+     * 获取数据
+     */
+    List<String> getData() {
+        return mData;
+    }
+
+    /**
      * 获取选中图片
      */
     List<String> getChoicePhotos() {

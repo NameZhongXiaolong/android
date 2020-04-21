@@ -20,6 +20,8 @@ import android.widget.ListView;
 import com.github.application.R;
 import com.github.application.main.MainApplication;
 import com.github.application.ui.ProgressDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +47,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
     private String mTag;
     private int mMaxChoice;
     private SlidingPaneLayout mSlidingPaneLayout;
+    private Button mBtnPreview;
 
     static void start(ChoiceGallery choiceGallery) {
         Intent starter = new Intent(choiceGallery.getContext(), ChoiceGalleryActivity.class);
@@ -67,6 +70,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         mSlidingPaneLayout = findViewById(R.id.container);
         mBtnChoiceComplete = findViewById(R.id.btn_choice_complete);
         mBtnChoiceComplete.setOnClickListener(this::onCompleteButtonClick);
+        mBtnPreview = findViewById(R.id.button_2);
 
         //get intent data
         mTag = getIntent().getStringExtra("tag");
@@ -89,6 +93,10 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         int[][] states = {{android.R.attr.state_enabled}, {}};
         mBtnChoiceComplete.setBackgroundTintList(new ColorStateList(states, colors));
         mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+
+        //预览按钮
+        mBtnPreview.setTextColor(new ColorStateList(states, colors));
+        mBtnPreview.setOnClickListener(this::onStartPreview);
 
         mProgressDialog = new ProgressDialog(this).setTipsMsg("正在扫描图片", true);
 
@@ -115,6 +123,9 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         catalogAdapter.addAll(data);
         listView.setOnItemClickListener((parent, view, position, id) -> onCatalogItemClick(catalogAdapter, position));
 
+        //显示预览按钮
+        findViewById(R.id.linear_layout).setVisibility(View.VISIBLE);
+
         //
         listView.performItemClick(listView.getChildAt(0), 0, 0);
     }
@@ -130,6 +141,10 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
      * 照片点击事件
      */
     private void onPhotoItemClick(PhotoAdapter.OnItemClickType type, int position) {
+        if (mSlidingPaneLayout.isOpen()) {
+            mSlidingPaneLayout.closePane();
+        }
+
         if (type == CHECKED) {
             boolean checked = mPhotoAdapter.getChecked(position);
             if (!checked && mPhotoAdapter.getChoicePhotoCount() >= mMaxChoice) {
@@ -138,16 +153,19 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
                 mPhotoAdapter.setChecked(position, !checked);
                 mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
                 mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
-            }
-
-            if (mSlidingPaneLayout.isOpen()) {
-                mSlidingPaneLayout.closePane();
+                mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
             }
         } else {
-            PhotoPreviewDialogFragment.newInstance(mPhotoAdapter.getItem(position), mPhotoAdapter.getChecked(position))
-                    .setCallBack((photo) -> onPhotoItemClick(CHECKED, mPhotoAdapter.indexOf(photo)))
-                    .show(getSupportFragmentManager(), "photo_preview");
+            GalleryPreviewActivity.start(this, mPhotoAdapter.getData(), mPhotoAdapter.getChoicePhotos(), position, mMaxChoice);
         }
+    }
+
+    /**
+     * 预览
+     */
+    private void onStartPreview(View view) {
+        List<String> choicePhotos = mPhotoAdapter.getChoicePhotos();
+        GalleryPreviewActivity.start(this, choicePhotos, choicePhotos, 0, mMaxChoice);
     }
 
     /**
@@ -156,6 +174,19 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
     private void onCompleteButtonClick(View view) {
         ChoiceGalleryReceiver.post(this, mTag, mPhotoAdapter.getChoicePhotos());
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            String choicePhotoJson = data.getStringExtra("choicePhotos");
+            List<String> choicePhotos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+            mPhotoAdapter.setChoicePhotos(choicePhotos);
+            mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
+            mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+            mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
+        }
     }
 
     @Override

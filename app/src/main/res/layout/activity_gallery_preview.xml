@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="end"
+        app:navigationIcon="@drawable/ic_back">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"
+            android:background="#333333"
+            android:minWidth="70dp"
+            android:minHeight="30dp"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333333" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/list"
+            android:background="#CCFFFFFF"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+        <FrameLayout
+            android:background="#DDFFFFFF"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@id/check_box"
+                android:layout_gravity="end"
+                android:background="@color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="105dp"
+                android:text="选择"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

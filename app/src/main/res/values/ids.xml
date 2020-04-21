@@ -36,4 +36,6 @@
     <item name="edit_content" type="id"/>
     <item name="parent" type="id"/>
     <item name="view" type="id"/>
+    <item name="view_pager" type="id"/>
+    <item name="check_box" type="id"/>
 </resources>
