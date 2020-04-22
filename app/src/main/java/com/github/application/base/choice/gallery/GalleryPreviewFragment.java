@@ -12,10 +12,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.github.application.R;
-import com.github.application.main.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import static android.view.ViewGroup.LayoutParams;
 
 /**
  * Created by ZhongXiaolong on 2020/4/21 11:10.
@@ -38,7 +39,7 @@ public class GalleryPreviewFragment extends Fragment {
         imageView.setId(R.id.image);
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        frameLayout.addView(imageView, new FrameLayout.LayoutParams(Constants.MATCH_PARENT, Constants.WRAP_CONTENT, Gravity.CENTER));
+        frameLayout.addView(imageView, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER));
         return frameLayout;
     }
 

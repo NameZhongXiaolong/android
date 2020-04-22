@@ -49,7 +49,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private int mMaxChoice;
 
-    public static void start(Activity activity, List<String> photos, List<String> choicePhotos, int checkedPosition, int max) {
+    static void start(Activity activity, List<String> photos, List<String> choicePhotos, int checkedPosition, int max) {
         Intent starter = new Intent(activity, GalleryPreviewActivity.class);
         starter.putExtra("photos", new Gson().toJson(photos));
         starter.putExtra("choicePhotos", new Gson().toJson(choicePhotos));
