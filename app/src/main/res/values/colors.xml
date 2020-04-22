@@ -7,4 +7,5 @@
     <color name="yellow">#FFFF00</color>
     <color name="red">#FF0C0C</color>
     <color name="black">#FF424242</color>
+    <color name="translucent">#60000000</color>
 </resources>

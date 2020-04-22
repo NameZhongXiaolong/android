@@ -21,9 +21,12 @@ import android.widget.CompoundButton;
 
 import com.github.application.R;
 import com.github.application.main.MainApplication;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,8 +54,9 @@ public class GalleryPreviewActivity extends AppCompatActivity {
 
     static void start(Activity activity, List<String> photos, List<String> choicePhotos, int checkedPosition, int max) {
         Intent starter = new Intent(activity, GalleryPreviewActivity.class);
-        starter.putExtra("photos", new Gson().toJson(photos));
-        starter.putExtra("choicePhotos", new Gson().toJson(choicePhotos));
+        //防止数据太大造成异常,使用Eventbus粘性事件传递数据
+        EventBus.getDefault().postSticky(photos);
+        starter.putStringArrayListExtra("choicePhotos", new ArrayList<>(choicePhotos));
         starter.putExtra("checked", checkedPosition);
         starter.putExtra("max", max);
         activity.startActivityForResult(starter, Code.REQUEST_CODE);
@@ -63,12 +67,18 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_preview);
 
-        final String photoJson = getIntent().getStringExtra("photos");
-        final String choicePhotoJson = getIntent().getStringExtra("choicePhotos");
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventBus(List<String> photos) {
+        EventBus.getDefault().removeStickyEvent(photos);
+        EventBus.getDefault().unregister(this);
+
+        mPhotos = new ArrayList<>(photos);
         final int position = getIntent().getIntExtra("checked", 0);
         mMaxChoice = getIntent().getIntExtra("max", 0);
-        mPhotos = new Gson().fromJson(photoJson, new TypeToken<List<String>>() {}.getType());
-        mChoicePhotos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+        mChoicePhotos = getIntent().getStringArrayListExtra("choicePhotos");
 
         mToolbar = findViewById(R.id.tool_bar);
         mViewPager = findViewById(R.id.view_pager);
@@ -152,7 +162,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
      */
     private void onCompleteClick(View view) {
         Intent data = new Intent();
-        data.putExtra("choicePhotos", new Gson().toJson(mChoicePhotos));
+        data.putStringArrayListExtra("choicePhotos", new ArrayList<>(mChoicePhotos));
         setResult(Code.RESULT_OK, data);
         finish();
     }
@@ -160,7 +170,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent data = new Intent();
-        data.putExtra("choicePhotos", new Gson().toJson(mChoicePhotos));
+        data.putStringArrayListExtra("choicePhotos", new ArrayList<>(mChoicePhotos));
         setResult(Code.RESULT_CANCEL, data);
         finish();
     }

@@ -40,6 +40,7 @@
         <activity android:name=".base.choice.gallery.GalleryPreviewActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <service android:name=".base.choice.gallery.ScanningLocalPhotoService"/>
         <activity android:name=".ui.PictureTextRecordActivity" />
+        <activity android:name=".ui.PhotoPreviewActivity" />
     </application>
 
 </manifest>

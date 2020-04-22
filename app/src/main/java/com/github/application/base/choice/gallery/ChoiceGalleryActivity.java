@@ -20,8 +20,6 @@ import android.widget.ListView;
 import com.github.application.R;
 import com.github.application.main.MainApplication;
 import com.github.application.ui.ProgressDialog;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -182,15 +180,13 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         if (requestCode == GalleryPreviewActivity.Code.REQUEST_CODE && data != null) {
             if (resultCode == GalleryPreviewActivity.Code.RESULT_OK) {
                 //完成
-                String choicePhotoJson = data.getStringExtra("choicePhotos");
-                List<String> photos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+                List<String> photos = data.getStringArrayListExtra("choicePhotos");
                 ChoiceGalleryReceiver.post(this, mTag, photos);
                 finish();
             }
             if (resultCode == GalleryPreviewActivity.Code.RESULT_CANCEL) {
                 //取消
-                String choicePhotoJson = data.getStringExtra("choicePhotos");
-                List<String> photos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+                List<String> photos = data.getStringArrayListExtra("choicePhotos");
                 mPhotoAdapter.setChoicePhotos(photos);
                 mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
                 mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);

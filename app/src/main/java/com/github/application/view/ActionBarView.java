@@ -197,7 +197,7 @@ public class ActionBarView extends FrameLayout {
                 }).start();
             }
         };
-;
+        ;
 
         mIbNavigation.setOnClickListener(new OnClickListener() {
             @Override

@@ -1,6 +1,5 @@
 package com.github.application.ui;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +17,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.github.application.R;
@@ -34,9 +31,7 @@ import com.github.application.utils.FileUtils;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.ActionBarView;
 import com.github.application.view.SquareItemDecoration;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,34 +102,27 @@ public class NoteUpdateActivity extends MultipleThemeActivity {
         mEditTitle.setSelection(mEditTitle.length());
         mEditContent.setSelection(mEditContent.length());
 
+        List<String> choicePhotoData = new ArrayList<>();
         for (Note.NotePhoto notePhoto : mNote.getNotePhotoList()) {
-            mChoicePhotoAdapter.add(0, notePhoto.getPath());
+            choicePhotoData.add(notePhoto.getPath());
         }
+        mChoicePhotoAdapter.addAll(choicePhotoData);
     }
 
     private void onItemClick(View item, int position) {
-        boolean isChoiced = item.findViewById(R.id.button).getVisibility() == View.VISIBLE;
-        if (isChoiced) {
+        boolean isChoice = item.findViewById(R.id.button).getVisibility() == View.VISIBLE;
+        if (isChoice) {
             //已经选择
-            File file = new File(mChoicePhotoAdapter.get(position));
-            AppCompatImageView dialogImage = new AppCompatImageView(this);
-            dialogImage.setAdjustViewBounds(true);
-            dialogImage.setScaleType(ImageView.ScaleType.FIT_XY);
-            dialogImage.setMinimumWidth(UnitUtils.px(300));
-            Picasso.get().load(file).into(dialogImage);
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(dialogImage);
-            dialog.show();
+            List<String> data = mChoicePhotoAdapter.getChoiceData();
+            PhotoPreviewActivity.start(this, data, position, newData -> mChoicePhotoAdapter.setNewData(newData));
         }else{
             //未选择
             clearFocusHideInputMethod();
-            new ChoiceGallery(this).setCallback(this::onChoiceCallback).start();
+            new ChoiceGallery(this).setCallback(photos -> mChoicePhotoAdapter.addAll(photos)).start();
         }
     }
 
-    private void onChoiceCallback(List<String> photos) {
-        mChoicePhotoAdapter.addAll(photos);
-    }
+
 
     private void save() {
         if (mEditTitle.length() == 0) {

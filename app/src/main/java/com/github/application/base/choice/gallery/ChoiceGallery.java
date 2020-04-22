@@ -47,6 +47,9 @@ public class ChoiceGallery {
         return this;
     }
 
+    /**
+     * 为方便使用,回调方式结合广播接收者,不用在onActivityResult()中回调,广播{@link ChoiceGalleryReceiver}
+     */
     public ChoiceGallery setCallback(OnChoiceGalleryCallback onChoiceGalleryCallback) {
         this.onChoiceGalleryCallback = onChoiceGalleryCallback;
         return this;
