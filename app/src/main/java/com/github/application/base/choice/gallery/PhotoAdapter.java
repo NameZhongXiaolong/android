@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.github.application.R;
-import com.github.application.utils.UnitUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -173,7 +172,6 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
         private final ImageView mImage;
         private final View mButton;
         private final CheckBox mCheckBox;
-        private final static int IMAGE_SIZE = UnitUtils.displayWidth() / 4;
 
         private PhotoHolder(@NonNull ViewGroup parent, final OnItemClickListener l) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery_photo, parent, false));
@@ -187,7 +185,7 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
         }
 
         private void setImage(String path) {
-            Picasso.get().load(new File(path)).resize(IMAGE_SIZE, IMAGE_SIZE).centerCrop().into(mImage);
+            Picasso.get().load(new File(path)).fit().centerCrop().into(mImage);
         }
 
         private void setButtonText(String text) {

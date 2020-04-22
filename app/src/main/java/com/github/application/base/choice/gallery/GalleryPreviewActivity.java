@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -64,9 +63,9 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_preview);
 
-        String photoJson = getIntent().getStringExtra("photos");
-        String choicePhotoJson = getIntent().getStringExtra("choicePhotos");
-        int position = getIntent().getIntExtra("checked", 0);
+        final String photoJson = getIntent().getStringExtra("photos");
+        final String choicePhotoJson = getIntent().getStringExtra("choicePhotos");
+        final int position = getIntent().getIntExtra("checked", 0);
         mMaxChoice = getIntent().getIntExtra("max", 0);
         mPhotos = new Gson().fromJson(photoJson, new TypeToken<List<String>>() {}.getType());
         mChoicePhotos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
@@ -89,6 +88,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setChecked(mChoicePhotos.indexOf(mPhotos.get(position)));
         Objects.requireNonNull(getSupportActionBar()).setTitle(((position + 1) + "/" + mPhotos.size()));
+        mRecyclerView.scrollToPosition(mAdapter.getCheckedPosition());
 
         mCheckBox.setChecked(mAdapter.getCheckedPosition() >= 0);
         mCheckBox.setOnCheckedChangeListener(this::onCheckedChanged);
@@ -99,10 +99,12 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
-                Log.d("GalleryPreviewActivity", "addOnPageChangeListener");
                 mAdapter.setChecked(mChoicePhotos.indexOf(mPhotos.get(position)));
                 mCheckBox.setChecked(mAdapter.getCheckedPosition() >= 0);
                 mToolbar.setTitle(((position + 1) + "/" + mPhotos.size()));
+                if (mAdapter.getCheckedPosition() >= 0) {
+                    mRecyclerView.scrollToPosition(mAdapter.getCheckedPosition());
+                }
             }
         });
     }
@@ -136,14 +138,11 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             if (mChoicePhotos.contains(photo)) {
                 int index = mChoicePhotos.indexOf(photo);
                 mChoicePhotos.remove(photo);
-                mAdapter.notifyItemRangeRemoved(index, mChoicePhotos.size());
+                mAdapter.notifyItemRemoved(index);
                 mAdapter.notifyItemRangeChanged(index, mChoicePhotos.size() - index);
                 mBtnChoiceComplete.setText(("完成(" + mChoicePhotos.size() + "/" + mMaxChoice + ")"));
                 mBtnChoiceComplete.setEnabled(mChoicePhotos.size() > 0);
-                if (mChoicePhotos.size() > 0) {
-                    int i = mPhotos.indexOf(mChoicePhotos.get(mChoicePhotos.size() > index ? index : index - 1));
-                    mViewPager.setCurrentItem(i, true);
-                }
+                mAdapter.setChecked(-1);
             }
         }
     }

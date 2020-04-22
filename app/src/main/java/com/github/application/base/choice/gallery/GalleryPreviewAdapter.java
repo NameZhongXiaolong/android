@@ -50,7 +50,7 @@ public class GalleryPreviewAdapter extends RecyclerView.Adapter<GalleryPreviewAd
     @Override
     public void onBindViewHolder(@NonNull PreviewPhotoHolder previewPhotoHolder, int position) {
         ImageView itemView = (ImageView) previewPhotoHolder.itemView;
-        Picasso.get().load(new File(mData.get(position))).resize(dp60, dp60).centerCrop().into(itemView);
+        Picasso.get().load(new File(mData.get(position))).fit().centerCrop().into(itemView);
         itemView.setOnClickListener(v -> mOnItemClickListener.onItemClick(mData.get(position), position));
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setShape(RECTANGLE);
@@ -63,8 +63,8 @@ public class GalleryPreviewAdapter extends RecyclerView.Adapter<GalleryPreviewAd
         int tmpPosition = mCheckedPosition;
         mCheckedPosition = checkedPosition;
         if (tmpPosition != mCheckedPosition) {
-            notifyItemChanged(tmpPosition);
-            notifyItemChanged(mCheckedPosition);
+            if (tmpPosition >= 0) notifyItemChanged(tmpPosition);
+            if (mCheckedPosition >= 0) notifyItemChanged(mCheckedPosition);
         }
     }
 

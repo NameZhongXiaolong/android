@@ -90,6 +90,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         //完成按钮
         mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
         mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+        mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
 
         //预览按钮
         int[] colors = new int[]{Color.parseColor("#333333"), Color.parseColor("#CCCCCC")};
