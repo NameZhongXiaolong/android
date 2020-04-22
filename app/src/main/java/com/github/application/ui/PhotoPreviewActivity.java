@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,20 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
     private String mReceiverTag;
 
     /**
+     * 图片预览
+     * @param context 上下文
+     * @param photoUrl 图片路径
+     * @param currentItem 选中项目
+     */
+    public static void start(Context context, List<String> photoUrl, int currentItem) {
+        Intent starter = new Intent(context, PhotoPreviewActivity.class);
+        starter.putStringArrayListExtra("data", new ArrayList<>(photoUrl));
+        starter.putExtra("currentItem", currentItem);
+        context.startActivity(starter);
+    }
+
+    /**
+     * 图片预览,带删除功能
      * @param context 上下文
      * @param photoUrl 图片路径
      * @param currentItem 选中项目
@@ -81,7 +96,9 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
         mTextView = findViewById(R.id.text);
         mTextView.setText(((currentItem + 1) + "/" + mPhotoList.size()));
 
-        findViewById(R.id.button).setOnClickListener(this::onDeleteClick);
+        View deleteButton = findViewById(R.id.button);
+        deleteButton.setVisibility(TextUtils.isEmpty(mReceiverTag) ? View.INVISIBLE : View.VISIBLE);
+        deleteButton.setOnClickListener(this::onDeleteClick);
     }
 
     private void onDeleteClick(View view) {
@@ -107,16 +124,17 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
 
     @Override
     public void onBackPressed() {
-        //设置Action
-        Intent intent = new Intent(CompleteReceiver.ACTION);
+        if (!TextUtils.isEmpty(mReceiverTag)) {
+            //设置Action
+            Intent intent = new Intent(CompleteReceiver.ACTION);
 
-        //传递数据
-        intent.putExtra("tag", mReceiverTag);
-        intent.putStringArrayListExtra("data", new ArrayList<>(mPhotoList));
+            //传递数据
+            intent.putExtra("tag", mReceiverTag);
+            intent.putStringArrayListExtra("data", new ArrayList<>(mPhotoList));
 
-        //发送广播
-        sendBroadcast(intent);
-
+            //发送广播
+            sendBroadcast(intent);
+        }
         finish();
     }
 

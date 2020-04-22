@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -74,9 +76,15 @@ public class NoteDetailsActivity extends MultipleThemeActivity {
         mActionBarView.setMenuItemClickListener(id -> NoteUpdateActivity.start(this, noteId));
 
         mContainer.removeAllViews();
+
+        List<String> photoList = new ArrayList<>();
+        for (Note.NotePhoto notePhoto : note.getNotePhotoList()) {
+            photoList.add(notePhoto.getPath());
+        }
+
         ColorDrawable placeholderDrawable = new ColorDrawable(Color.parseColor("#30333333"));
         int margin = UnitUtils.px(14);
-        for (Note.NotePhoto notePhoto : note.getNotePhotoList()) {
+        for (int i = 0; i < photoList.size(); i++) {
             ImageView image = new AppCompatImageView(this);
             image.setAdjustViewBounds(true);
             image.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -84,14 +92,16 @@ public class NoteDetailsActivity extends MultipleThemeActivity {
             params.setMargins(margin, margin, margin,0);
             mContainer.addView(image, params);
 
-            File file = new File(notePhoto.getPath());
-            RequestCreator load = file.exists() ? Picasso.get().load(file) : Picasso.get().load(notePhoto.getPath());
+            File file = new File(photoList.get(i));
+            RequestCreator load = file.exists() ? Picasso.get().load(file) : Picasso.get().load(photoList.get(i));
 
             load.placeholder(placeholderDrawable)
                     .error(placeholderDrawable)
                     .into(image);
-        }
 
+            final int index = i;
+            image.setOnClickListener(v -> PhotoPreviewActivity.start(this,photoList,index));
+        }
         mContainer.addView(new View(this), new LinearLayout.LayoutParams(1, UnitUtils.px(60)));
     }
 
