@@ -69,6 +69,7 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
         mViewPager = findViewById(R.id.view_pager);
         mViewPager.setAdapter(new PhotoAdapter(getSupportFragmentManager(), mPhotoList));
         mViewPager.setCurrentItem(currentItem);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
