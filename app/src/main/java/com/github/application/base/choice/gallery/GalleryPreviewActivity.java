@@ -13,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -31,6 +33,14 @@ import java.util.Objects;
  */
 public class GalleryPreviewActivity extends AppCompatActivity {
 
+    private Button mBtnChoiceComplete;
+
+    interface Code{
+        int REQUEST_CODE = 100;
+        int RESULT_OK = 167;
+        int RESULT_CANCEL = 168;
+    }
+
     private List<String> mChoicePhotos;
     private List<String> mPhotos;
     private ViewPager mViewPager;
@@ -46,7 +56,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         starter.putExtra("choicePhotos", new Gson().toJson(choicePhotos));
         starter.putExtra("checked", checkedPosition);
         starter.putExtra("max", max);
-        activity.startActivityForResult(starter, 100);
+        activity.startActivityForResult(starter, Code.REQUEST_CODE);
     }
 
     @Override
@@ -65,8 +75,12 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.view_pager);
         mCheckBox = findViewById(R.id.check_box);
         mRecyclerView = findViewById(R.id.list);
+        mBtnChoiceComplete = findViewById(R.id.button);
 
-        findViewById(R.id.button).setOnClickListener(this::onCompleteClick);
+        //完成按钮
+        mBtnChoiceComplete.setOnClickListener(this::onCompleteClick);
+        mBtnChoiceComplete.setText(("完成(" + mChoicePhotos.size() + "/" + mMaxChoice + ")"));
+        mBtnChoiceComplete.setEnabled(mChoicePhotos.size() > 0);
 
         setSupportActionBar(mToolbar);
 
@@ -85,6 +99,7 @@ public class GalleryPreviewActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
+                Log.d("GalleryPreviewActivity", "addOnPageChangeListener");
                 mAdapter.setChecked(mChoicePhotos.indexOf(mPhotos.get(position)));
                 mCheckBox.setChecked(mAdapter.getCheckedPosition() >= 0);
                 mToolbar.setTitle(((position + 1) + "/" + mPhotos.size()));
@@ -107,9 +122,11 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             if (!mChoicePhotos.contains(photo)) {
                 if (mChoicePhotos.size() < mMaxChoice) {
                     mChoicePhotos.add(photo);
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyItemRangeInserted(mAdapter.getItemCount() - 1, mChoicePhotos.size());
                     mAdapter.setChecked(mChoicePhotos.size() - 1);
                     mRecyclerView.scrollToPosition(mChoicePhotos.size() - 1);
+                    mBtnChoiceComplete.setText(("完成(" + mChoicePhotos.size() + "/" + mMaxChoice + ")"));
+                    mBtnChoiceComplete.setEnabled(mChoicePhotos.size() > 0);
                 } else {
                     MainApplication.errToast("最多只能选择" + mMaxChoice + "张图片");
                     mCheckBox.setChecked(false);
@@ -117,16 +134,35 @@ public class GalleryPreviewActivity extends AppCompatActivity {
             }
         } else {
             if (mChoicePhotos.contains(photo)) {
+                int index = mChoicePhotos.indexOf(photo);
                 mChoicePhotos.remove(photo);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemRangeRemoved(index, mChoicePhotos.size());
+                mAdapter.notifyItemRangeChanged(index, mChoicePhotos.size() - index);
+                mBtnChoiceComplete.setText(("完成(" + mChoicePhotos.size() + "/" + mMaxChoice + ")"));
+                mBtnChoiceComplete.setEnabled(mChoicePhotos.size() > 0);
+                if (mChoicePhotos.size() > 0) {
+                    int i = mPhotos.indexOf(mChoicePhotos.get(mChoicePhotos.size() > index ? index : index - 1));
+                    mViewPager.setCurrentItem(i, true);
+                }
             }
         }
     }
 
+    /**
+     * 完成事件
+     */
     private void onCompleteClick(View view) {
         Intent data = new Intent();
         data.putExtra("choicePhotos", new Gson().toJson(mChoicePhotos));
-        setResult(RESULT_OK,data);
+        setResult(Code.RESULT_OK, data);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("choicePhotos", new Gson().toJson(mChoicePhotos));
+        setResult(Code.RESULT_CANCEL, data);
         finish();
     }
 

@@ -45,15 +45,16 @@
             app:navigationIcon="@drawable/ic_back">
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_choice_complete"
+                android:id="@id/button_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="15dp"
-                android:background="#CCCCCC"
-                android:minWidth="70dp"
+                android:background="@drawable/gallery_complete_button"
+                android:minWidth="80dp"
                 android:minHeight="30dp"
-                android:text="0/9"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </android.support.v7.widget.Toolbar>

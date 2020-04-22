@@ -68,7 +68,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar);
         RecyclerView recyclerView = findViewById(R.id.list);
         mSlidingPaneLayout = findViewById(R.id.container);
-        mBtnChoiceComplete = findViewById(R.id.btn_choice_complete);
+        mBtnChoiceComplete = findViewById(R.id.button_1);
         mBtnChoiceComplete.setOnClickListener(this::onCompleteButtonClick);
         mBtnPreview = findViewById(R.id.button_2);
 
@@ -88,13 +88,12 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         recyclerView.setAdapter(mPhotoAdapter);
 
         //完成按钮
-        mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
-        int[] colors = new int[]{Color.parseColor("#333333"), Color.parseColor("#CCCCCC")};
-        int[][] states = {{android.R.attr.state_enabled}, {}};
-        mBtnChoiceComplete.setBackgroundTintList(new ColorStateList(states, colors));
+        mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
         mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
 
         //预览按钮
+        int[] colors = new int[]{Color.parseColor("#333333"), Color.parseColor("#CCCCCC")};
+        int[][] states = {{android.R.attr.state_enabled}, {}};
         mBtnPreview.setTextColor(new ColorStateList(states, colors));
         mBtnPreview.setOnClickListener(this::onStartPreview);
 
@@ -151,7 +150,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
                 MainApplication.errToast("最多只能选择" + mMaxChoice + "张图片");
             } else {
                 mPhotoAdapter.setChecked(position, !checked);
-                mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
+                mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
                 mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
                 mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
             }
@@ -179,13 +178,23 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            String choicePhotoJson = data.getStringExtra("choicePhotos");
-            List<String> choicePhotos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
-            mPhotoAdapter.setChoicePhotos(choicePhotos);
-            mBtnChoiceComplete.setText((mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice));
-            mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
-            mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
+        if (requestCode == GalleryPreviewActivity.Code.REQUEST_CODE && data != null) {
+            if (resultCode == GalleryPreviewActivity.Code.RESULT_OK) {
+                //完成
+                String choicePhotoJson = data.getStringExtra("choicePhotos");
+                List<String> photos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+                ChoiceGalleryReceiver.post(this, mTag, photos);
+                finish();
+            }
+            if (resultCode == GalleryPreviewActivity.Code.RESULT_CANCEL) {
+                //取消
+                String choicePhotoJson = data.getStringExtra("choicePhotos");
+                List<String> photos = new Gson().fromJson(choicePhotoJson, new TypeToken<List<String>>() {}.getType());
+                mPhotoAdapter.setChoicePhotos(photos);
+                mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
+                mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+                mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
+            }
         }
     }
 

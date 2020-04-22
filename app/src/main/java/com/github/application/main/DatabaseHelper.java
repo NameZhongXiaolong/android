@@ -22,8 +22,6 @@ public class DatabaseHelper {
         } else {
             path += "/app.db";
         }
-        Log.d("DatabaseHelper", path);
-
         return SQLiteDatabase.openOrCreateDatabase(path, null);
     }
 

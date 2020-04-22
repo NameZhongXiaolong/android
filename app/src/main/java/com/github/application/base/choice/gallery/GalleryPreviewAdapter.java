@@ -82,7 +82,6 @@ public class GalleryPreviewAdapter extends RecyclerView.Adapter<GalleryPreviewAd
     }
 
     static class PreviewPhotoHolder extends RecyclerView.ViewHolder{
-
          PreviewPhotoHolder(@NonNull ImageView itemView) {
             super(itemView);
         }

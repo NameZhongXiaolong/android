@@ -1,6 +1,7 @@
 package com.github.application.base.choice.gallery;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,8 +16,11 @@ import com.github.application.utils.UnitUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ZhongXiaolong on 2020/4/16 11:13.
@@ -48,11 +52,16 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
     /**
      * 设置选中图片
      */
-     void setChoicePhotos(List<String> choicePhotos) {
+    void setChoicePhotos(List<String> choicePhotos) {
+        List<String> tmpChoicePhotos = new ArrayList<>(mChoicePhotos);
+        tmpChoicePhotos.addAll(choicePhotos);
+
         mChoicePhotos.clear();
-         if (choicePhotos != null) mChoicePhotos.addAll(choicePhotos);
-        notifyDataSetChanged();
-     }
+        mChoicePhotos.addAll(choicePhotos);
+
+        //局部刷新
+        new ChoicePhotoDataAsyncTask(this).execute(tmpChoicePhotos.toArray(new String[]{}));
+    }
 
     /**
      * 获取数据
@@ -188,6 +197,39 @@ final class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder> 
 
         private void setButtonForeground(int color) {
             mButton.setBackgroundColor(color);
+        }
+    }
+
+    static class ChoicePhotoDataAsyncTask extends AsyncTask<String, Void, Set<Integer>>{
+
+        private WeakReference<PhotoAdapter> mReferenceAdapter;
+
+        private ChoicePhotoDataAsyncTask(PhotoAdapter photoAdapter) {
+            mReferenceAdapter = new WeakReference<>(photoAdapter);
+        }
+
+        @Override
+        protected Set<Integer> doInBackground(String... choicePhoto) {
+            Set<Integer> positions = new HashSet<>();
+            PhotoAdapter photoAdapter = mReferenceAdapter.get();
+            if (photoAdapter != null) {
+                for (String s : choicePhoto) {
+                    positions.add(photoAdapter.mData.indexOf(s));
+                }
+            }
+            return positions;
+        }
+
+        @Override
+        protected void onPostExecute(Set<Integer> positions) {
+            PhotoAdapter photoAdapter = mReferenceAdapter.get();
+            if (photoAdapter != null) {
+                for (Integer position : positions) {
+                    if (position >= 0) {
+                        photoAdapter.notifyItemChanged(position);
+                    }
+                }
+            }
         }
     }
 }
