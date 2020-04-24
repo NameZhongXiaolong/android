@@ -38,4 +38,5 @@
     <item name="view" type="id"/>
     <item name="view_pager" type="id"/>
     <item name="check_box" type="id"/>
+    <item name="image_button" type="id"/>
 </resources>

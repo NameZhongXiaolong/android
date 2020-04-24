@@ -48,6 +48,7 @@ class PhotoData {
     @Override
     public String toString() {
         if ("WeiXin".equalsIgnoreCase(catalog)) return  "微信";
+        if ("pictures".equalsIgnoreCase(catalog)) return  "图库";
         if ("Screenshots".equalsIgnoreCase(catalog)) return  "截屏";
         if ("Download".equalsIgnoreCase(catalog)) return  "下载";
         if ("Camera".equalsIgnoreCase(catalog)) return  "相机";
