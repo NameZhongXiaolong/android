@@ -60,6 +60,7 @@
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@id/check_box"
                 android:layout_gravity="end"
+                android:theme="@style/AppTheme"
                 android:background="@color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
