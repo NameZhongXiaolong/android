@@ -17,6 +17,9 @@ import java.util.List;
  *         .setChoiceList(new ArrayList<String>())//已经选择图片
  *         .setCallback(OnChoiceGalleryCallback)//回调
  *         .start()//启动
+ *
+ * 选则图片页面{@link ChoiceGalleryActivity}
+ * 图片预览界面{@link GalleryPreviewActivity}
  */
 public class ChoiceGallery {
 
