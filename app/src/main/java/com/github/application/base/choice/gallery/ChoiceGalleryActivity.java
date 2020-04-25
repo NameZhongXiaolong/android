@@ -57,6 +57,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
     private ImageButton mIbTitleIcon;
     private String mTag;
     private int mMaxChoice;
+    private long mCatalogSelectClickTimeMillis;
     private ProgressDialog mProgressDialog;
 
     static void start(ChoiceGallery choiceGallery) {
@@ -201,31 +202,17 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GalleryPreviewActivity.Code.REQUEST_CODE && data != null) {
-            if (resultCode == GalleryPreviewActivity.Code.RESULT_OK) {
-                //完成,回调
-                List<String> photos = data.getStringArrayListExtra("choicePhotos");
-                ChoiceGalleryReceiver.post(this, mTag, photos);
-                finish();
-            }
-            if (resultCode == GalleryPreviewActivity.Code.RESULT_CANCEL) {
-                //取消,更新 mPhotoAdapter
-                List<String> photos = data.getStringArrayListExtra("choicePhotos");
-                mPhotoAdapter.setChoicePhotos(photos);
-                mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
-                mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
-                mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
-            }
-        }
-    }
-
     /**
      * 显示/隐藏目录
      */
     private void onCatalogSelectClick(View view) {
+        //防止连续点击
+        long catalogSelectClickTimeMillis = System.currentTimeMillis();
+        if (catalogSelectClickTimeMillis - mCatalogSelectClickTimeMillis < 350) {
+            return;
+        }
+        mCatalogSelectClickTimeMillis = catalogSelectClickTimeMillis;
+
         Animation anim = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -271,6 +258,27 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
             mListView.startAnimation(translate);
             mListView.setVisibility(View.VISIBLE);
             mBtnListView.postDelayed(() -> mBtnListView.setVisibility(View.VISIBLE), 500);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GalleryPreviewActivity.Code.REQUEST_CODE && data != null) {
+            if (resultCode == GalleryPreviewActivity.Code.RESULT_OK) {
+                //完成,回调
+                List<String> photos = data.getStringArrayListExtra("choicePhotos");
+                ChoiceGalleryReceiver.post(this, mTag, photos);
+                finish();
+            }
+            if (resultCode == GalleryPreviewActivity.Code.RESULT_CANCEL) {
+                //取消,更新 mPhotoAdapter
+                List<String> photos = data.getStringArrayListExtra("choicePhotos");
+                mPhotoAdapter.setChoicePhotos(photos);
+                mBtnChoiceComplete.setText(("完成(" + mPhotoAdapter.getChoicePhotoCount() + "/" + mMaxChoice + ")"));
+                mBtnChoiceComplete.setEnabled(mPhotoAdapter.getChoicePhotoCount() > 0);
+                mBtnPreview.setEnabled(mBtnChoiceComplete.isEnabled());
+            }
         }
     }
 
