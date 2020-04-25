@@ -20,6 +20,7 @@ import com.github.application.receiver.NoteDeleteReceiver;
 import com.github.application.receiver.NoteUpdateReceiver;
 import com.github.application.utils.UnitUtils;
 import com.github.application.view.ActionBarView;
+import com.github.application.view.picasso.FitXYTransform;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -95,7 +96,8 @@ public class NoteDetailsActivity extends MultipleThemeActivity {
             File file = new File(photoList.get(i));
             RequestCreator load = file.exists() ? Picasso.get().load(file) : Picasso.get().load(photoList.get(i));
 
-            load.placeholder(placeholderDrawable)
+            load.transform(new FitXYTransform(image))
+                    .placeholder(placeholderDrawable)
                     .error(placeholderDrawable)
                     .into(image);
 

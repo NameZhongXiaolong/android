@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.github.application.R;
 import com.github.application.base.BaseSuperFragment;
 import com.github.application.base.MultipleThemeActivity;
+import com.github.application.view.picasso.FitXYTransform;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -160,7 +161,7 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
 
     public static class PhotoFragment extends BaseSuperFragment{
 
-         static PhotoFragment newInstance(String photoUrl) {
+        static PhotoFragment newInstance(String photoUrl) {
             Bundle args = new Bundle();
             args.putString("url",photoUrl);
             PhotoFragment fragment = new PhotoFragment();
@@ -189,9 +190,9 @@ public class PhotoPreviewActivity extends MultipleThemeActivity {
             String photo = getArguments() != null ? getArguments().getString("url","") : "";
             File file = new File(photo);
             if (file.exists()) {
-                Picasso.get().load(file).into(imageView);
+                Picasso.get().load(file).transform(new FitXYTransform(imageView)).into(imageView);
             }else{
-                Picasso.get().load(photo).into(imageView);
+                Picasso.get().load(photo).transform(new FitXYTransform(imageView)).into(imageView);
             }
         }
     }
