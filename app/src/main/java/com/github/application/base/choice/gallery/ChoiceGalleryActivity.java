@@ -163,7 +163,7 @@ public class ChoiceGalleryActivity extends AppCompatActivity {
      */
     private void onCatalogItemClick(ArrayAdapter<PhotoData> catalogAdapter, int position) {
         mPhotoAdapter.setData(Objects.requireNonNull(catalogAdapter.getItem(position)).getPhotoList());
-        mTvTitle.setText(Objects.requireNonNull(catalogAdapter.getItem(position)).toString());
+        mTvTitle.setText(Objects.requireNonNull(catalogAdapter.getItem(position)).getChineseCatalog());
         if (mListView.getVisibility() == View.VISIBLE) mListView.postDelayed(() -> onCatalogSelectClick(null), 200);
     }
 
